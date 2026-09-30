@@ -2,7 +2,7 @@
 
 ## 현재 작업 기준 — 최신 main
 
-2026-09-30 로컬 후속 작업: AMI 두 이름 패턴 검증과 OS 확인을 추가했습니다. 20개 단위 테스트/사전 검사/게시 ZIP 검사/형식 검사 PASS. AWS/HCP 외부 인증 조회와 첨부 ZIP 읽기는 BLOCKED이며 상세는 마지막 AMI 보완 기록을 확인합니다. 직전 Commit 425d527의 Linux CI는 Run 36686103804 completed/success입니다.
+2026-09-30 로컬 후속 작업: AMI 두 이름 패턴 검증과 OS 확인을 추가했습니다. 20개 단위 테스트/사전 검사/게시 ZIP 검사/형식 검사 PASS. 새 Linux CI Run 36688256340은 29개 검사 PASS이며 다운로드 artifact도 대조했습니다. AWS/HCP 외부 인증 조회와 첨부 ZIP 읽기는 BLOCKED이며 상세는 마지막 AMI 보완 기록을 확인합니다. 직전 Commit 425d527의 Linux CI는 Run 36686103804 completed/success입니다.
 
 사용자의 최신 지시는 **이 준비 저장소의 main에서 직접 작업하고 Phase 번호와 관계없이 가능한 Cloud 구현·검증을 이어가는 것**입니다. 새 채팅의 변경을 원격 main에서 확인했으며 Phase 1 PR #1은 이미 병합됐습니다. 앞선 Branch/Draft PR 안내는 과거 상태입니다. 실제 AWS/HCP 입력과 접근 환경이 필요한 항목은 `required-inputs.md`에서 관리합니다.
 
@@ -192,3 +192,11 @@ Git Data API로 create_tree → create_commit → update_ref(main, force=false)�
 실행 결과: Python 3.14 격리 venv에서 단위 테스트 20개 PASS; Terraform 1.14.3 darwin_arm64 fmt-check와 git diff --check PASS. 제한 PATH에서 `bash scripts/validate-phase1.sh --reports-dir reports/ami-validation-20260930` 실행: 14개 run 사전 검사, Shell 문법 6개, 단위 테스트 20개와 ZIP 생성/검사 PASS. 이 로컬 subset 종료 코드 2는 PATH에서 전체 검증 도구를 제외한 SKIPPED이며 FAIL은 없습니다. 기존 reports/validation-results.json 및 Cloud 증거는 덮어쓰지 않았습니다. 새 Terraform 1.13.5/AWS 6.14.1 Docker Mock Plan과 Sentinel/MCP 검사는 게시 후 Linux CI에서 확인합니다.
 
 미검증: 실제 AMI 후보의 ID/Owner/OS/SSM 및 네트워크, 계정의 실제 SCP/Allowed AMIs 정책, HCP 접근 권한. 이름 필터와 Mock PASS는 실제 정책·AMI 부팅 성공이 아닙니다. Apply/Destroy/계정 설정 변경은 전혀 수행하지 않았습니다.
+
+### AMI 보완 main 게시·Linux 검증·다운로드 증거
+
+구현 Commit `c404c346f8dc399f42706064aea0db6c0c588793`를 기존 main 이력 위에 직접 게시했습니다. [Run 36688256340](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36688256340)의 정확한 head SHA/completed/success와 Job/Step 성공을 API로 확인하고 gh run watch --exit-status도 종료 코드 0입니다.
+
+이번 로컬에서는 gh run download가 종료 코드 0으로 artifact를 받았습니다. `validation-results.json` 29개 전부 PASS, Python 20개, Host Mock Plan 6개/Identity 2개/Module 3개/local harness 3개로 총 14개가 통과했습니다. Sentinel Mock 12개와 MCP Mock 조회도 전체 PASS에 포함됩니다. 다운로드한 ZIP 3개는 verify-prepared-demo.py로 다시 검사하여 PASS입니다. `ami-ci-20260930.json`과 `ami-ci-evidence-20260930/`에 원격 결과를 별도로 보존합니다. 이전 Cloud의 다른 Run 다운로드 403 기록을 삭제하거나 그 결과로 재해석하지 않습니다.
+
+최종 후속 변경은 README의 현재 Mock 수와 상태·증거 보고서뿐입니다. 실행 코드를 추가로 바꾸지 않아 통과한 CI를 유지하고 JSON/Secret 정적 검사와 git diff --check를 수행합니다. 실제 AWS/HCP 조회·변경과 첨부 ZIP 문서 대조는 계속 BLOCKED입니다.

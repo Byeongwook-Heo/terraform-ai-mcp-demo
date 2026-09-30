@@ -27,7 +27,7 @@ python3 scripts/prepare-demo.py --config configs/demo-inputs.example.json --outp
 python3 scripts/verify-prepared-demo.py --prepared .artifacts/prepared
 ```
 
-검증은 Terraform fmt/init/validate, network=none Mock Plan 10개, Sentinel Mock 12개, Python 안전 검사, MCP initialize/tools/list/조회 tools/call과 외부 도구 차단을 포함합니다. 시연 리허설은 **정상 정책 통과 → Owner 누락으로 실패 → Root만 수정하여 통과**를 확인합니다. 이 결과는 실제 HCP Run, Private Registry 게시 또는 AWS 배포 증거가 아닙니다.
+검증은 Terraform fmt/init/validate, network=none Mock Plan 14개, Sentinel Mock 12개, Python 안전 검사, MCP initialize/tools/list/조회 tools/call과 외부 도구 차단을 포함합니다. 시연 리허설은 **정상 정책 통과 → Owner 누락으로 실패 → Root만 수정하여 통과**를 확인합니다. 이 결과는 실제 HCP Run, Private Registry 게시 또는 AWS 배포 증거가 아닙니다.
 
 문서 순서: [사전 준비](docs/00-prerequisites.md) → [코드 검증](docs/01-code-validation.md) → [AWS 준비](docs/02-mobile-aws-setup.md) → [Registry/Workspace](docs/03-registry-and-workspace.md) → [MCP 연결](docs/04-mcp-connection.md) → [시연](docs/05-demo-and-recording.md) → [정리](docs/06-cleanup.md). [Cloud에서 가능한 준비](docs/09-cloud-preparation.md)와 [휴대폰 재개](docs/08-without-pc.md)도 확인하세요.
 

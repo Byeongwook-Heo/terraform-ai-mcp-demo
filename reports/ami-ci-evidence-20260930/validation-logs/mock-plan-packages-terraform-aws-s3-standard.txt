@@ -1,0 +1,8 @@
+tests/standard.tftest.hcl... in progress
+  run "secure_defaults"... pass
+  run "owner_missing_is_not_module_validation"... pass
+  run "empty_owner_is_not_module_validation"... pass
+tests/standard.tftest.hcl... tearing down
+tests/standard.tftest.hcl... pass
+
+Success! 3 passed, 0 failed.

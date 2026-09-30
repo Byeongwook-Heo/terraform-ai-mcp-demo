@@ -1,0 +1,7 @@
+tests/trust.tftest.hcl... in progress
+  run "restricted_trust_and_permissions"... pass
+  run "reject_wildcard_subject"... pass
+tests/trust.tftest.hcl... tearing down
+tests/trust.tftest.hcl... pass
+
+Success! 2 passed, 0 failed.

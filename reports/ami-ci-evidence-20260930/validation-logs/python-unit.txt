@@ -1,0 +1,25 @@
+test_complete_inputs_preserve_exact_identity_and_manual_apply (test_preparation.PreparationTests.test_complete_inputs_preserve_exact_identity_and_manual_apply) ... ok
+test_export_refuses_symlinks_and_secret_content_without_partial_output (test_preparation.PreparationTests.test_export_refuses_symlinks_and_secret_content_without_partial_output) ... ok
+test_packages_are_repeatable_and_exclude_state_and_unreviewed_files (test_preparation.PreparationTests.test_packages_are_repeatable_and_exclude_state_and_unreviewed_files) ... ok
+test_rejects_secret_unknown_fields_interpolation_and_wrong_identity (test_preparation.PreparationTests.test_rejects_secret_unknown_fields_interpolation_and_wrong_identity) ... ok
+test_unknown_inputs_do_not_block_packages_or_become_deployable (test_preparation.PreparationTests.test_unknown_inputs_do_not_block_packages_or_become_deployable) ... ok
+test_accepts_generated_archives_and_keeps_pending_inputs_distinct (test_publication_verification.PublicationVerificationTests.test_accepts_generated_archives_and_keeps_pending_inputs_distinct) ... ok
+test_rejects_missing_archive_wrong_hash_and_unknown_manifest_entry (test_publication_verification.PublicationVerificationTests.test_rejects_missing_archive_wrong_hash_and_unknown_manifest_entry) ... ok
+test_rejects_secret_content_and_non_boolean_external_status (test_publication_verification.PublicationVerificationTests.test_rejects_secret_content_and_non_boolean_external_status) ... ok
+test_rejects_symlinked_archive_without_reading_target (test_publication_verification.PublicationVerificationTests.test_rejects_symlinked_archive_without_reading_target) ... ok
+test_rejects_unsafe_zip_members_even_with_updated_checksum (test_publication_verification.PublicationVerificationTests.test_rejects_unsafe_zip_members_even_with_updated_checksum) ... ok
+test_launcher_argument_error_does_not_pollute_stdout (test_safety.SafetyTests.test_launcher_argument_error_does_not_pollute_stdout) ... ok
+test_launcher_fails_closed_on_unapproved_config (test_safety.SafetyTests.test_launcher_fails_closed_on_unapproved_config) ... ok
+test_launcher_has_no_token_value_or_docker_socket_or_http (test_safety.SafetyTests.test_launcher_has_no_token_value_or_docker_socket_or_http) ... ok
+test_preflight_accepts_only_reviewed_mock_plans (test_safety.SafetyTests.test_preflight_accepts_only_reviewed_mock_plans) ... ok
+test_preflight_rejects_implicit_apply_and_real_override (test_safety.SafetyTests.test_preflight_rejects_implicit_apply_and_real_override) ... ok
+test_preflight_rejects_unreviewed_data_and_ami_override (test_safety.SafetyTests.test_preflight_rejects_unreviewed_data_and_ami_override) ... ok
+test_registry_patches_change_only_root (test_safety.SafetyTests.test_registry_patches_change_only_root) ... ok
+test_token_permissions_and_symlink (test_safety.SafetyTests.test_token_permissions_and_symlink) ... ok
+test_existing_output_is_rejected_without_changing_evidence (test_validation_output.ValidationOutputTests.test_existing_output_is_rejected_without_changing_evidence) ... ok
+test_live_argument_is_rejected_before_validation (test_validation_output.ValidationOutputTests.test_live_argument_is_rejected_before_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.812s
+
+OK

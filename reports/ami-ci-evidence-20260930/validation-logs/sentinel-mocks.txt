@@ -1,0 +1,74 @@
+PASS - require-owner.sentinel
+  PASS - test/require-owner/data-resource.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          true
+  PASS - test/require-owner/delete-only.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          true
+  PASS - test/require-owner/empty-owner.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          false
+  PASS - test/require-owner/missing-owner.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          false
+  PASS - test/require-owner/no-op-missing.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          false
+  PASS - test/require-owner/normal.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          true
+  PASS - test/require-owner/null-owner.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          false
+  PASS - test/require-owner/replacement.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          false
+  PASS - test/require-owner/unknown-owner.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          false
+  PASS - test/require-owner/unknown-tags.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          false
+  PASS - test/require-owner/unrelated.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          true
+  PASS - test/require-owner/whitespace-owner.hcl
+
+    trace:
+      require-owner.sentinel:26:1 - Rule "main"
+        Value:
+          false
+1 tests completed in 3.354991ms

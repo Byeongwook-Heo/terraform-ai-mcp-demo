@@ -1,0 +1,54 @@
+{
+  "status": "completed",
+  "conclusion": "success",
+  "headSha": "c404c346f8dc399f42706064aea0db6c0c588793",
+  "url": "https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36688256340",
+  "jobs": [
+    {
+      "name": "validate",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install isolated validation tools",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate without account credentials",
+          "conclusion": "success"
+        },
+        {
+          "name": "Prepare publication packages without external changes",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve validation evidence and publication packages",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "artifact_download": "PASS",
+  "artifact_validation_checks": 29,
+  "python_unit_tests": 20,
+  "terraform_mock_plans": 14,
+  "downloaded_package_verification": "PASS",
+  "aws_hcp_actual_api": "BLOCKED",
+  "aws_hcp_changes": false,
+  "handoff_zip_read": "BLOCKED"
+}
