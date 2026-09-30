@@ -1,6 +1,8 @@
 # 초기화, 재시작 및 정리
 
-Phase 1에는 AWS/HCP 리소스가 없으므로 외부 정리를 실행하지 않습니다. 검증 스크립트는 임시 Terraform 복사본, network=none 컨테이너와 Mock API를 종료·삭제하고 보고서만 남깁니다. CLI/Provider download cache와 로컬 `.terraform`은 격리 작업 환경의 임시 파일입니다.
+2026-09-30 AWS Host/Identity와 별도 S3 State Bucket을 생성했습니다. 실제 대상과 State는 [AWS 생성 후 재개](11-aws-created.md)를 확인합니다. 삭제는 아직 승인·실행하지 않았으며 State Bucket은 두 Root destroy에 포함되지 않으므로 버전·감사·복구 자료를 별도로 보존합니다.
+
+계정 없는 검증 스크립트는 임시 Terraform 복사본, network=none 컨테이너와 Mock API를 종료·삭제하고 보고서만 남깁니다. CLI/Provider download cache와 로컬 `.terraform`은 격리 작업 환경의 임시 파일입니다.
 
 ## 승인된 EC2에서 세션 재시작
 
@@ -13,7 +15,7 @@ sudo journalctl -u mcp-network-guard -n 30 --no-pager
 sudo stat -c '%U %a %F' /run/terraform-mcp/token
 ```
 
-재부팅/Docker 재시작 후 iptables 차단 규칙과 bridge 설정을 다시 확인합니다. 런처는 두 차단 규칙이 없으면 시작을 거부합니다. 이 기능은 실제 AL2023에서 아직 확인하지 않았습니다. Network guard 설치 실패를 무시하고 런처를 실행하지 않습니다.
+재부팅/Docker 재시작 후 iptables 차단 규칙과 bridge 설정을 다시 확인합니다. 런처는 두 차단 규칙이 없으면 시작을 거부합니다. 설치 후 실제 AL2023에서 service/규칙과 격리 컨테이너의 IMDS 차단은 확인했으나 재부팅·Docker 재시작 검증은 수행하지 않았습니다. Network guard 설치 실패를 무시하고 런처를 실행하지 않습니다.
 
 ## Phase 2/3에서만 승인할 외부 정리
 

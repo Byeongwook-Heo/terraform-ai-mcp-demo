@@ -1,0 +1,11 @@
+docker.io/hashicorp/terraform-mcp-server@sha256:423a6b8e2ee06affcf090892f40c86469caba45fd2448ffa8ca5d717a174f7d5: Pulling from hashicorp/terraform-mcp-server
+7ce0b393387b: Pulling fs layer
+5cb816cb3e4a: Pulling fs layer
+5cb816cb3e4a: Verifying Checksum
+5cb816cb3e4a: Download complete
+7ce0b393387b: Download complete
+7ce0b393387b: Pull complete
+5cb816cb3e4a: Pull complete
+Digest: sha256:423a6b8e2ee06affcf090892f40c86469caba45fd2448ffa8ca5d717a174f7d5
+Status: Downloaded newer image for hashicorp/terraform-mcp-server@sha256:423a6b8e2ee06affcf090892f40c86469caba45fd2448ffa8ca5d717a174f7d5
+docker.io/hashicorp/terraform-mcp-server:1.3.0@sha256:423a6b8e2ee06affcf090892f40c86469caba45fd2448ffa8ca5d717a174f7d5

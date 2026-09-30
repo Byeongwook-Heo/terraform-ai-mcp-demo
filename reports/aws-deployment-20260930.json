@@ -116,7 +116,29 @@
     "publication_zip_verification": "PASS",
     "python_unit_tests_pass": 24,
     "code_change": "installer-public-authorized_keys-readability-fix",
-    "implementation_ci": "pending"
+    "implementation_ci": {
+      "status": "PASS",
+      "run_id": 36697925860,
+      "url": "https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36697925860",
+      "implementation_commit": "c0e52b1927d817e11ea0d0a5520fd5dd88ec83b4",
+      "head_sha_matches": true,
+      "api_conclusion": "success",
+      "watch_exit_code": 0,
+      "artifact_id": 11089515071,
+      "artifact_expires_at": "2026-10-14T09:44:26Z",
+      "artifact_download": "PASS",
+      "artifact_checks": {
+        "validation_checks_pass": 29,
+        "python_unit_tests_pass": 24,
+        "mock_terraform_plans_pass": 14,
+        "sentinel_mocks_pass": 12,
+        "mcp_allowed_tools": 6,
+        "downloaded_zip_reverification": "PASS"
+      },
+      "saved_evidence": "reports/aws-deployment-ci-evidence-20260930/",
+      "scope": "credential-free; real MCP image with Mock API; no AWS/HCP deployment in CI",
+      "followup_commit_scope": "reports and documentation only; implementation CI above remains applicable"
+    }
   },
   "remaining_scopes": [
     "HCP project/Remote demo Workspace",

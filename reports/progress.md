@@ -1,10 +1,12 @@
 # 작업 진행·검증 기록
 
+구현 Commit `c0e52b1`의 [CI Run 36697925860](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36697925860) PASS입니다. 다운로드 artifact에서 검사 29개/Python 24개/Mock Plan 14개/Sentinel 12개와 ZIP 재검사를 대조해 `aws-deployment-ci-evidence-20260930/`에 보존했습니다. 원격 SHA와 CI SHA를 대조했습니다. 후속 Commit은 결과 보고서·운영 안내만 포함하며 실행 코드 변경은 없습니다.
+
 2026-09-30 KST 최신 상태: **AWS 기반 인프라 생성·검증 PASS, HCP Workspace 미생성**입니다. 사용자 AWS 생성 승인 후 Host 6개/Identity 5개를 새 S3 backend Plan으로 Apply했고, 전용 State Bucket 1개는 별도 bootstrap으로 생성했습니다. 배포 후 두 실제 Plan은 변경 없음(exit 0), EC2 running/상태 검사 ok/SSM Online을 재확인했습니다.
 
 실제 EC2의 MCP 고정 Image·Mock 프로토콜, SSH over SSM 공개키 인증·host key 검사, HCP 공개 TLS ping·IMDS 차단은 PASS입니다. 최초 SSH 실패의 공개 authorized_keys 권한을 Root 0600→0644로 수정하고 재검증했습니다. 최소 조회 Token은 주입하지 않았으며 실제 Private Registry/AI Client 시연은 남았습니다.
 
-HCP 예정 Workspace GET 3개는 404이며 POST/PATCH/DELETE는 수행하지 않았습니다. 기존 HCP Local State 제안 대신 실제 State는 암호화·버전 관리·native lockfile을 적용한 S3에 있습니다. [실제 생성 후 재개 안내](../docs/11-aws-created.md)와 [비식별 실행 증거](aws-deployment-20260930.json)를 기준으로 이어갑니다. 이전 Cloud/CI 증거는 보존했고 설치 코드 수정의 새 credential-free CI는 게시 후 확인합니다.
+HCP 예정 Workspace GET 3개는 404이며 POST/PATCH/DELETE는 수행하지 않았습니다. 기존 HCP Local State 제안 대신 실제 State는 암호화·버전 관리·native lockfile을 적용한 S3에 있습니다. [실제 생성 후 재개 안내](../docs/11-aws-created.md)와 [비식별 실행 증거](aws-deployment-20260930.json)를 기준으로 이어갑니다. 이전 Cloud/CI 증거는 보존했고 설치 코드 수정의 새 credential-free CI와 다운로드 증거 대조도 PASS입니다.
 
 ## 이전 준비·검증 기록
 
@@ -269,3 +271,5 @@ HCP는 사용자 Token 파일을 메모리에서만 파싱하여 GET /organizati
 실제 비민감 값·SSM 명령 응답·Plan/Apply/State는 Git 제외 .artifacts/aws-deployment-20260930에 있습니다. Root user_data/State/Git에 AWS/HCP Token이나 Private Key를 넣지 않았습니다. 로컬 전용 Private Key는 외부 호스트에 업로드하지 않았습니다. HCP Workspace 설정 제안에는 실제 Plan/Apply Role output을 채웠으나 적용하지 않았습니다.
 
 변경 파일: 설치 스크립트 공개 authorized_keys 읽기 권한, docs/11-aws-created.md, 최신 안내/입력·승인 상태/비식별 배포 보고서입니다. 기존 Terraform/Module/Policy/CI 및 Cloud 검증 증거는 보존했습니다. 후속 CI 결과는 별도 배포 CI 증거로 기록합니다.
+
+최종 main 구현 게시 `c0e52b1927d817e11ea0d0a5520fd5dd88ec83b4`와 Run 36697925860의 head SHA를 API로 대조했습니다. gh run watch --exit-status는 0, Run/API success, 전체 검사/단위 테스트/Mock Plan/Sentinel/고정 MCP Mock 프로토콜과 다운로드 ZIP 재검사 PASS입니다. artifact 11089515071은 조회 시 expired=false였고 만료는 2026-10-14입니다. 기존 증거와 별도 디렉터리에 보존했으며 로그 EOF만 정규화했습니다. 문서 후속은 휴대폰 최초 구성 안내의 현재 상태와 실제 State Bucket 보존/재부팅 검증 미수행 범위를 명시합니다.

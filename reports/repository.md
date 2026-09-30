@@ -1,5 +1,7 @@
 # 기준 저장소와 main 재개
 
+구현 Commit `c0e52b1`의 [CI Run 36697925860](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36697925860) PASS입니다. 다운로드 artifact에서 검사 29개/Python 24개/Mock Plan 14개/Sentinel 12개와 ZIP 재검사를 대조해 `aws-deployment-ci-evidence-20260930/`에 보존했습니다. 원격 SHA와 CI SHA를 대조했습니다. 후속 Commit은 결과 보고서·운영 안내만 포함하며 실행 코드 변경은 없습니다.
+
 2026-09-30 KST 최신 상태: AWS 기반 인프라를 생성하고 검증했습니다. HCP Workspace는 만들지 않았습니다. 준비 저장소 main 게시 승인을 유지하고 공개 authorized_keys 설치 수정과 비식별 배포 증거를 반영합니다. 일반 Git push의 gh credential helper 경로를 사용하며 이전 API 게시/전송 실패 기록은 당시의 이력입니다. 최신 배포 범위는 [AWS 생성 후 재개](../docs/11-aws-created.md), 게시·CI 확인은 [aws-deployment-20260930.json](aws-deployment-20260930.json)을 확인합니다.
 
 ## 이전 준비·검증 기록

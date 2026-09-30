@@ -1,6 +1,6 @@
 # 휴대폰의 AWS 준비 — Phase 2 승인 후
 
-이 문서의 외부 변경은 아직 실행하지 않았습니다. 휴대폰 Console에서는 코드와 보고서를 검토하고 Region, VPC/Subnet, AMI, egress, 비용과 State 방식을 먼저 확정합니다. 브라우저 호환성은 실제 기기에서 확인해야 합니다.
+2026-09-30 AWS 생성 승인 후 Host/Identity/S3 State를 실제 생성·검증했습니다. 현재 인스턴스에서 이어갈 때는 [AWS 생성 후 재개](11-aws-created.md)의 기존 배포 Root/State를 사용합니다. 아래는 최초 구성 절차이며 브라우저 호환성은 실제 기기에서 확인해야 합니다. 최소 조회 Token은 아직 주입하지 않았습니다.
 
 1. AWS Console에 SSO/MFA로 로그인해 account ID와 `ap-northeast-2` 사용 승인을 확인합니다.
 2. 기존 VPC/Subnet의 Route Table, DNS, NACL, 가용 IP와 승인 AMI를 확인합니다. AMI 이름은 `hc-base-*` 또는 `hc-security-base-*`만 허용합니다. 단일 ID, 소유 계정, x86_64/EBS/HVM/available 상태와 AL2023/SSM 호환성을 별도로 확인합니다. Private Subnet이면 기존 NAT/승인 proxy가 있어야 합니다. SSM용 endpoint만으로 Docker Hub와 HCP 인터넷 접근이 해결되지는 않습니다.
@@ -48,4 +48,4 @@ aws ec2 describe-images --region ap-northeast-2 --executable-users self \
   --query 'Images[].{ID:ImageId,Name:Name,Owner:OwnerId,Created:CreationDate}'
 ```
 
-자격증명 존재와 API 인증 성공은 서로 다릅니다. 로컬의 지정된 파일은 확인했으나 외부 인증 조회는 자동 승인 검토가 차단하여 수행하지 않았습니다. Token은 파일 내용이나 명령 인수·보고서·Git에 넣지 않습니다. AWS/HCP 변경 승인과 읽기 전용 인증 사용 승인은 별도로 확인합니다.
+자격증명 존재와 API 인증 성공은 서로 다릅니다. 사용자 읽기 전용 승인 후 지정 파일로 실제 인증·AMI/조직 조회를 완료했고, 후속 AWS 생성 승인으로 배포·부팅·SSM을 검증했습니다. 초기 자동 승인 검토 차단 기록은 progress.md에 이력으로 보존합니다. Token은 명령 인수·보고서·Git에 넣지 않습니다. HCP 설정 변경과 최소 Token 주입은 별도 승인 범위입니다.

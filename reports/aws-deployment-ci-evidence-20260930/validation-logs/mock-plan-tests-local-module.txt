@@ -1,0 +1,8 @@
+tests/scenarios.tftest.hcl... in progress
+  run "normal"... pass
+  run "missing_owner_plan_allowed"... pass
+  run "fixed_owner_plan_allowed"... pass
+tests/scenarios.tftest.hcl... tearing down
+tests/scenarios.tftest.hcl... pass
+
+Success! 3 passed, 0 failed.

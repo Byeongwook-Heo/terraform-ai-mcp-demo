@@ -1,0 +1,5 @@
+Initializing provider plugins...
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using hashicorp/aws v6.14.1 from the shared cache directory
+
+Terraform has been successfully initialized!

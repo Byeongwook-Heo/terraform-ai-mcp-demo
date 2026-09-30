@@ -1,0 +1,27 @@
+{
+  "scope": "offline-fixture-rehearsal",
+  "actual_registry": false,
+  "aws_resources_created": false,
+  "plan_evidence": "별도 Terraform network=none mock_provider plan 테스트 결과 참조; 실제 tfplan export 아님",
+  "policy_sha256": "c2f3f5519e2550e1a2ad71a72bdbb7f81c46ec066097295492edb4ec57d58cbd",
+  "scenarios": [
+    {
+      "scenario": "normal",
+      "status": "PASS",
+      "policy_result": true,
+      "sentinel_exit": 0
+    },
+    {
+      "scenario": "missing-owner",
+      "status": "PASS",
+      "policy_result": false,
+      "sentinel_exit": 1
+    },
+    {
+      "scenario": "fixed-owner",
+      "status": "PASS",
+      "policy_result": true,
+      "sentinel_exit": 0
+    }
+  ]
+}

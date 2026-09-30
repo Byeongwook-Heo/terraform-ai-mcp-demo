@@ -1,0 +1,7 @@
+PASS: publication-packages
+BLOCKED: registry-root
+BLOCKED: mcp-host-inputs
+BLOCKED: hcp-aws-identity-inputs
+BLOCKED: workspace-inputs
+BLOCKED: client-inputs
+외부 변경 없음. 미정값은 readiness.json에 기록했습니다.
