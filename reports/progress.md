@@ -168,3 +168,13 @@ Git Data API로 create_tree → create_commit → update_ref(main, force=false)�
 해당 SHA의 자동 Run이 없어 검증 전용 `gh workflow run phase1-validation.yml --ref main`을 실행했습니다. Run 36681296227의 completed/success 및 정확한 head SHA와 Job/Step 성공을 API로 확인했고 `gh run watch --exit-status`도 종료 코드 0입니다. artifact ID/크기/expired=false를 확인했습니다. 기존 upload-artifact Action의 Node.js 20→24 강제 실행 annotation은 있었지만 모든 Step이 성공했습니다. Action 버전을 임의로 바꾸지 않았습니다.
 
 `gh run download`는 Cloud 다운로드 endpoint의 HTTP 403으로 FAIL했으며 다운로드된 파일이 없습니다. 그 디렉터리의 ZIP 검증 명령도 필요한 파일이 없어 실패했습니다. 다운로드 파일 검사는 BLOCKED로 남기며 CI 성공이나 로컬 ZIP PASS와 혼동하지 않습니다. 오류 원문의 임시 서명 URL은 보고서·Git에 저장하지 않습니다. 게시·CI 결과를 문서와 JSON에 반영하는 후속 Commit은 실행 코드 변경이 없어 전체 테스트를 반복하지 않고 정적 검사·diff·원격 파일 일치를 확인합니다.
+
+## 로컬 PC에서 main 재개 — 2026-09-30 KST
+
+기준 Commit `44e77c6`. 지정 문서 AGENTS.md, DEMO_SPEC.md, START_HERE.md, cloud-completion.md, progress.md를 확인했습니다. 기존 Cloud 보고서와 로그는 보존했습니다.
+
+변경: `scripts/validate-phase1.py`에 `--reports-dir`를 추가하고 Shell wrapper에서 인수를 전달합니다. 지정 경로가 존재하면 종료 코드 2로 거부해 기존 증거를 덮어쓰지 않습니다. 기본 CI 경로와 실행은 유지됩니다. `tests/unit/test_validation_output.py`는 기존 증거 보존 및 --live 거부를 확인합니다.
+
+검증: Python 3.14 임시 venv에 requirements-validation.txt 고정 의존성을 설치했습니다. `python -m unittest discover -s tests/unit -v` PASS 19개. 제한 PATH(venv:/usr/bin:/bin)에서 `bash scripts/validate-phase1.sh --reports-dir reports/local-validation-20260930-final` 실행: 사전 검사/10개 Mock plan 선언 확인, Shell 문법 6개, Python 19개, 게시 ZIP 생성/검사 PASS. 전체 종료 코드 2는 선택한 offline subset PATH에서 Terraform/Sentinel/ShellCheck/Docker를 제외했기 때문입니다. 설치된 Terraform 1.14.3 darwin_arm64의 `terraform fmt -check -recursive .`는 별도 PASS입니다. 고정 1.13.5 Linux Docker Mock Plan, Sentinel, MCP 프로토콜 및 init/validate는 이번 로컬 작업에서 SKIPPED이며 기존 Cloud PASS를 재실행 결과로 주장하지 않습니다.
+
+실제 AWS/HCP 변경 및 API 연결은 미수행(BLOCKED: 대상/입력/승인 미확인). 다음 단계는 Linux CI 전체 검증과 required-inputs.md의 비민감 환경값 확인입니다. Secret 값을 채팅이나 Git에 기록하지 않습니다.

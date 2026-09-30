@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Phase 1 전용: 공개 dependency init, 정적 검사, 네트워크 없는 Mock 검사."""
+import argparse
 import json
 import os
 import shutil
@@ -11,6 +12,7 @@ from pathlib import Path
 from safety_checks import ROOTS, preflight, static_checks
 
 ROOT = Path(__file__).resolve().parents[1]
+REPORTS = ROOT / "reports"
 results = []
 
 def result(name, status, detail):
@@ -22,7 +24,7 @@ def command(name, args, env, cwd=None):
     status = "PASS" if process.returncode == 0 else "FAIL"
     result(name, status, "exit=" + str(process.returncode))
     # fresh environment + reviewed local Mock 출력만 저장합니다.
-    logs = ROOT / "reports/validation-logs"
+    logs = REPORTS / "validation-logs"
     logs.mkdir(parents=True, exist_ok=True)
     (logs / (name.replace("/", "-") + ".txt")).write_text(process.stdout.rstrip() + "\n")
     return process.returncode == 0
@@ -69,7 +71,7 @@ def main():
         command("python-unit", [sys.executable, "-m", "unittest", "discover", "-s", str(ROOT / "tests/unit"), "-v"], env)
         if shutil.which("sentinel"):
             command("sentinel-mocks", ["sentinel", "test", "-verbose"], env, copy / "packages/terraform-demo-policies")
-            command("demo-rehearsal", [sys.executable, str(ROOT / "scripts/rehearse-demo.py"), "--output", str(ROOT / "reports/rehearsal.json")], env)
+            command("demo-rehearsal", [sys.executable, str(ROOT / "scripts/rehearse-demo.py"), "--output", str(REPORTS / "rehearsal.json")], env)
         if command("publication-preparation", [sys.executable, str(ROOT / "scripts/prepare-demo.py"), "--config", str(ROOT / "configs/demo-inputs.example.json"), "--output", str(temp / "prepared")], env):
             command("publication-verification", [sys.executable, str(ROOT / "scripts/verify-prepared-demo.py"), "--prepared", str(temp / "prepared")], env)
         else:
@@ -98,8 +100,16 @@ def main():
             command("mcp-offline-protocol", [sys.executable, str(ROOT / "tests/mcp/probe.py"), "--offline"], env)
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--reports-dir", type=Path, help="새 결과 디렉터리. 기존 Cloud 보고서를 보존합니다.")
+    options = parser.parse_args()
+    if options.reports_dir is not None:
+        REPORTS = options.reports_dir.resolve()
+        if REPORTS.exists():
+            parser.error("결과 디렉터리는 존재하지 않는 새 경로여야 합니다.")
+        REPORTS.mkdir(parents=True)
     try:
         main()
     finally:
-        (ROOT / "reports/validation-results.json").write_text(json.dumps(results, ensure_ascii=False, indent=2) + "\n")
+        (REPORTS / "validation-results.json").write_text(json.dumps(results, ensure_ascii=False, indent=2) + "\n")
     sys.exit(1 if any(r["status"] == "FAIL" for r in results) else 2 if any(r["status"] in ["BLOCKED", "SKIPPED"] for r in results) else 0)

@@ -43,3 +43,7 @@ GitHub main의 구현 Commit에서도 **[GitHub Actions Run 36679127805](https:/
 - 실제 Speculative/Standard Run, HCP 정책 실패/수정, 수동 Apply 대기와 S3 결과
 
 이 Cloud 환경에는 AWS/HCP 자격증명이나 위 실제 계정값이 제공되지 않았습니다. 준비 파일과 Mock 결과로 실제 배포/조회가 완료됐다고 판단하지 않습니다. 자세한 입력은 `required-inputs.md`, 실제 실행 순서는 `../docs/09-cloud-preparation.md`를 확인합니다.
+
+## 로컬 후속 검증
+
+2026-09-30 로컬 PC에서 기존 증거를 보존하는 `--reports-dir` 옵션을 추가했습니다. 단위 테스트 19개와 offline subset/ZIP 검사, 별도 Terraform fmt는 PASS입니다. Linux 전체 검증은 재실행하지 않았습니다. 상세는 progress.md의 로컬 재개 기록과 local-validation-20260930-final/validation-results.json을 확인합니다.

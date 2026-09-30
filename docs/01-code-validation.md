@@ -27,3 +27,13 @@ MCP는 HCP client 초기화가 완료되어야 6개 조회 도구를 등록합�
 활성 Root 네 곳은 `infra/mcp-host`, `infra/hcp-aws-identity`, `packages/terraform-aws-s3-standard`, `tests/local-module`입니다. 최종 Registry 템플릿은 실제 Source와 게시·Token이 없으므로 init/validate 대상에서 제외합니다. 렌더링과 patch 검사는 별도로 수행하며 실제 Registry 성공으로 표시하지 않습니다.
 
 CI는 검증만 실행합니다. Runner에서 MCP runtime Image와 Python Mock runtime Image, Terraform test Image를 공개 registry에서 받아야 합니다. 현재 검증 완료는 CI 서버에서 실제 workflow를 실행한 증거와 다릅니다.
+
+## 기존 Cloud 증거를 보존하는 로컬 실행
+
+Python 3.11 이상과 requirements-validation.txt 의존성이 필요합니다. 새 결과 경로를 지정하면 기존 reports의 Cloud 로그를 보존합니다. 존재하는 경로는 덮어쓰지 않습니다.
+
+```bash
+bash scripts/validate-phase1.sh --reports-dir reports/my-local-validation
+```
+
+도구가 없으면 SKIPPED/BLOCKED와 종료 코드 2로 기록됩니다. Docker 없이 Mock Plan 또는 MCP 프로토콜 성공을 주장하지 않습니다.
