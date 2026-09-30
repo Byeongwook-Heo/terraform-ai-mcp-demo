@@ -70,7 +70,10 @@ def main():
         if shutil.which("sentinel"):
             command("sentinel-mocks", ["sentinel", "test", "-verbose"], env, copy / "packages/terraform-demo-policies")
             command("demo-rehearsal", [sys.executable, str(ROOT / "scripts/rehearse-demo.py"), "--output", str(ROOT / "reports/rehearsal.json")], env)
-        command("publication-preparation", [sys.executable, str(ROOT / "scripts/prepare-demo.py"), "--config", str(ROOT / "configs/demo-inputs.example.json"), "--output", str(temp / "prepared")], env)
+        if command("publication-preparation", [sys.executable, str(ROOT / "scripts/prepare-demo.py"), "--config", str(ROOT / "configs/demo-inputs.example.json"), "--output", str(temp / "prepared")], env):
+            command("publication-verification", [sys.executable, str(ROOT / "scripts/verify-prepared-demo.py"), "--prepared", str(temp / "prepared")], env)
+        else:
+            result("publication-verification", "BLOCKED", "검사할 게시 패키지가 생성되지 않았습니다.")
         if shutil.which("terraform"):
             command("terraform-fmt", ["terraform", "fmt", "-check", "-recursive", str(copy)], env)
             docker_ok = shutil.which("docker") and subprocess.run(["docker", "info"], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0

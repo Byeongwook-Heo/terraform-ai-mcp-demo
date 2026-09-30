@@ -21,11 +21,16 @@ Sentinel 리허설은 렌더링한 Registry Root의 태그를 Mock plan 데이�
 
 ```bash
 python3 scripts/prepare-demo.py --config configs/demo-inputs.example.json --output .artifacts/prepared
+python3 scripts/verify-prepared-demo.py --prepared .artifacts/prepared
 ```
 
 결과는 Module/Root/Policy ZIP 3개, 게시 디렉터리, `checksums.json`, `readiness.json`입니다. 실제 GitHub 저장소 생성, Tag, HCP 등록이나 Terraform 명령을 호출하지 않습니다. 출력 디렉터리가 이미 있으면 덮어쓰지 않습니다.
 
 패키지는 검토한 파일 allowlist로 생성합니다. State, `.env`, 실행 결과, Key와 임의의 Terraform 파일을 포함하지 않으며 symlink와 Secret 패턴을 거부합니다. 각 게시 디렉터리에 독립적인 AGENTS.md를 포함합니다. ZIP의 시간·순서를 고정해 같은 입력이면 SHA256도 같습니다. 압축 파일의 SHA256은 무결성 확인용이며 서명·배포 승인 증거가 아닙니다.
+
+검증기는 ZIP 3개, `checksums.json`, `readiness.json`을 읽으며 압축 해제·외부 호출·Terraform 실행을 하지 않습니다. ZIP 누락과 SHA256 불일치, 필수 파일 누락, 중복 이름, 경로 탈출, State/임의 파일, symlink/암호화 항목, 과도한 크기와 Secret 패턴을 거부합니다. 같은 ZIP byte로 hash와 내용을 검사합니다. 성공 종료 코드는 0, 실패는 1이며 실패 시 입력·파일 원문을 출력하지 않습니다. `pending_input_checks`는 실제 입력을 기다리는 항목 수이고 ZIP 검사 성공과 구분합니다.
+
+GitHub Actions artifact를 받은 뒤에도 이 명령을 사용할 수 있습니다. ZIP과 함께 받은 checksum은 손상·일관성 검사 기준입니다. 신뢰할 수 있는 CI Run/Commit에서 받은 checksum과 대조해야 출처를 확인할 수 있습니다. ZIP과 checksum을 함께 바꾼 변경 전체를 이 도구가 검증된 Commit으로 인증하지 않으며, IAM·Terraform 의미 검증이나 사람의 게시 리뷰를 대체하지 않습니다. `inputs/`의 계정별 설정은 별도 리뷰 대상입니다.
 
 미정값을 채우려면 example을 `configs/demo-inputs.local.json`으로 복사합니다. 이 파일과 `.artifacts/`는 Git에서 제외합니다. **Secret을 적는 파일이 아닙니다.** 허용 필드 외 입력, 잘못된 AWS ID, OIDC 계정 불일치, subject wildcard, S3 예약 이름과 placeholder는 거부합니다. 모르는 값은 null을 유지합니다. 현재 ARN 템플릿은 AWS 상용 partition을 기준으로 하며 China/GovCloud Region은 받지 않습니다.
 

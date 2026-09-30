@@ -2,12 +2,12 @@
   {
     "check": "cloud-validation",
     "status": "PASS",
-    "detail": "전체 검사 28개 PASS; reports/validation-results.json"
+    "detail": "최신 전체 로컬 검사 29개 PASS; reports/validation-results.json"
   },
   {
     "check": "python-tests",
     "status": "PASS",
-    "detail": "12개; Secret/symlink/State 제외와 입력 안전성 검사 포함"
+    "detail": "17개; 입력/게시 ZIP 무결성·경로·Secret/symlink/State 제외 검사 포함"
   },
   {
     "check": "terraform-mock-plans",
@@ -38,5 +38,10 @@
     "check": "aws-hcp-live",
     "status": "BLOCKED",
     "detail": "실제 입력과 자격증명 없음; reports/required-inputs.md"
+  },
+  {
+    "check": "publication-verification",
+    "status": "PASS",
+    "detail": "ZIP 3개의 SHA256/필수 파일/경로/형식/Secret 패턴 검사; 실제 게시·배포 결과 아님"
   }
 ]

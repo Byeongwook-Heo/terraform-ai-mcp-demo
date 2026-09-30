@@ -1,4 +1,14 @@
-# Phase 1 진행·검증 보고
+# 작업 진행·검증 기록
+
+## 현재 작업 기준 — 최신 main
+
+사용자의 최신 지시는 **이 준비 저장소의 main에서 직접 작업하고 Phase 번호와 관계없이 가능한 Cloud 구현·검증을 이어가는 것**입니다. 새 채팅의 변경을 원격 main에서 확인했으며 Phase 1 PR #1은 이미 병합됐습니다. 앞선 Branch/Draft PR 안내는 과거 상태입니다. 실제 AWS/HCP 입력과 접근 환경이 필요한 항목은 `required-inputs.md`에서 관리합니다.
+
+새 채팅에서 게시 패키지·입력 생성기, Mock MCP 검색/상세, 정상/실패/복구 정책 리허설을 추가했고 전체 검사 28개 및 [원격 CI Run 36679127805](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805)가 PASS입니다. 이번 후속 보완에서는 ZIP 다운로드 후 무결성·내용 검증기를 추가했고 최신 로컬 검사 29개와 단위 테스트 17개가 PASS입니다. 최신 결과와 완료 범위는 `cloud-completion.md`, `cloud-validation-summary.json`, `validation-results.json`을 확인하세요.
+
+**아래 기록은 작업 당시의 상태를 보존한 이력입니다.** 초기 BLOCKED/SKIPPED, main 미변경 및 미Merge 기록을 현재 상태로 해석하지 않습니다.
+
+## 초기 Phase 1 기록
 
 확인일: 2026-09-30 UTC. 현재 기준 경로: `/workspace/terraform-ai-mcp-demo`. **Phase 1 구현과 계정 없는 검증을 완료했으며, 외부 배포는 수행하지 않았습니다.** 초기 구현·전체 테스트는 `/workspace/terraform-mcp-demo`에서 수행했고, 후속 요청에 따라 기존 GitHub 저장소로 통합했습니다.
 
@@ -51,7 +61,7 @@
 | 실제 계정 plan / apply / destroy / import / 통합 test | SKIPPED | 이번 요청에서 금지. 실제 State 변경 없음 |
 | 초기 GitHub PR 및 원격 CI 실행 | BLOCKED | 초기 구현 시 remote 없음. 후속 저장소 지정 요청으로 게시 작업 진행; 아래 결과 참조 |
 | 후속 작업 Branch 게시 / Draft PR | PASS | 기존 terraform-ai-mcp-demo에 Branch와 PR #1 생성, main 미변경 / 미Merge |
-| 현재 원격 검증 CI | SKIPPED | 조회 시 Workflow Run 0개; 실행·성공으로 기록하지 않음 |
+| 초기 원격 검증 CI | SKIPPED | 당시 Workflow Run 0개; 이후 성공한 Run은 최신 완료 보고 참조 |
 
 자동 검증 entrypoint: `PATH=/tmp/phase1-tools/venv/bin:/tmp/phase1-tools:$PATH bash scripts/validate-phase1.sh`. 개별 명령의 계정 없는 로그는 `reports/validation-logs/`, 기계 판독 결과는 `reports/validation-results.json`에 있습니다. 별도 보완 검사도 `reports/final-checks.json`에 기록합니다.
 
@@ -79,7 +89,7 @@ Token은 /run의 Root 파일과 런타임 환경으로만 전달하도록 작성
 
 초기 납품물은 `terraform-mcp-phase1.zip`, `terraform-mcp-phase1.patch`, `phase1-review.md`였습니다. ZIP에는 코드·문서·검증 로그만 포함하고 .git/.terraform/cache/State는 제외했습니다. 당시 로컬 Branch는 phase1이며 변경 파일 127개를 staged diff로 남겼습니다. 현재 작업 Branch와 GitHub 검토 경로는 후속 기록 및 `repository.md`를 확인하세요.
 
-검토 후 자동으로 Phase 2를 시작하지 않습니다. 검토 가능한 코드, lockfile, Mock 결과, 한국어 문서, diff/ZIP만 남깁니다.
+초기 Phase 1 요청은 검토 가능한 코드, lockfile, Mock 결과, 한국어 문서, diff/ZIP을 남기고 종료하는 범위였습니다. 이후 main에서 가능한 Cloud 작업 전체를 이어가는 사용자 지시로 갱신됐습니다.
 
 ## 후속 요청: PC 없이 할 작업 정리
 
@@ -136,3 +146,15 @@ main 게시 직후 자동 Run이 없어 active workflow를 workflow_dispatch로 
 [Run 36679127805](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805)의 status=completed, conclusion=success와 head_sha=`faf4b2ce11222d3546306be1dabfdbf09a9b20e3`를 API 및 gh run watch --exit-status(종료 코드 0)로 확인했습니다. validate Job과 도구 설치/전체 검증/게시 패키지 생성/증거 업로드 Step이 모두 success입니다. artifact `cloud-preparation-faf4b2ce11222d3546306be1dabfdbf09a9b20e3`(ID 11080114938, 21465 bytes, expired=false)를 확인했습니다.
 
 게시·완료·저장소·진행 보고서 4개만 최종 상태로 갱신했습니다. 실행 코드 변경이 없으므로 통과한 전체 검증을 유지하고 JSON 파싱/정적 검사/git diff --check를 수행합니다. GitHub main 게시를 보고서까지 마무리하며 실제 AWS/HCP 변경은 수행하지 않습니다.
+
+## main에서 이어서 보완 — 2026-09-30 KST
+
+새 채팅에서 바뀐 원격 main `d4aae85`와 지침을 확인하고 작업 디렉터리의 main을 fast-forward했습니다. 저장소의 Public 상태, PR #1 병합과 이전 CI Run 36679127805의 completed/success를 실제 GitHub API로 확인했습니다. 새 작업 Branch는 만들지 않았습니다.
+
+추가 파일은 `scripts/publication_verification.py`, `scripts/verify-prepared-demo.py`, `tests/unit/test_publication_verification.py`입니다. ZIP 3개·checksum·readiness의 일관성, 필수 파일, 비허용 경로/State/중복 파일명/symlink/암호화/크기/Secret 패턴을 검사합니다. ZIP을 압축 해제하거나 외부 API/Terraform 명령을 호출하지 않습니다. checksum은 서명이 아니며 승인된 CI Commit과 대조해야 한다는 한계를 문서화했습니다.
+
+`env -i … python -m unittest discover -s tests/unit -v`가 PASS(17개)였고, `PATH=/tmp/phase1-tools/venv/bin:/tmp/phase1-tools:$PATH bash scripts/validate-phase1.sh`는 종료 코드 0, 전체 검사 29개 PASS입니다. Terraform 사전 검사로 aws Mock/명시적 command=plan run 10개를 확인한 뒤 network=none 테스트를 실행했습니다. Sentinel Mock 12개와 정상/실패/수정 리허설 3개, MCP Mock Module 조회가 모두 통과했습니다. 검사 로그는 `validation-logs/publication-verification.txt` 및 전체 결과 파일에 있습니다. 기존 Module/Root/Policy 패키지 SHA256은 바뀌지 않았습니다.
+
+README/START_HERE/휴대폰 안내에 생성·다운로드 후 검사 명령을 추가했습니다. 진행 보고서 첫 화면에 최신 main 기준을 두고 옛 Branch/CI BLOCKED 기록을 이력으로 명시했습니다. 실제 입력 문서 제목에서도 Phase 2 한정 표현을 제거했습니다. 새 실행 코드의 원격 CI는 main 게시 후 확인합니다. 실제 AWS/HCP 연결·리소스 변경은 수행하지 않았습니다.
+
+마감 보완 검사에서 시스템 python3를 사용해 hcl2 모듈을 찾지 못한 FAIL이 있었습니다. 설치된 `/tmp/phase1-tools/venv/bin/python`으로 다시 실행해 정적 JSON/TOML/HCL/Secret 검사, Python AST 16개, 문서 링크가 PASS임을 확인했습니다. 전체 검증은 처음부터 해당 venv에서 실행했으며 29개 PASS 결과와 별개인 마감 명령 오류입니다.

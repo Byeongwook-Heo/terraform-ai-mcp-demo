@@ -3,6 +3,11 @@ test_export_refuses_symlinks_and_secret_content_without_partial_output (test_pre
 test_packages_are_repeatable_and_exclude_state_and_unreviewed_files (test_preparation.PreparationTests.test_packages_are_repeatable_and_exclude_state_and_unreviewed_files) ... ok
 test_rejects_secret_unknown_fields_interpolation_and_wrong_identity (test_preparation.PreparationTests.test_rejects_secret_unknown_fields_interpolation_and_wrong_identity) ... ok
 test_unknown_inputs_do_not_block_packages_or_become_deployable (test_preparation.PreparationTests.test_unknown_inputs_do_not_block_packages_or_become_deployable) ... ok
+test_accepts_generated_archives_and_keeps_pending_inputs_distinct (test_publication_verification.PublicationVerificationTests.test_accepts_generated_archives_and_keeps_pending_inputs_distinct) ... ok
+test_rejects_missing_archive_wrong_hash_and_unknown_manifest_entry (test_publication_verification.PublicationVerificationTests.test_rejects_missing_archive_wrong_hash_and_unknown_manifest_entry) ... ok
+test_rejects_secret_content_and_non_boolean_external_status (test_publication_verification.PublicationVerificationTests.test_rejects_secret_content_and_non_boolean_external_status) ... ok
+test_rejects_symlinked_archive_without_reading_target (test_publication_verification.PublicationVerificationTests.test_rejects_symlinked_archive_without_reading_target) ... ok
+test_rejects_unsafe_zip_members_even_with_updated_checksum (test_publication_verification.PublicationVerificationTests.test_rejects_unsafe_zip_members_even_with_updated_checksum) ... ok
 test_launcher_argument_error_does_not_pollute_stdout (test_safety.SafetyTests.test_launcher_argument_error_does_not_pollute_stdout) ... ok
 test_launcher_fails_closed_on_unapproved_config (test_safety.SafetyTests.test_launcher_fails_closed_on_unapproved_config) ... ok
 test_launcher_has_no_token_value_or_docker_socket_or_http (test_safety.SafetyTests.test_launcher_has_no_token_value_or_docker_socket_or_http) ... ok
@@ -12,6 +17,6 @@ test_registry_patches_change_only_root (test_safety.SafetyTests.test_registry_pa
 test_token_permissions_and_symlink (test_safety.SafetyTests.test_token_permissions_and_symlink) ... ok
 
 ----------------------------------------------------------------------
-Ran 12 tests in 0.167s
+Ran 17 tests in 0.342s
 
 OK

@@ -3,11 +3,11 @@
   "branch": "main",
   "scope": "credential-free-cloud-preparation",
   "validation_exit": 0,
-  "validation_checks": 28,
+  "validation_checks": 29,
   "statuses": {
-    "PASS": 28
+    "PASS": 29
   },
-  "python_unit_tests": 12,
+  "python_unit_tests": 17,
   "terraform_mock_plan_runs": 10,
   "sentinel_mock_tests": 12,
   "policy_rehearsal_scenarios": 3,
@@ -22,5 +22,7 @@
     "terraform-aws-s3-standard.zip": "772ea1eaefd99868dbf190ec31e79a4090a3ff2ffede109f8852c6770d2a428c",
     "terraform-demo-policies.zip": "7eef06aee8ceabab473dc2536386b2d51a3233b468f274c7591f6e5759110cff",
     "aws-ai-demo.zip": "08ccdab5db27854c761312e6080b6a224c66b4206f22f6a5ca4d17f677bc3b68"
-  }
+  },
+  "checked_at": "2026-09-30T15:58:54.797693+09:00",
+  "publication_verification": true
 }

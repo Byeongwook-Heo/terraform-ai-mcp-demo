@@ -79,3 +79,7 @@ MCP Git tag commit: `943a44eb28dc58432b34efdf08f7fc846adc446d`. AWS Provider tag
 - https://github.com/hashicorp/go-tfe/tree/v1.110.0 를 clone하여 Module list/read와 `/api/registry/v1/modules/...`의 JSON/JSON:API schema를 확인했습니다. Commit `908c574bd976e05b8d9a0429a66d3f51e8e8f673`입니다. 이 저장소 snapshot의 소스 파일은 `v1.go`였고 추측한 raw 파일 URL은 404였습니다. 실제 Clone 소스로 확인했습니다.
 - https://github.com/actions/upload-artifact/releases/tag/v4.6.2 의 Git tag를 `git ls-remote`로 대조했습니다. 고정 Commit `ea165f8d65b6e75b540449e92b4886f43607fa02`입니다. CI artifact는 검증 보고서와 example 입력으로 생성한 패키지 경로만 보존합니다.
 - Sentinel 0.40.0 `apply -help`, `test -help`의 실제 옵션과 정상/실패 반환 코드를 확인하고 fixture 정책 리허설을 실행했습니다. 실제 HCP 정책 또는 Registry entitlement 검증은 아닙니다.
+
+## 게시 ZIP 검증기 확인 — 2026-09-30 KST
+
+- https://docs.python.org/3.12/library/zipfile.html — HTTP 200, ZipFile/ZipInfo/infolist/read 및 ZIP metadata 문서 확인. 새 검증기는 기존 Python 3.12.14 실행 환경의 표준 라이브러리를 사용하며 추가 의존성·제품 버전을 도입하지 않았습니다. 압축 해제와 외부 API 호출 없이 같은 byte의 SHA256·내용을 검사했습니다.

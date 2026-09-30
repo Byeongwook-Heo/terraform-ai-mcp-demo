@@ -15,6 +15,8 @@
 
 GitHub Actions가 성공하면 Run의 artifact에서 검증 보고서와 게시용 ZIP을 받을 수 있습니다. 원격 CI 성공은 실제 Run의 conclusion으로만 판단합니다. Cloud 로컬 검증 성공과 별개입니다.
 
+ZIP을 받은 뒤 Cloud의 Python 실행 환경에서 검사할 수 있습니다. ZIP 3개와 `checksums.json`, `readiness.json`을 같은 디렉터리에 모으고 `python3 scripts/verify-prepared-demo.py --prepared <해당 디렉터리>`를 실행합니다. 파일을 압축 해제하거나 AWS/HCP에 접속하지 않습니다. checksum의 출처는 성공한 CI Run/Commit과 대조하세요. 상세 범위는 [Cloud 준비](09-cloud-preparation.md)에 있습니다.
+
 ## PC 없이 가능한 실제 환경 확인
 
 운영자가 휴대폰에서 AWS/HCP 웹에 로그인해 비민감 값과 접근 조건을 확인합니다. Codex에 Token이나 AWS Key를 채팅으로 보낼 필요가 없습니다.

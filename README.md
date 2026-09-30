@@ -14,6 +14,7 @@ AWS AI + Terraform MCP + HCP Private Registry 데모의 코드·검증·운영 �
 | `packages/terraform-demo-policies/` | Sentinel hard-mandatory 및 12개 Mock |
 | `configs/demo-inputs.example.json` | 계정별 비민감 입력; 미정값은 null |
 | `scripts/prepare-demo.py` | 게시용 ZIP 3개, SHA256, 확인된 입력 파일 생성 |
+| `scripts/verify-prepared-demo.py` | 생성·다운로드한 ZIP의 SHA256, 필수 파일, 경로·형식·Secret 패턴 검사 |
 | `scripts/rehearse-demo.py` | Root만 수정하는 정상/누락/수정 정책 리허설 |
 | `scripts/validate-phase1.sh` | 자격증명 없는 전체 검증과 Mock MCP 조회 |
 | `docs/`, `reports/` | 한국어 운영 절차, 검증 증거와 실제 연결 제한 |
@@ -23,6 +24,7 @@ bash scripts/install-validation-tools.sh
 # 출력된 tool directory를 PATH에 추가한 뒤 실행합니다.
 bash scripts/validate-phase1.sh
 python3 scripts/prepare-demo.py --config configs/demo-inputs.example.json --output .artifacts/prepared
+python3 scripts/verify-prepared-demo.py --prepared .artifacts/prepared
 ```
 
 검증은 Terraform fmt/init/validate, network=none Mock Plan 10개, Sentinel Mock 12개, Python 안전 검사, MCP initialize/tools/list/조회 tools/call과 외부 도구 차단을 포함합니다. 시연 리허설은 **정상 정책 통과 → Owner 누락으로 실패 → Root만 수정하여 통과**를 확인합니다. 이 결과는 실제 HCP Run, Private Registry 게시 또는 AWS 배포 증거가 아닙니다.
