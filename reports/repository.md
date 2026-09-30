@@ -10,7 +10,10 @@
 | 기본 Branch | `main` |
 | Phase 1 검토 Branch | `codex/phase1-terraform-mcp` |
 | 기존 main Commit | `53b0f820bbfb99fd447a827f652b29db27d19361` |
-| 검토용 PR | 게시 후 실제 URL과 검증 결과를 기록 |
+| 검토용 PR | [Draft PR #1](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/pull/1), Open / Draft / 미Merge |
+| 구현 Commit | `5f3ecfcea93bf369fa08437038add7be253bbb0a` |
+| 게시 결과 | PASS: 작업 Branch 파일의 Git tree가 로컬 검증본과 일치 |
+| 원격 CI | SKIPPED: 확인 시 Workflow Run 0개, 실행·성공 증거 없음 |
 
 기존 저장소는 README만 포함했습니다. 기존 README 제목과 Commit 이력을 보존하고, 앞서 격리 환경에서 검증한 Phase 1 산출물을 별도 Branch에 통합했습니다. 이전 `/workspace/terraform-mcp-demo`는 초기 준비 경로이며 앞으로의 기준 저장소가 아닙니다.
 
@@ -32,3 +35,5 @@ Module Version Tag 게시 없이 코드·문서와 격리된 검증 결과를 �
 ```
 
 현재 승인 범위는 기존 저장소의 작업 Branch 게시와 검토용 PR입니다. AWS/HCP 외부 변경, 실제 Registry 게시·조회, Standard Run/Apply는 별도 대상·입력·승인이 필요합니다. CI에는 자격증명 없는 검증만 포함했습니다. 배포 Workflow를 실행하지 않습니다.
+
+Git HTTPS Push의 HTTP 401 이후 연결된 GitHub 앱의 Git Data API로 같은 tree를 게시했습니다. PR 생성 앱 도구의 Internal error 이후 중복 PR이 없음을 조회하고 `gh pr create --draft --body-file`로 PR #1을 만들었습니다. 최종 PR의 base=main, head=codex/phase1-terraform-mcp, Draft=true, merged=false를 확인했습니다. 게시·확인 기록은 `github-publication.json`에 있습니다.

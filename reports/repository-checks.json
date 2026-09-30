@@ -38,5 +38,10 @@
     "check": "github-actions-settings",
     "status": "BLOCKED",
     "detail": "GET repository actions permissions HTTP 403: integration lacks access; no settings change or workflow dispatch attempted"
+  },
+  {
+    "check": "final-repository-docs-preflight",
+    "status": "PASS",
+    "detail": "Published PR links and GitHub result JSON parsed; secret-pattern/TOML/JSON/HCL preflight passed after final documentation updates"
   }
 ]

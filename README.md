@@ -6,7 +6,7 @@ AWS AI + Terraform MCP + Private Registry 데모의 Phase 1 준비 저장소입�
 
 **AWS/HCP 리소스 배포 및 실제 Private Registry 조회는 수행하지 않았습니다.** 첨부 지침의 기존 내용을 보존했습니다. `AGENTS.md` 끝에 사용자가 지정한 기준 저장소와 후속 작업 규칙만 추가했습니다.
 
-휴대폰에서는 작업 Branch 또는 Draft PR에서 [검증·진행 보고서](reports/progress.md), [필요 입력·승인](reports/required-inputs.md), [시연 순서](docs/05-demo-and-recording.md)를 확인하세요. PR을 Merge하기 전에는 `main`에 Phase 1 파일이 없습니다. 저장소 선택·후속 작업 방식은 [저장소 안내](reports/repository.md)에 있습니다.
+휴대폰에서는 **[Draft PR #1](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/pull/1)**을 열고 [검증·진행 보고서](reports/progress.md), [필요 입력·승인](reports/required-inputs.md), [시연 순서](docs/05-demo-and-recording.md)를 확인하세요. PR을 Merge하기 전에는 `main`에 Phase 1 파일이 없습니다. 저장소 선택·후속 작업 방식은 [저장소 안내](reports/repository.md)에 있습니다.
 
 PC 없이 이어서 할 작업과 추천 순서는 [휴대폰 후속 체크리스트](docs/08-without-pc.md)에 정리했습니다.
 

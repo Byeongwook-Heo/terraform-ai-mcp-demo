@@ -14,7 +14,7 @@
 | 6 | 코드·문서 보완 요청 | Codex Cloud | 실제 비민감 값으로 example/템플릿을 보완하고 계정 없는 검사 수행 |
 | 7 | 시연 흐름 준비 | 시연 문서와 휴대폰 메모 | 조회 → PR → Policy 실패/수정 → 리뷰 → 별도 Run/승인 설명과 녹화 장면 확정 |
 
-준비용 저장소는 **[Byeongwook-Heo/terraform-ai-mcp-demo](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo)**로 확정했습니다. 작업 Branch는 `codex/phase1-terraform-mcp`입니다. 휴대폰에서 Branch 또는 Draft PR을 열어 확인하고, 다음 Codex Cloud 작업에서도 같은 저장소를 선택하세요. 실제 게시·PR 상태와 후속 요청 예시는 [저장소 안내](../reports/repository.md)에 기록합니다. main Push, Merge, Version Tag 게시의 기존 승인 경계는 유지합니다.
+준비용 저장소는 **[Byeongwook-Heo/terraform-ai-mcp-demo](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo)**로 확정했고, Phase 1 결과물을 **[Draft PR #1](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/pull/1)**에 게시했습니다. 작업 Branch는 `codex/phase1-terraform-mcp`입니다. 휴대폰에서 PR을 열어 확인하고, 다음 Codex Cloud 작업에서도 같은 저장소와 Branch를 선택하세요. 실제 게시 상태와 후속 요청 예시는 [저장소 안내](../reports/repository.md)에 있습니다. main Push, Merge, Version Tag 게시의 기존 승인 경계는 유지합니다.
 
 AWS/HCP 확인은 운영자가 자신의 휴대폰에서 로그인해 읽는 작업입니다. Codex에 Token이나 AWS Key를 제공할 필요가 없습니다. HCP 메뉴가 보이지 않으면 권한 부족인지 entitlement 미지원인지 확인하고, 확인되지 않은 값은 `미확인`으로 기록합니다.
 

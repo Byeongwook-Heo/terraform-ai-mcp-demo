@@ -50,6 +50,8 @@
 | HCP Sentinel entitlement/Policy Set/Override 연동 | BLOCKED | 계약/실제 Organization 미확인 |
 | 실제 계정 plan / apply / destroy / import / 통합 test | SKIPPED | 이번 요청에서 금지. 실제 State 변경 없음 |
 | 초기 GitHub PR 및 원격 CI 실행 | BLOCKED | 초기 구현 시 remote 없음. 후속 저장소 지정 요청으로 게시 작업 진행; 아래 결과 참조 |
+| 후속 작업 Branch 게시 / Draft PR | PASS | 기존 terraform-ai-mcp-demo에 Branch와 PR #1 생성, main 미변경 / 미Merge |
+| 현재 원격 검증 CI | SKIPPED | 조회 시 Workflow Run 0개; 실행·성공으로 기록하지 않음 |
 
 자동 검증 entrypoint: `PATH=/tmp/phase1-tools/venv/bin:/tmp/phase1-tools:$PATH bash scripts/validate-phase1.sh`. 개별 명령의 계정 없는 로그는 `reports/validation-logs/`, 기계 판독 결과는 `reports/validation-results.json`에 있습니다. 별도 보완 검사도 `reports/final-checks.json`에 기록합니다.
 
@@ -93,4 +95,10 @@ Phase 1 추적 파일만 복사하고 .git/cache/State/자격증명은 제외했
 
 새 저장소에서 `preflight(root)`, `static_checks(root)`, Python AST/상대 링크 검사, `python -m unittest discover -s tests/unit -v`, `terraform fmt -check -recursive .`, `git diff --check`를 수행했습니다. 정적 검사와 단위 테스트 7개는 PASS이며 기존 파일 125개의 byte가 초기 검증본과 일치했습니다. 이 중 실행 코드·Terraform·Sentinel·CI는 변경하지 않았습니다. `AGENTS.md` 기존 원문이 추가 지침 앞에 그대로 남아 있는지도 확인했습니다. 이번 통합 검사 결과는 `repository-checks.json`과 `*-repository-check.txt`에 있습니다.
 
-GitHub Actions 설정의 읽기 API는 integration 권한 부족으로 HTTP 403(BLOCKED)을 반환했습니다. 저장소 설정 변경이나 Workflow dispatch를 시도하지 않았으며, 기존 검증 CI 파일만 포함합니다. 이전 전체 검증과 이번 저장소 통합 검사를 구분합니다. Branch Push 및 Draft PR의 실제 결과는 이 절과 `repository.md`에 이어서 기록합니다. 실제 AWS/HCP 연결, Module 게시, PR Merge, Tag 게시, 배포 Workflow는 수행하지 않습니다.
+GitHub Actions 설정의 읽기 API는 integration 권한 부족으로 HTTP 403(BLOCKED)을 반환했습니다. 저장소 설정 변경이나 Workflow dispatch를 시도하지 않았으며, 기존 검증 CI 파일만 포함합니다. 원격 Run 목록 조회는 성공했지만 Run이 0개여서 원격 CI 검증은 SKIPPED로 기록했습니다. 이전 전체 검증과 이번 저장소 통합 검사를 구분합니다.
+
+`git push -u origin codex/phase1-terraform-mcp`는 HTTP 401로 FAIL했습니다. 이후 연결된 GitHub 앱의 create_branch → create_tree → create_commit → update_ref(force=false)로 게시했습니다. 로컬·원격 Git tree가 `87d53359283d72094f007084ccde5a3df7b5657c`로 일치했고 `git diff --exit-code HEAD origin/codex/phase1-terraform-mcp`가 PASS했습니다. 원격 구현 Commit은 `5f3ecfcea93bf369fa08437038add7be253bbb0a`입니다. fetch 후 같은 작업 Branch를 원격 Commit에 맞추고 upstream을 설정했습니다.
+
+앱의 create_pull_request는 Internal error로 FAIL하여 Open PR이 없음을 먼저 조회했습니다. 이후 `gh pr create --repo Byeongwook-Heo/terraform-ai-mcp-demo --head codex/phase1-terraform-mcp --base main --draft --title … --body-file /tmp/terraform-ai-mcp-phase1-pr.md`로 **[Draft PR #1](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/pull/1)**을 생성했습니다. `gh api …/pulls/1`로 Open/Draft, 정확한 base/head, merged=false를 확인했습니다. 원격 main은 기존 SHA 그대로입니다. 게시 결과와 실패 후 대체 경로는 `github-publication.json`, 저장소 재개 방법은 `repository.md`에 기록했습니다.
+
+실제 AWS/HCP 연결, Module 게시, PR Merge, Tag 게시, 배포 Workflow는 수행하지 않았습니다. 저장소 통합과 Phase 1 검토 가능한 변경안을 남기는 것으로 이번 작업을 종료합니다.

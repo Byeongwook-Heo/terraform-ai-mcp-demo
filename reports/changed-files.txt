@@ -76,6 +76,7 @@ packages/terraform-demo-policies/test/require-owner/whitespace-owner.hcl
 reports/changed-files.txt
 reports/final-checks.json
 reports/git-diff-check-repository-check.txt
+reports/github-publication.json
 reports/progress.md
 reports/python-unit-repository-check.txt
 reports/references.md

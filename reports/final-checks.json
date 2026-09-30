@@ -2,7 +2,7 @@
   {
     "check": "handoff-preserved",
     "status": "PASS",
-    "detail": "첨부 원문 3개 byte 일치"
+    "detail": "초기 검증 시 첨부 원문 3개 byte 일치. 저장소 지정 후 AGENTS 기존 내용 뒤에 기준 저장소 지침 추가; 나머지 원문 유지"
   },
   {
     "check": "python-ast",
@@ -21,8 +21,8 @@
   },
   {
     "check": "review-pr",
-    "status": "BLOCKED",
-    "detail": "Git remote 없음. 로컬 Branch와 diff만 작성"
+    "status": "PASS",
+    "detail": "후속 요청으로 기존 terraform-ai-mcp-demo에 Branch 게시 및 Draft PR #1 생성. main 미변경, 미Merge"
   },
   {
     "check": "mobile-checklist-docs",
