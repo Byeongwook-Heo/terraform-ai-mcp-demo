@@ -1,0 +1,15 @@
+**/.terraform/*
+**/terraform.tfstate*
+**/*.tfplan
+**/crash.log
+**/*.auto.tfvars
+**/terraform.tfvars
+!**/terraform.tfvars.example
+**/__pycache__/
+*.pyc
+.env
+*.pem
+*.key
+*.token
+.validation/
+**/.sentinel/

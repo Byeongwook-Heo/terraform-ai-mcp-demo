@@ -1,0 +1,9 @@
+{
+  "name": "get_private_module_details",
+  "arguments": {
+    "terraform_org_name": "REPLACE_ORGANIZATION",
+    "private_module_id": "REPLACE_ORGANIZATION/s3-standard/aws",
+    "registry_name": "private",
+    "private_module_version": "1.0.0"
+  }
+}

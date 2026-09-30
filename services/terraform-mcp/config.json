@@ -1,0 +1,12 @@
+{
+  "image": "hashicorp/terraform-mcp-server:1.3.0@sha256:423a6b8e2ee06affcf090892f40c86469caba45fd2448ffa8ca5d717a174f7d5",
+  "tfe_address": "https://app.terraform.io",
+  "tools": [
+    "search_private_modules",
+    "get_private_module_details",
+    "list_workspaces",
+    "list_runs",
+    "get_run_details",
+    "get_token_permissions"
+  ]
+}

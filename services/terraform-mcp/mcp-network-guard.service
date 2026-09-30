@@ -1,0 +1,13 @@
+[Unit]
+Description=Terraform MCP Docker network guard
+Requires=docker.service
+After=docker.service
+PartOf=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/terraform-mcp/network-guard.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=docker.service

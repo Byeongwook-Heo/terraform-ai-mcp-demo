@@ -1,0 +1,9 @@
+--- a/main.tf
++++ b/main.tf
+@@ -5,6 +5,5 @@
+   bucket_name = var.bucket_name
+   tags = {
+     Environment = "demo"
+-    Owner       = "demo-team"
+   }
+ }

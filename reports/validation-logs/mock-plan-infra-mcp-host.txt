@@ -1,0 +1,7 @@
+tests/security.tftest.hcl... in progress
+  run "management_isolated"... pass
+  run "reject_world_ssh"... pass
+tests/security.tftest.hcl... tearing down
+tests/security.tftest.hcl... pass
+
+Success! 2 passed, 0 failed.

@@ -1,0 +1,42 @@
+[
+  {
+    "check": "repository-static-preflight",
+    "status": "PASS",
+    "detail": "10 mocked plan runs; JSON/TOML/allowlist/secret-pattern checks"
+  },
+  {
+    "check": "validated-files-preserved",
+    "status": "PASS",
+    "detail": "125 existing files byte-identical; original AGENTS content preserved before additions"
+  },
+  {
+    "check": "python-ast",
+    "status": "PASS",
+    "detail": "8 Python files"
+  },
+  {
+    "check": "repository-doc-links",
+    "status": "PASS",
+    "detail": "README, repository guide and mobile checklist relative links exist"
+  },
+  {
+    "check": "python-unit",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "terraform-fmt",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "git-diff-check",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "github-actions-settings",
+    "status": "BLOCKED",
+    "detail": "GET repository actions permissions HTTP 403: integration lacks access; no settings change or workflow dispatch attempted"
+  }
+]

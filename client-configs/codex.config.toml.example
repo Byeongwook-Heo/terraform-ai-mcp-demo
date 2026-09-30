@@ -1,0 +1,8 @@
+# 시연용 Codex CLI/IDE의 ~/.codex/config.toml에 필요한 블록만 병합합니다.
+# Token은 EC2 런타임에 주입하며 Client 설정에 포함하지 않습니다.
+[mcp_servers.terraform_private]
+command = "ssh"
+args = ["-T", "-o", "BatchMode=yes", "terraform-mcp-ssm"]
+startup_timeout_sec = 60
+tool_timeout_sec = 120
+enabled_tools = ["search_private_modules", "get_private_module_details", "list_workspaces", "list_runs", "get_run_details", "get_token_permissions"]
