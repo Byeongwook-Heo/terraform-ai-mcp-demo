@@ -4,6 +4,8 @@
 
 **main 게시 PASS.** 연동 앱의 일시 중지가 해제됐고 Git Data API로 구현 Commit `faf4b2ce11222d3546306be1dabfdbf09a9b20e3`를 main에 반영했습니다. 원격 tree와 검토본이 일치하고 fetch 후 파일 diff=0을 확인했습니다. 최신 게시·CI 상태는 `cloud-publication.json`을 확인합니다.
 
+이후 ZIP 검증기와 최신 상태 안내를 추가한 Commit `fbb9bcc6e94c708c5300f1cd6366326727f5ac97`도 main에 직접 게시했고, **[최신 CI Run 36681296227](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36681296227) PASS**를 확인했습니다. 이번 보완의 게시·검사·다운로드 제한은 `main-continuation.json`에 있습니다.
+
 ## 구현한 준비물
 
 | 범위 | 산출물 |
@@ -25,7 +27,9 @@
 
 GitHub main의 구현 Commit에서도 **[GitHub Actions Run 36679127805](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805) PASS**를 확인했습니다. 도구 설치, 자격증명 없는 전체 검증, 게시 패키지 생성, 증거 artifact 업로드가 모두 성공했습니다. 검증 대상은 구현 Commit `faf4b2ce11222d3546306be1dabfdbf09a9b20e3`이며 후속 상태 보고서 Commit과 구분합니다. [검증 증거·게시 패키지 artifact](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805/artifacts/11080114938)는 CI 보존 기간 14일 동안 제공됩니다.
 
-위 Run은 검증기 추가 전의 28개 검사·12개 단위 테스트를 검증한 기록입니다. ZIP 검증기를 포함한 최신 코드의 main 게시와 원격 CI 결과는 게시 후 별도로 기록하며 로컬 29개 PASS와 구분합니다.
+위 Run은 검증기 추가 전의 28개 검사·12개 단위 테스트를 검증한 기록입니다. ZIP 검증기를 포함한 최신 코드의 Run 36681296227은 completed/success이며 전체 검증·패키지 생성·증거 업로드 Step도 success입니다. 원격 CI API와 gh run watch --exit-status 종료 코드 0으로 확인했습니다. 최신 [artifact](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36681296227/artifacts/11082290513)는 ID 11082290513, 22,317 bytes, 조회 시 expired=false입니다.
+
+이 Cloud에서 artifact 다운로드는 HTTP 403으로 BLOCKED였습니다. 파일을 받지 못해 다운로드된 패키지 검사도 BLOCKED이며 실제 CI 결과 파일을 추가 대조했다고 설명하지 않습니다. 로컬 생성 패키지의 검증은 PASS입니다. 휴대폰 브라우저의 해당 Run에서 artifact를 받을 수 있는지는 자신의 GitHub 접근 환경에서 확인합니다.
 
 전체 검증의 정상 종료 코드 0은 모든 검사 PASS입니다. BLOCKED/SKIPPED가 있으면 2, FAIL이 있으면 1입니다. 실제 Private Registry Root는 init하지 않으며 AWS/HCP credentials, 사용자 Terraform 설정을 격리합니다.
 

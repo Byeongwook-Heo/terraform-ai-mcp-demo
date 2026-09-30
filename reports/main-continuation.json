@@ -1,0 +1,64 @@
+{
+  "checked_at": "2026-09-30T16:04:45.007795+09:00",
+  "repository": "Byeongwook-Heo/terraform-ai-mcp-demo",
+  "target_branch": "main",
+  "base_commit": "d4aae85a873daea9e353e2fa235df34acf262411",
+  "implementation_commit": "fbb9bcc6e94c708c5300f1cd6366326727f5ac97",
+  "implementation_tree": "67c70f3860b33cfa5511db192031a575ada4e9a6",
+  "publication_status": "PASS",
+  "publication_method": "Git Data API; force=false; local/remote tree verified",
+  "local_validation": {
+    "status": "PASS",
+    "exit_code": 0,
+    "checks": 29,
+    "python_unit_tests": 17,
+    "terraform_mock_plans": 10,
+    "sentinel_mock_tests": 12,
+    "policy_rehearsal_scenarios": 3
+  },
+  "publication_verification": {
+    "scope": "offline-publication-verification",
+    "checks": [
+      {
+        "package": "terraform-aws-s3-standard.zip",
+        "status": "PASS",
+        "files": 8,
+        "sha256": "772ea1eaefd99868dbf190ec31e79a4090a3ff2ffede109f8852c6770d2a428c"
+      },
+      {
+        "package": "terraform-demo-policies.zip",
+        "status": "PASS",
+        "files": 28,
+        "sha256": "7eef06aee8ceabab473dc2536386b2d51a3233b468f274c7591f6e5759110cff"
+      },
+      {
+        "package": "aws-ai-demo.zip",
+        "status": "PASS",
+        "files": 7,
+        "sha256": "08ccdab5db27854c761312e6080b6a224c66b4206f22f6a5ca4d17f677bc3b68"
+      }
+    ],
+    "actual_registry_verified": false,
+    "aws_hcp_deployed": false,
+    "pending_input_checks": 5
+  },
+  "package_checksums_unchanged": true,
+  "actual_aws_hcp_verified": false,
+  "remote_ci": {
+    "run_id": 36681296227,
+    "head_sha": "fbb9bcc6e94c708c5300f1cd6366326727f5ac97",
+    "status": "PASS",
+    "url": "https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36681296227",
+    "workflow_status": "completed",
+    "conclusion": "success",
+    "validation_step": "success",
+    "package_preparation_step": "success",
+    "artifact_upload_step": "success",
+    "artifact_id": 11082290513,
+    "artifact_size_bytes": 22317,
+    "artifact_download_verification": "BLOCKED",
+    "artifact_download_reason": "Cloud download endpoint returned HTTP 403; no report/package contents downloaded or verified",
+    "artifact_url": "https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36681296227/artifacts/11082290513",
+    "annotation": "Existing upload-artifact v4.6.2 targets Node.js 20 and runner forces Node.js 24; job and all steps succeeded"
+  }
+}

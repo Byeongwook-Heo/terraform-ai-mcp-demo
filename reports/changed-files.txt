@@ -2,11 +2,15 @@ README.md
 START_HERE.md
 docs/08-without-pc.md
 docs/09-cloud-preparation.md
+reports/changed-files.txt
 reports/cloud-completion.md
+reports/cloud-publication.json
 reports/cloud-validation-summary.json
 reports/final-checks.json
+reports/main-continuation.json
 reports/progress.md
 reports/references.md
+reports/repository.md
 reports/required-inputs.md
 reports/validation-logs/publication-verification.txt
 reports/validation-logs/python-unit.txt

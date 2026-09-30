@@ -6,6 +6,8 @@
 
 새 채팅에서 게시 패키지·입력 생성기, Mock MCP 검색/상세, 정상/실패/복구 정책 리허설을 추가했고 전체 검사 28개 및 [원격 CI Run 36679127805](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805)가 PASS입니다. 이번 후속 보완에서는 ZIP 다운로드 후 무결성·내용 검증기를 추가했고 최신 로컬 검사 29개와 단위 테스트 17개가 PASS입니다. 최신 결과와 완료 범위는 `cloud-completion.md`, `cloud-validation-summary.json`, `validation-results.json`을 확인하세요.
 
+최신 보완도 main에 직접 게시했고 [CI Run 36681296227](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36681296227)가 PASS입니다. Cloud의 artifact 다운로드는 HTTP 403으로 BLOCKED이며 로컬 ZIP 검사·CI 성공과 구분합니다. 최신 게시 확인은 `main-continuation.json`에 있습니다.
+
 **아래 기록은 작업 당시의 상태를 보존한 이력입니다.** 초기 BLOCKED/SKIPPED, main 미변경 및 미Merge 기록을 현재 상태로 해석하지 않습니다.
 
 ## 초기 Phase 1 기록
@@ -158,3 +160,11 @@ main 게시 직후 자동 Run이 없어 active workflow를 workflow_dispatch로 
 README/START_HERE/휴대폰 안내에 생성·다운로드 후 검사 명령을 추가했습니다. 진행 보고서 첫 화면에 최신 main 기준을 두고 옛 Branch/CI BLOCKED 기록을 이력으로 명시했습니다. 실제 입력 문서 제목에서도 Phase 2 한정 표현을 제거했습니다. 새 실행 코드의 원격 CI는 main 게시 후 확인합니다. 실제 AWS/HCP 연결·리소스 변경은 수행하지 않았습니다.
 
 마감 보완 검사에서 시스템 python3를 사용해 hcl2 모듈을 찾지 못한 FAIL이 있었습니다. 설치된 `/tmp/phase1-tools/venv/bin/python`으로 다시 실행해 정적 JSON/TOML/HCL/Secret 검사, Python AST 16개, 문서 링크가 PASS임을 확인했습니다. 전체 검증은 처음부터 해당 venv에서 실행했으며 29개 PASS 결과와 별개인 마감 명령 오류입니다.
+
+### 이번 main 게시와 원격 검증
+
+Git Data API로 create_tree → create_commit → update_ref(main, force=false)를 실행해 Commit `fbb9bcc6e94c708c5300f1cd6366326727f5ac97`를 게시했습니다. 검증한 tree `67c70f3860b33cfa5511db192031a575ada4e9a6`와 원격 파일이 일치했고 fetch 후 `git diff --exit-code HEAD origin/main`이 PASS했습니다. 같은 파일임을 확인한 뒤 로컬 main의 Commit도 원격에 맞췄습니다. 기존 main 이력을 보존했습니다.
+
+해당 SHA의 자동 Run이 없어 검증 전용 `gh workflow run phase1-validation.yml --ref main`을 실행했습니다. Run 36681296227의 completed/success 및 정확한 head SHA와 Job/Step 성공을 API로 확인했고 `gh run watch --exit-status`도 종료 코드 0입니다. artifact ID/크기/expired=false를 확인했습니다. 기존 upload-artifact Action의 Node.js 20→24 강제 실행 annotation은 있었지만 모든 Step이 성공했습니다. Action 버전을 임의로 바꾸지 않았습니다.
+
+`gh run download`는 Cloud 다운로드 endpoint의 HTTP 403으로 FAIL했으며 다운로드된 파일이 없습니다. 그 디렉터리의 ZIP 검증 명령도 필요한 파일이 없어 실패했습니다. 다운로드 파일 검사는 BLOCKED로 남기며 CI 성공이나 로컬 ZIP PASS와 혼동하지 않습니다. 오류 원문의 임시 서명 URL은 보고서·Git에 저장하지 않습니다. 게시·CI 결과를 문서와 JSON에 반영하는 후속 Commit은 실행 코드 변경이 없어 전체 테스트를 반복하지 않고 정적 검사·diff·원격 파일 일치를 확인합니다.

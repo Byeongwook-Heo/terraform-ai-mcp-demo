@@ -88,5 +88,6 @@
       "expired": false,
       "url": "https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805/artifacts/11080114938"
     }
-  }
+  },
+  "latest_continuation_report": "main-continuation.json"
 }

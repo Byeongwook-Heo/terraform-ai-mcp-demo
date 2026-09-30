@@ -24,5 +24,12 @@
     "aws-ai-demo.zip": "08ccdab5db27854c761312e6080b6a224c66b4206f22f6a5ca4d17f677bc3b68"
   },
   "checked_at": "2026-09-30T15:58:54.797693+09:00",
-  "publication_verification": true
+  "publication_verification": true,
+  "remote_validation": {
+    "run_id": 36681296227,
+    "head_sha": "fbb9bcc6e94c708c5300f1cd6366326727f5ac97",
+    "status": "PASS",
+    "validation_step": "success",
+    "artifact_download_verification": "BLOCKED"
+  }
 }

@@ -11,7 +11,9 @@
 | Phase 1 병합 Commit | f7299c10fa1b9376988644d85983d6e24f5add70 |
 | 후속 원격 반영 | PASS: Git Data API로 main 게시, 원격 tree/파일 일치 확인 |
 | 구현 게시 Commit | faf4b2ce11222d3546306be1dabfdbf09a9b20e3 |
+| 최신 보완 Commit | fbb9bcc6e94c708c5300f1cd6366326727f5ac97 — ZIP 검증기·현재 상태 안내 |
 | 원격 CI | [Run 36679127805 PASS](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805); 구현 게시 Commit 검증 |
+| 최신 원격 CI | [Run 36681296227 PASS](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36681296227); 최신 보완 Commit 검증 |
 | 후속 게시 방식 | 사용자가 main 직접 반영을 명시적으로 요청; 새 작업 Branch 없이 main 갱신 |
 | 작업 경로 | `/workspace/terraform-ai-mcp-demo` |
 
@@ -22,3 +24,5 @@
 main 게시 범위는 이 준비 저장소입니다. Module/Root/Policy의 다른 저장소, Registry version/Tag, HCP Workspace/Policy 또는 AWS 리소스 변경은 별도의 실제 대상과 입력·접근 조건을 확인해야 합니다. 자동 Apply/Destroy를 포함하지 않습니다.
 
 연동 설치의 중지는 해제됐습니다. 일반 Git 전송은 401로 실패했지만 연결된 GitHub 앱의 Git Data API로 main 게시를 완료했습니다. force=false로 기존 이력을 보존하고 원격 파일 일치를 확인했습니다. 구현 게시 후 상태 보고서만 갱신하는 Commit이 이어질 수 있으며 최신 main의 게시·CI 상태는 `cloud-publication.json`을 확인합니다.
+
+후속 ZIP 검증기와 직접 main 게시도 같은 Git Data API 경로로 성공했습니다. 최신 보완과 artifact 다운로드 BLOCKED의 구분은 `main-continuation.json`을 확인하세요. 이 준비 저장소 작업은 main에서 이어가며 Phase 번호로 종료 범위를 제한하지 않습니다.
