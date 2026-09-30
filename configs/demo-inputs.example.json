@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "aws_region": "ap-northeast-2",
+  "aws_account_id": null,
+  "vpc_id": null,
+  "subnet_id": null,
+  "ami_id": null,
+  "associate_public_ip_address": false,
+  "hcp_organization": null,
+  "hcp_project": "mcp-demo",
+  "hcp_workspace": "aws-ai-demo",
+  "bucket_name": null,
+  "owner": null,
+  "create_oidc_provider": false,
+  "existing_oidc_provider_arn": null,
+  "mcp_instance_id": null,
+  "ssm_session_prefix": null
+}

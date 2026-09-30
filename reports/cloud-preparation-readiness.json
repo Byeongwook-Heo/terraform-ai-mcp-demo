@@ -1,0 +1,59 @@
+{
+  "scope": "local-preparation-only",
+  "checks": [
+    {
+      "check": "publication-packages",
+      "status": "PASS",
+      "detail": "Module/Root/Policy의 파일 allowlist로 ZIP 3개 생성; 게시는 미실행"
+    },
+    {
+      "check": "registry-root",
+      "status": "BLOCKED",
+      "missing": [
+        "hcp_organization"
+      ]
+    },
+    {
+      "check": "mcp-host-inputs",
+      "status": "BLOCKED",
+      "missing": [
+        "vpc_id",
+        "subnet_id",
+        "ami_id",
+        "owner"
+      ],
+      "detail": "파일 준비 상태이며 외부 연결/배포 결과가 아닙니다."
+    },
+    {
+      "check": "hcp-aws-identity-inputs",
+      "status": "BLOCKED",
+      "missing": [
+        "aws_account_id",
+        "hcp_organization",
+        "bucket_name",
+        "existing_oidc_provider_arn 또는 승인된 create_oidc_provider"
+      ],
+      "detail": "파일 준비 상태이며 외부 연결/배포 결과가 아닙니다."
+    },
+    {
+      "check": "workspace-inputs",
+      "status": "BLOCKED",
+      "missing": [
+        "hcp_organization",
+        "bucket_name"
+      ],
+      "detail": "파일 준비 상태이며 외부 연결/배포 결과가 아닙니다."
+    },
+    {
+      "check": "client-inputs",
+      "status": "BLOCKED",
+      "missing": [
+        "aws_account_id",
+        "mcp_instance_id",
+        "ssm_session_prefix"
+      ],
+      "detail": "파일 준비 상태이며 외부 연결/배포 결과가 아닙니다."
+    }
+  ],
+  "external_changes": false
+}

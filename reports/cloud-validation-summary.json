@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-30",
+  "branch": "main",
+  "scope": "credential-free-cloud-preparation",
+  "validation_exit": 0,
+  "validation_checks": 28,
+  "statuses": {
+    "PASS": 28
+  },
+  "python_unit_tests": 12,
+  "terraform_mock_plan_runs": 10,
+  "sentinel_mock_tests": 12,
+  "policy_rehearsal_scenarios": 3,
+  "mcp_allowed_tools": 6,
+  "mcp_mock_module_calls": [
+    "search_private_modules",
+    "get_private_module_details"
+  ],
+  "actual_registry_verified": false,
+  "aws_hcp_deployed": false,
+  "publication_packages": {
+    "terraform-aws-s3-standard.zip": "772ea1eaefd99868dbf190ec31e79a4090a3ff2ffede109f8852c6770d2a428c",
+    "terraform-demo-policies.zip": "7eef06aee8ceabab473dc2536386b2d51a3233b468f274c7591f6e5759110cff",
+    "aws-ai-demo.zip": "08ccdab5db27854c761312e6080b6a224c66b4206f22f6a5ca4d17f677bc3b68"
+  }
+}

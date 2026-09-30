@@ -102,3 +102,25 @@ GitHub Actions 설정의 읽기 API는 integration 권한 부족으로 HTTP 403(
 앱의 create_pull_request는 Internal error로 FAIL하여 Open PR이 없음을 먼저 조회했습니다. 이후 `gh pr create --repo Byeongwook-Heo/terraform-ai-mcp-demo --head codex/phase1-terraform-mcp --base main --draft --title … --body-file /tmp/terraform-ai-mcp-phase1-pr.md`로 **[Draft PR #1](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/pull/1)**을 생성했습니다. `gh api …/pulls/1`로 Open/Draft, 정확한 base/head, merged=false를 확인했습니다. 원격 main은 기존 SHA 그대로입니다. 게시 결과와 실패 후 대체 경로는 `github-publication.json`, 저장소 재개 방법은 `repository.md`에 기록했습니다.
 
 실제 AWS/HCP 연결, Module 게시, PR Merge, Tag 게시, 배포 Workflow는 수행하지 않았습니다. 저장소 통합과 Phase 1 검토 가능한 변경안을 남기는 것으로 이번 작업을 종료합니다.
+
+## 후속 요청: main에 Cloud 준비 전체 반영 — 2026-09-30
+
+사용자가 작업 Branch에만 남기지 않고 main에 두며 Phase 2 이후의 Cloud 작업까지 진행하도록 요청했습니다. 시작 시 main은 Phase 1 PR #1의 병합 Commit `f7299c10fa1b9376988644d85983d6e24f5add70`이었고 저장소는 Public입니다. 기존 main 이력을 보존하고 새 작업 Branch 없이 main에서 작업했습니다. 기존 infra/Module/Policy/운영 런처는 변경하지 않았습니다.
+
+추가한 주요 파일은 `configs/demo-inputs.example.json`, `scripts/demo_preparation.py`, `scripts/prepare-demo.py`, `scripts/rehearse-demo.py`, `scripts/secret_patterns.py`, `tests/unit/test_preparation.py`, `docs/09-cloud-preparation.md`, `reports/cloud-completion.md`입니다. MCP Mock API/Probe는 실제 고정 Image에서 Module 검색과 상세 조회까지 검증하도록 확장했습니다. README/START_HERE/AGENTS/휴대폰 안내/저장소 기록을 main 기준으로 갱신하고 CI의 main push 검증과 artifact 보존을 추가했습니다.
+
+실행: `bash scripts/install-validation-tools.sh`(GITHUB_PATH로 설치 PATH 기록) → 설치 도구 PATH에서 `bash scripts/validate-phase1.sh`. Terraform/Sentinel 공식 SHA256, ShellCheck 고정 SHA256 대조는 PASS입니다. 최종 전체 종료 코드 0, 검사 28개 모두 PASS입니다. Python 12개, Terraform Mock Plan 10개, Sentinel Mock 12개와 리허설 3개를 확인했습니다. MCP initialize/tools/list(6), 허용 외 쓰기 도구 거부, Mock Private Module 검색/상세/Version/Input/Output 호출이 PASS입니다. 세부 결과는 `validation-results.json`, `validation-logs/`, `rehearsal.json`, `cloud-validation-summary.json`입니다.
+
+`python scripts/prepare-demo.py --config configs/demo-inputs.example.json --output .artifacts/prepared`로 게시 ZIP 3개와 SHA256을 실제 생성했습니다. State/Secret/임의 파일과 symlink가 게시 패키지에 포함되지 않는 검사, 같은 입력의 SHA256 재현성, 기존 출력 덮어쓰기 거부, 완전한 fixture 입력에서 Root/Role/Workspace/Client 파일 생성과 Owner patch 복구를 확인했습니다. 현재 실제 입력은 미정이라 계정별 파일 생성은 BLOCKED이며 `cloud-preparation-readiness.json`에 기록합니다.
+
+실제 AWS/HCP 자격증명이나 계정값은 이 Cloud 환경에 제공되지 않았습니다. AWS 리소스 생성, HCP Registry/Workspace/Policy Set 변경, 실제 Module 조회, 시연 Run/Apply/정리는 수행하지 않았습니다. 패키지와 Mock 성공을 실환경 성공으로 설명하지 않습니다. 원격 CI 상태는 아래 게시 확인 기록에서 로컬 검사와 구분합니다.
+
+### main 게시 확인: BLOCKED
+
+검증한 코드 Commit은 `07f96d0b4f387c37ad62546cf1daa3f1e863e1e3`이며 tree와 원격 상태를 `cloud-publication.json`에 기록합니다. `git push`는 HTTP 403, 연결 앱의 create_tree와 실제 준비 파일 create_blob도 HTTP 403(Resource not accessible by integration)으로 실패했습니다. 원격 main은 Phase 1 병합 Commit 그대로이며 force/update_ref를 호출하지 않았습니다.
+
+GitHub user/installations 조회에서 `chatgpt-codex-connector`의 contents/workflows/actions가 write이고 repository_selection=all임을 확인했습니다. 그러나 installation 110044473이 suspended_at=2026-09-30T04:54:26Z로 일시 중지되어 있습니다. 연결 복구를 사용자에게 안내하고 코드·검증·게시 패키지·Git patch를 보존했습니다. 현재 원격 CI는 SKIPPED: 새 코드를 게시할 수 없어 새 workflow Run의 성공을 확인할 수 없습니다.
+
+## GitHub 연결 복구와 main 게시 재개 — 2026-09-30T15:32:47+09:00
+
+GitHub 인증 계정 Byeongwook-Heo, 설치 110044473의 suspended_at=null과 contents/workflows/actions write를 확인했습니다. 원격 main은 기존 Phase 1 Commit 그대로였습니다. 일반 Git Push는 HTTP 401 전송 오류로 실패했고, API/ls-remote로 원격이 변경되지 않았음을 확인했습니다. 실제 준비 파일의 create_blob은 PASS입니다. 이전 403 차단은 해제됐으며 검증한 코드의 Git Data API 게시를 재개합니다. 코드 변경 없이 기존 전체 28개 PASS 결과를 유지합니다.

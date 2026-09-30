@@ -1,5 +1,7 @@
-name: Phase 1 credential-free validation
+name: Cloud preparation credential-free validation
 on:
+  push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -16,3 +18,19 @@ jobs:
         run: bash scripts/install-validation-tools.sh
       - name: Validate without account credentials
         run: bash scripts/validate-phase1.sh
+      - name: Prepare publication packages without external changes
+        run: python3 scripts/prepare-demo.py --config configs/demo-inputs.example.json --output .artifacts/prepared
+      - name: Preserve validation evidence and publication packages
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: cloud-preparation-${{ github.sha }}
+          retention-days: 14
+          include-hidden-files: true
+          path: |
+            reports/validation-results.json
+            reports/rehearsal.json
+            reports/validation-logs/
+            .artifacts/prepared/*.zip
+            .artifacts/prepared/checksums.json
+            .artifacts/prepared/readiness.json

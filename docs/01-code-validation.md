@@ -9,14 +9,16 @@ bash scripts/install-validation-tools.sh
 bash scripts/validate-phase1.sh
 ```
 
-Cloud 실행 때 도구는 `/tmp/phase1-tools/`에 설치했습니다. 이 경로는 납품물에 포함하지 않습니다. Terraform/Sentinel zip은 공식 SHA256SUMS와 대조했습니다. 이는 서명자 identity 검증과 별도이며 Provider init의 HashiCorp 서명 검증도 따로 기록합니다.
+설치 경로는 매번 생성하는 임시 venv이며 납품물에 포함하지 않습니다. Terraform/Sentinel zip은 공식 SHA256SUMS와 대조합니다. ShellCheck 0.10.0도 공식 release asset와 고정 SHA256으로 설치하므로 Cloud에 미리 설치되어 있을 필요가 없습니다. checksum 검사는 서명자 identity 검증과 별도이며 Provider init의 HashiCorp 서명 검증도 따로 기록합니다.
 
 1. HCL parser가 모든 테스트를 검사합니다. `mock_provider "aws" {}`와 명시적 `command = plan`만 허용합니다. 실 Provider override, 기본 apply, provisioner, data source, 외부 Module, Backend/Cloud 블록을 차단합니다.
 2. Terraform fmt와 각 검증 Root의 init/validate를 실행합니다.
 3. Terraform 테스트는 **Docker --network=none**에서 실행합니다. 담당자 환경변수와 Docker socket은 컨테이너에 전달하지 않으며 임시 복사본만 mount합니다.
 4. Sentinel은 로컬 `tfplan/v2` Mock만 사용합니다. Owner 누락/빈 문자열/공백/null/unknown, 무관한 resource, data resource, 순수 삭제, replacement, no-op을 검사합니다.
 5. Shell 문법 및 ShellCheck, TOML/JSON 파싱, Secret 패턴, 런처 Token 파일 권한, allowlist 확장 거부, Root patch 복구를 검사합니다.
-6. 공식 MCP Image를 네트워크 없는 namespace에서 실행해 initialize/tools/list/허용 외 tools/call 차단을 확인합니다. 내부 loopback Mock API는 `/api/v2/ping`만 응답합니다. 실제 Token과 Private Module 데이터가 없습니다.
+6. 공식 MCP Image를 네트워크 없는 namespace에서 실행해 initialize/tools/list/허용 외 tools/call 차단과 Module 검색/상세 조회를 확인합니다. loopback Mock API의 fixture로 Version/Input/Output을 검사합니다. 실제 Token과 Private Module 데이터가 없습니다.
+7. Registry Root 태그를 fixture plan 데이터로 만들어 Sentinel CLI의 정상/누락/수정 흐름을 평가합니다. Root만 수정되고 정책 원본은 유지돼야 합니다.
+8. 입력 생성기와 게시 ZIP의 allowlist, Secret/symlink 차단, SHA256 재현성을 검사합니다.
 
 MCP는 HCP client 초기화가 완료되어야 6개 조회 도구를 등록합니다. Offline fixture에 사용하는 `offline-fixture-not-a-credential`은 인증 정보가 아닌 고정 테스트 문자열입니다. 운영 런처는 Token **값을 argv에 전달하지 않으며**, 이 offline 예시는 운영 주입 방식이 아닙니다.
 

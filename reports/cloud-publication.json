@@ -1,0 +1,60 @@
+{
+  "status": "IN_PROGRESS",
+  "repository": "Byeongwook-Heo/terraform-ai-mcp-demo",
+  "target_branch": "main",
+  "checked_at": "2026-09-30T15:32:47+09:00",
+  "installation_id": 110044473,
+  "app_slug": "chatgpt-codex-connector",
+  "installation_suspended_at": null,
+  "authenticated_login": "Byeongwook-Heo",
+  "git_data_write_check": "PASS",
+  "write_check_blob_sha": "d85e5126c7575d266f2ff31b87fcad8cd16eed14",
+  "validated_local_commit": "07f96d0b4f387c37ad62546cf1daa3f1e863e1e3",
+  "validated_local_tree": "57e0090dff8a53da9ab1d82545a2ba5eaa8da7ae",
+  "remote_main_before": "f7299c10fa1b9376988644d85983d6e24f5add70",
+  "publication_method": "GitHub Git Data API with force=false",
+  "git_push_retry": {
+    "status": "FAIL",
+    "http_status": 401,
+    "remote_modified": false
+  },
+  "previous_blocked_publication": {
+    "status": "BLOCKED",
+    "repository": "Byeongwook-Heo/terraform-ai-mcp-demo",
+    "target_branch": "main",
+    "validated_local_commit": "07f96d0b4f387c37ad62546cf1daa3f1e863e1e3",
+    "validated_local_tree": "57e0090dff8a53da9ab1d82545a2ba5eaa8da7ae",
+    "remote_main": "f7299c10fa1b9376988644d85983d6e24f5add70",
+    "remote_modified": false,
+    "reason": "GitHub App installation is suspended",
+    "installation_id": 110044473,
+    "app_slug": "chatgpt-codex-connector",
+    "suspended_at": "2026-09-30T04:54:26Z",
+    "installation_url": "https://github.com/settings/installations/110044473",
+    "configured_permissions": {
+      "contents": "write",
+      "workflows": "write",
+      "actions": "write"
+    },
+    "attempts": [
+      {
+        "method": "git push origin main",
+        "status": "FAIL",
+        "http_status": 403
+      },
+      {
+        "method": "GitHub connector create_tree",
+        "status": "FAIL",
+        "http_status": 403,
+        "message": "Resource not accessible by integration"
+      },
+      {
+        "method": "GitHub connector create_blob for prepared source",
+        "status": "FAIL",
+        "http_status": 403,
+        "message": "Resource not accessible by integration"
+      }
+    ],
+    "resume": "Confirm installation is active, recheck remote main, then fast-forward publish validated files without force."
+  }
+}

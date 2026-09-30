@@ -5,7 +5,7 @@
 세미나 주제는 “딸깍의 진화: AI로 딸깍, 검증은 Terraform으로”이다.
 AI가 실제 Private Registry Module을 조회해 변경안을 작성하고, 실제 AWS 변경은 Terraform의 Plan·Policy·담당자 승인 후 수행하는 데모를 만든다.
 
-이 파일은 Codex가 구현할 작업 명세이다. 실행 코드와 배포 결과는 아직 없다.
+이 파일은 구현 기준이다. 실행 코드와 격리 검증은 main에 있으며, 최신 완료 상태는 `reports/progress.md`와 `reports/cloud-completion.md`를 확인한다. 실제 AWS/HCP 배포 결과는 아직 없다.
 고객의 Azure 환경을 재현하는 작업이 아니다. 테스트 대상은 AWS이며 고객 환경은 변경하지 않는다.
 기존 TFE VM은 초기 구성에서 사용하지 않는다. HCP Terraform을 기준으로 작성하되, 실제 사용 가능 Organization과 Sentinel entitlement는 운영자가 확인한다.
 HCP Terraform에서 검증한 화면을 TFE 화면 또는 TFE 전체 호환성 검증이라고 소개하지 않는다.
@@ -81,7 +81,7 @@ docs/06-cleanup.md
 | HCP Project | mcp-demo 제안 |
 | HCP Workspace | aws-ai-demo 제안 |
 | Private Module | s3-standard / aws / 1.0.0 제안 |
-| GitHub owner와 저장소 | 미정. 현재 연결된 저장소만 수정 |
+| GitHub owner와 저장소 | Byeongwook-Heo/terraform-ai-mcp-demo, 공개 저장소의 main |
 | VPC/Subnet | 운영자가 제공. Default VPC 존재를 가정하지 않음 |
 | EC2 instance type | 단일 사용자 Lab용 소형 x86_64 인스턴스 제안, 비용 확인 |
 | MCP Image | 공식 릴리스·도구 지원을 확인하고 버전 고정 |

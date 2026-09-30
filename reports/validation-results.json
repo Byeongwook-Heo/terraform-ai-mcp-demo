@@ -50,6 +50,16 @@
     "detail": "exit=0"
   },
   {
+    "check": "demo-rehearsal",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "publication-preparation",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
     "check": "terraform-fmt",
     "status": "PASS",
     "detail": "exit=0"

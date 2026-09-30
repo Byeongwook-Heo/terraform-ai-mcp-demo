@@ -70,3 +70,12 @@ MCP Git tag commit: `943a44eb28dc58432b34efdf08f7fc846adc446d`. AWS Provider tag
 - AWS service authorization index URL은 HTTP 200이나 본문이 이동/redirect shell인 범위만 확인했습니다. IAM action 근거는 Provider 소스와 개별 AWS API 문서로 보완했고, 실제 IAM 허용 여부는 검증하지 않았습니다.
 - 초기 Terraform 다운로드는 proxy를 제거하면 연결이 거부되었습니다. 인증 없는 공개 proxy만 격리 환경에 허용하자 init이 성공했습니다. proxy 값이나 자격증명은 기록하지 않았습니다.
 - HCP Token 권한/entitlement, 기존 OIDC, AMI와 Docker host firewall은 공개 문서만으로 실제 환경 적합성을 확정할 수 없습니다. Phase 2 확인 목록에 남겼습니다.
+
+## 후속 Cloud 준비의 실제 확인 — 2026-09-30
+
+- HashiCorp Terraform 1.13.5 / Sentinel 0.40.0 공식 zip/SHA256SUMS를 다시 내려받아 설치·검증했습니다. 기존 고정 버전과 Image digest를 유지했습니다.
+- ShellCheck 공식 v0.10.0 Linux x86_64 release asset를 다시 받아 SHA256 `6c881ab0698e4e6ea235245f22832860544f17ba386442fe7e9d629f8cbedf87`을 확인하고 설치 스크립트에 고정했습니다. 별도 서명자 검증은 수행하지 않았습니다.
+- https://github.com/hashicorp/terraform-mcp-server/tree/v1.3.0 를 clone하여 `search_private_modules`와 `get_private_module_details`의 입력과 응답 생성을 확인했습니다. Commit `943a44eb28dc58432b34efdf08f7fc846adc446d`입니다.
+- https://github.com/hashicorp/go-tfe/tree/v1.110.0 를 clone하여 Module list/read와 `/api/registry/v1/modules/...`의 JSON/JSON:API schema를 확인했습니다. Commit `908c574bd976e05b8d9a0429a66d3f51e8e8f673`입니다. 이 저장소 snapshot의 소스 파일은 `v1.go`였고 추측한 raw 파일 URL은 404였습니다. 실제 Clone 소스로 확인했습니다.
+- https://github.com/actions/upload-artifact/releases/tag/v4.6.2 의 Git tag를 `git ls-remote`로 대조했습니다. 고정 Commit `ea165f8d65b6e75b540449e92b4886f43607fa02`입니다. CI artifact는 검증 보고서와 example 입력으로 생성한 패키지 경로만 보존합니다.
+- Sentinel 0.40.0 `apply -help`, `test -help`의 실제 옵션과 정상/실패 반환 코드를 확인하고 fixture 정책 리허설을 실행했습니다. 실제 HCP 정책 또는 Registry entitlement 검증은 아닙니다.

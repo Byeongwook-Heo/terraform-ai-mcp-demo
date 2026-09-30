@@ -32,10 +32,12 @@ def main():
         temp = Path(temporary)
         (temp / "home").mkdir()
         (temp / "docker").mkdir()
+        (temp / "providers").mkdir()
         (temp / "empty.tfrc").write_text("disable_checkpoint = true\n")
         env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "HOME": str(temp / "home"), "TF_CLI_CONFIG_FILE": str(temp / "empty.tfrc"), "TF_IN_AUTOMATION": "1", "CHECKPOINT_DISABLE": "1", "AWS_EC2_METADATA_DISABLED": "true", "DOCKER_CONFIG": str(temp / "docker"), "PYTHONDONTWRITEBYTECODE": "1"}
+        env["TF_PLUGIN_CACHE_DIR"] = str(temp / "providers")
         # 공개 다운로드용 인증 없는 proxy만 상속하며 값은 기록하지 않습니다.
-        for key in ["HTTPS_PROXY", "HTTP_PROXY", "ALL_PROXY", "https_proxy", "http_proxy", "all_proxy"]:
+        for key in ["HTTPS_PROXY", "HTTP_PROXY", "ALL_PROXY", "https_proxy", "http_proxy", "all_proxy", "NO_PROXY", "no_proxy"]:
             value = os.environ.get(key)
             if value:
                 parsed = urllib.parse.urlsplit(value)
@@ -43,6 +45,10 @@ def main():
                     result("environment", "BLOCKED", "인증 정보가 있는 proxy는 상속하지 않습니다.")
                     return
                 env[key] = value
+        # Cloud proxy의 CA 신뢰를 유지합니다. 자격증명 값은 상속하지 않습니다.
+        for key in ["SSL_CERT_FILE", "SSL_CERT_DIR", "REQUESTS_CA_BUNDLE", "CURL_CA_BUNDLE"]:
+            if os.environ.get(key):
+                env[key] = os.environ[key]
         try:
             count = preflight(ROOT)
             static_checks(ROOT)
@@ -51,8 +57,8 @@ def main():
             result("safety-preflight", "FAIL", str(error))
             return
         copy = temp / "project"
-        shutil.copytree(ROOT, copy, ignore=shutil.ignore_patterns(".git", ".terraform", "__pycache__", "reports", "*.tfstate*", "*.auto.tfvars", "terraform.tfvars", "*.tfplan"))
-        shell = sorted(str(p) for p in ROOT.rglob("*.sh") if ".terraform" not in p.parts)
+        shutil.copytree(ROOT, copy, ignore=shutil.ignore_patterns(".git", ".terraform", ".validation", ".artifacts", "__pycache__", "reports", "*.tfstate*", "*.auto.tfvars", "terraform.tfvars", "*.tfplan", "*.local.json"))
+        shell = sorted(str(p) for p in ROOT.rglob("*.sh") if not set(p.parts) & {".git", ".terraform", ".validation", ".artifacts"})
         for path in shell:
             command("bash-" + Path(path).stem, ["bash", "-n", path], env)
         for tool in ["terraform", "sentinel", "shellcheck", "docker"]:
@@ -63,6 +69,8 @@ def main():
         command("python-unit", [sys.executable, "-m", "unittest", "discover", "-s", str(ROOT / "tests/unit"), "-v"], env)
         if shutil.which("sentinel"):
             command("sentinel-mocks", ["sentinel", "test", "-verbose"], env, copy / "packages/terraform-demo-policies")
+            command("demo-rehearsal", [sys.executable, str(ROOT / "scripts/rehearse-demo.py"), "--output", str(ROOT / "reports/rehearsal.json")], env)
+        command("publication-preparation", [sys.executable, str(ROOT / "scripts/prepare-demo.py"), "--config", str(ROOT / "configs/demo-inputs.example.json"), "--output", str(temp / "prepared")], env)
         if shutil.which("terraform"):
             command("terraform-fmt", ["terraform", "fmt", "-check", "-recursive", str(copy)], env)
             docker_ok = shutil.which("docker") and subprocess.run(["docker", "info"], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0

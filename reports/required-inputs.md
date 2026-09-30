@@ -1,6 +1,6 @@
 # Phase 2 실제 입력과 승인
 
-현재 실제 자격증명은 필요하지 않았고 요청하지 않았습니다. Secret 값은 이 문서/채팅/Git에 입력하지 않습니다.
+Cloud 준비에는 실제 자격증명이 필요하지 않습니다. 준비 코드는 main에 두고 실제 환경에 필요한 입력은 아래에 기록합니다. Secret 값은 이 문서/채팅/Git에 입력하지 않습니다.
 
 | 구분 | 필요한 비민감 입력/확인 | 상태 |
 |---|---|---|
@@ -17,7 +17,7 @@
 | S3 | 전역 고유 Bucket 이름, 기존 자원/State 존재 여부 | BLOCKED: 미제공 |
 | OIDC | 기존 Provider ARN/소유자, audience(client ID), TLS 신뢰, exact subject | BLOCKED: 미확인 |
 | 배포 | Plan/Apply Role ARN, SCP/Permission Boundary, 실제 IAM API 허용 여부 | BLOCKED: 실환경 전 |
-| Git 준비 저장소 | `Byeongwook-Heo/terraform-ai-mcp-demo`, 작업 Branch `codex/phase1-terraform-mcp` | PASS: 게시·Draft PR #1 생성. 후속 작업도 같은 저장소 사용 |
+| Git 준비 저장소 | `Byeongwook-Heo/terraform-ai-mcp-demo`, `main` | PASS: Public, Phase 1 PR #1 병합. 사용자 요청으로 main에서 후속 작업 |
 | Git 후속 게시 | Module/Root/Policy 게시 저장소, HCP VCS 권한, branch protection/reviewer | BLOCKED: 준비 저장소 게시와 별개로 확정·승인 필요 |
 | State | 호스트/Identity Root의 암호화 저장·잠금·백업, 소유권/정리 절차 | BLOCKED: 미승인 |
 | Secret 절차 | 짧은 조회 Token 발급자·Team 권한·런타임 주입·회수, Client Private Key 보관 | BLOCKED: 절차 확정 필요 |

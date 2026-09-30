@@ -1,9 +1,9 @@
 """자격증명 없는 검증 대상만 통과시키는 Terraform preflight입니다."""
 import json
-import re
 import tomllib
 from pathlib import Path
 import hcl2
+from secret_patterns import possible_secret
 
 ROOTS = ["infra/mcp-host", "infra/hcp-aws-identity", "packages/terraform-aws-s3-standard", "tests/local-module"]
 TOOLS = {"search_private_modules", "get_private_module_details", "list_workspaces", "list_runs", "get_run_details", "get_token_permissions"}
@@ -63,7 +63,7 @@ def preflight(root):
 
 def static_checks(root):
     for path in root.rglob("*"):
-        if not path.is_file() or any(x in path.parts for x in [".git", ".terraform", ".validation", "__pycache__"]):
+        if not path.is_file() or any(x in path.parts for x in [".git", ".terraform", ".validation", ".artifacts", "__pycache__"]):
             continue
         name = path.name
         if name.endswith(".toml.example"):
@@ -75,8 +75,7 @@ def static_checks(root):
             json.loads(path.read_text())
         text = path.read_text(errors="ignore")
         # 실제 값과 유사한 Secret 패턴만 탐지합니다. 내용 자체는 출력하지 않습니다.
-        patterns = [r"(?:AKIA|ASIA)[A-Z0-9]{16}", r"-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----", r"gh[pousr]_[A-Za-z0-9]{30,}", r"(?m)^\s*(?:TFE_TOKEN|AWS_SECRET_ACCESS_KEY)\s*=\s*['\"]?[^\s#'\"]+"]
-        if any(re.search(pattern, text) for pattern in patterns):
+        if possible_secret(text):
             raise ValueError("possible secret in " + str(path.relative_to(root)))
     config = json.loads((root / "services/terraform-mcp/config.json").read_text())
     if set(config["tools"]) != TOOLS or ":1.3.0@sha256:" not in config["image"]:

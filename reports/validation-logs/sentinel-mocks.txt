@@ -71,4 +71,4 @@ PASS - require-owner.sentinel
       require-owner.sentinel:26:1 - Rule "main"
         Value:
           false
-1 tests completed in 2.065341ms
+1 tests completed in 1.658059ms

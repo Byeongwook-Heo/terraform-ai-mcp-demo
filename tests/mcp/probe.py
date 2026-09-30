@@ -85,7 +85,16 @@ def probe(command, query=None):
             # 응답 원문에는 조직/Module 정보가 있어 저장하지 않습니다.
             print("PASS: live tools/call 응답. 별도로 Source/Version/Input 내용을 담당자가 확인하세요.")
         else:
-            print("PASS: offline initialize + tools/list(6) + allowlist 외 tools/call 차단; 계정 조회 없음.")
+            searched = session.send("tools/call", {"name": "search_private_modules", "arguments": {"terraform_org_name": "fixture-org", "search_query": "s3-standard"}})
+            search_text = "\n".join(c.get("text", "") for c in searched.get("result", {}).get("content", []))
+            if "error" in searched or searched.get("result", {}).get("isError") or "fixture-org/s3-standard/aws" not in search_text:
+                raise ValueError("Mock API를 통한 MCP Module 검색 실패")
+            detailed = session.send("tools/call", {"name": "get_private_module_details", "arguments": {"terraform_org_name": "fixture-org", "private_module_id": "fixture-org/s3-standard/aws", "registry_name": "private", "private_module_version": "1.0.0"}})
+            detail_text = "\n".join(c.get("text", "") for c in detailed.get("result", {}).get("content", []))
+            expected = ['version = "1.0.0"', "Inputs:", "bucket_name", "tags", "Outputs:", "bucket_id", "bucket_arn", "hashicorp/aws"]
+            if "error" in detailed or detailed.get("result", {}).get("isError") or not all(text in detail_text for text in expected):
+                raise ValueError("Mock API를 통한 MCP Module 상세/Version/Input/Output 조회 실패")
+            print("PASS: offline initialize + tools/list(6) + allowlist 외 호출 차단 + Mock Module 검색/상세/Version/Input/Output 조회; 실제 Registry 조회 아님.")
         summary = {"protocolVersion": init["result"]["protocolVersion"], "serverInfo": init["result"].get("serverInfo"), "tools": [{"name": t["name"], "required": t.get("inputSchema", {}).get("required", [])} for t in tools]}
         print(json.dumps(summary, ensure_ascii=False))
     finally:

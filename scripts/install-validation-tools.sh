@@ -16,8 +16,13 @@ for product_version in terraform:1.13.5 sentinel:0.40.0; do
   (cd "$venv_dir"; awk -v file="$archive" '$2 == file { print }' "$product.sums" | sha256sum -c -)
   unzip -qo "$venv_dir/$archive" "$product" -d "$tool_dir"
 done
-# Ubuntu runner에 ShellCheck가 있어야 합니다. 없으면 성공으로 처리하지 않습니다.
-command -v shellcheck >/dev/null
+# Cloud와 CI에서 같은 ShellCheck 버전을 사용합니다. 공식 release asset를 고정합니다.
+shellcheck_archive="$venv_dir/shellcheck.tar.xz"
+curl --fail --silent --show-error --location \
+  https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellcheck-v0.10.0.linux.x86_64.tar.xz \
+  -o "$shellcheck_archive"
+printf '6c881ab0698e4e6ea235245f22832860544f17ba386442fe7e9d629f8cbedf87  %s\n' "$shellcheck_archive" | sha256sum -c -
+tar -xJf "$shellcheck_archive" --strip-components=1 -C "$tool_dir" shellcheck-v0.10.0/shellcheck
 if [[ -n ${GITHUB_PATH:-} ]]; then
   printf '%s\n' "$tool_dir" >> "$GITHUB_PATH"
 else

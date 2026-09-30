@@ -1,32 +1,42 @@
 [
   {
-    "check": "handoff-preserved",
+    "check": "cloud-validation",
     "status": "PASS",
-    "detail": "초기 검증 시 첨부 원문 3개 byte 일치. 저장소 지정 후 AGENTS 기존 내용 뒤에 기준 저장소 지침 추가; 나머지 원문 유지"
+    "detail": "전체 검사 28개 PASS; reports/validation-results.json"
   },
   {
-    "check": "python-ast",
+    "check": "python-tests",
     "status": "PASS",
-    "detail": "8개 파일 문법"
+    "detail": "12개; Secret/symlink/State 제외와 입력 안전성 검사 포함"
   },
   {
-    "check": "final-static-preflight",
+    "check": "terraform-mock-plans",
     "status": "PASS",
-    "detail": "최종 문서·설정 포함 Secret 패턴/JSON/TOML/HCL 검사"
+    "detail": "4개 root, 10개 network=none mock_provider command=plan"
   },
   {
-    "check": "git-diff-check",
+    "check": "sentinel-mocks",
     "status": "PASS",
-    "detail": "staged diff 공백 오류 없음"
+    "detail": "12개; 정책 원본과 hard-mandatory 유지"
   },
   {
-    "check": "review-pr",
+    "check": "demo-rehearsal",
     "status": "PASS",
-    "detail": "후속 요청으로 기존 terraform-ai-mcp-demo에 Branch 게시 및 Draft PR #1 생성. main 미변경, 미Merge"
+    "detail": "정상 true → Owner 누락 false → Root만 수정 true; 원본 복원"
   },
   {
-    "check": "mobile-checklist-docs",
+    "check": "mcp-mock-module-query",
     "status": "PASS",
-    "detail": "휴대폰 후속 문서 로컬 링크 및 git diff --check. 실행 코드 변경 없음; 기존 테스트 유지"
+    "detail": "고정 공식 Image의 initialize/tools/list/search/details; 실제 Registry 아님"
+  },
+  {
+    "check": "publication-preparation",
+    "status": "PASS",
+    "detail": "ZIP 3개와 SHA256 생성; 실제 게시/Tag 미실행"
+  },
+  {
+    "check": "aws-hcp-live",
+    "status": "BLOCKED",
+    "detail": "실제 입력과 자격증명 없음; reports/required-inputs.md"
   }
 ]

@@ -8,7 +8,7 @@
 
 ## 기본 작업 범위
 
-- 별도 지시가 없으면 Phase 1: 코드·문서·격리된 테스트 작성만 수행한다.
+- 현재 사용자는 Phase 2에 한정하지 않고 Cloud에서 가능한 코드·문서·패키지·격리 검증을 모두 진행하도록 요청했다. 실제 계정값과 접근권한이 없으면 외부 연결만 BLOCKED로 남기고 나머지는 완료한다.
 - Terraform MCP Server는 AWS EC2의 Docker에서 실행한다. 로컬 PC에 Docker를 요구하지 않는다.
 - 초기 Terraform 제어 플랫폼은 HCP Terraform이다. 기존 TFE VM과 고객 환경을 변경하지 않는다.
 - 구현을 맡은 Codex Cloud와 시연 중 MCP를 호출하는 AI Client는 별개의 실행 환경이다.
@@ -18,15 +18,15 @@
 
 ## 변경 및 승인 경계
 
-다음 작업은 Phase 1에서 수행하지 않는다.
+다음 작업은 실제 대상·접근권한·변경 범위가 확인되지 않은 상태에서는 수행하지 않는다.
 
 - terraform apply / destroy, AWS 리소스 생성·변경·삭제
 - 실제 AWS 자격증명이나 HCP 관리자 Token 요청·주입
-- GitHub의 새 저장소 생성, main 직접 Push, PR Merge, 릴리스 Tag 게시
+- GitHub의 새 저장소 생성, 다른 게시 저장소의 PR Merge, 릴리스 Tag 게시
 - HCP Workspace / Registry / Policy Set 등 외부 설정 변경
 - 실제 자원을 생성할 수 있는 기본 terraform test 또는 테스트용 apply 실행
 
-작업 Branch의 파일 수정과 테스트는 진행할 수 있다. PR 생성은 현재 작업에서 허용된 경우에만 수행한다.
+이 준비 저장소의 main에서 파일 수정과 테스트를 진행하고 검증한 결과를 직접 게시한다. 실제 데모용 별도 Root 저장소의 PR/Run/Apply는 해당 대상의 범위를 확인한다.
 명시적 승인이 필요한 단계에서는 변경 대상, 권한, 비용 요소, 예상 영향, 정리 방법을 먼저 제시한다.
 
 ## 보안 규칙
@@ -58,7 +58,7 @@
 
 - 이 데모의 준비·후속 작업은 기존 `Byeongwook-Heo/terraform-ai-mcp-demo` 저장소를 사용한다.
 - 기준 URL은 https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo 이다. 다른 저장소를 임의로 만들거나 기준 저장소로 바꾸지 않는다.
-- Phase 1 변경안이 Merge되기 전 이어서 수정할 때는 `codex/phase1-terraform-mcp` Branch와 연결된 PR을 먼저 확인한다. Merge된 뒤 새 작업은 최신 main에서 별도 작업 Branch로 진행한다.
-- 저장소 게시 승인은 작업 Branch Push와 검토용 PR에 한정한다. main 직접 Push, PR Merge, Module Version Tag 게시, AWS/HCP 변경·배포 승인은 포함하지 않는다.
-- 코드 작성용 Codex Cloud에서 다음 작업을 시작할 때 이 저장소와 해당 작업 Branch를 선택한다. 저장소 선택만으로 AWS/MCP 시연 Client 연결이 생기지 않는다.
+- Phase 1은 PR #1로 main에 병합됐다. 2026-09-30 후속 사용자 요청에 따라 이 저장소의 main에서 작업하고, 검증한 결과를 main에 직접 게시한다. 앞선 작업 Branch/검토용 PR 한정 지침보다 이 사용자 요청이 우선한다.
+- 위 main 게시 승인은 이 준비 저장소에 적용한다. 실제 계정·대상·비용·State가 미정인 AWS/HCP 변경, 다른 게시 저장소 생성과 Module Version Tag 게시는 수행 완료로 간주하지 않는다.
+- 코드 작성용 Codex Cloud에서 다음 작업을 시작할 때 이 저장소와 main을 선택한다. 저장소 선택만으로 AWS/MCP 시연 Client 연결이 생기지 않는다.
 - 상태와 재개 방법은 `reports/repository.md`, 휴대폰 작업은 `docs/08-without-pc.md`를 갱신한다.

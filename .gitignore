@@ -12,4 +12,6 @@
 *.key
 *.token
 .validation/
+.artifacts/
+configs/*.local.json
 **/.sentinel/
