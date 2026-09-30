@@ -1,5 +1,9 @@
 # 기준 저장소와 main 재개
 
+2026-09-30 KST 최신 상태: AWS 기반 인프라를 생성하고 검증했습니다. HCP Workspace는 만들지 않았습니다. 준비 저장소 main 게시 승인을 유지하고 공개 authorized_keys 설치 수정과 비식별 배포 증거를 반영합니다. 일반 Git push의 gh credential helper 경로를 사용하며 이전 API 게시/전송 실패 기록은 당시의 이력입니다. 최신 배포 범위는 [AWS 생성 후 재개](../docs/11-aws-created.md), 게시·CI 확인은 [aws-deployment-20260930.json](aws-deployment-20260930.json)을 확인합니다.
+
+## 이전 준비·검증 기록
+
 확인일: 2026-09-30 UTC.
 
 | 항목 | 현재 값 |

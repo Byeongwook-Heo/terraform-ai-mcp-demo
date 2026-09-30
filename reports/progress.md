@@ -1,5 +1,13 @@
 # 작업 진행·검증 기록
 
+2026-09-30 KST 최신 상태: **AWS 기반 인프라 생성·검증 PASS, HCP Workspace 미생성**입니다. 사용자 AWS 생성 승인 후 Host 6개/Identity 5개를 새 S3 backend Plan으로 Apply했고, 전용 State Bucket 1개는 별도 bootstrap으로 생성했습니다. 배포 후 두 실제 Plan은 변경 없음(exit 0), EC2 running/상태 검사 ok/SSM Online을 재확인했습니다.
+
+실제 EC2의 MCP 고정 Image·Mock 프로토콜, SSH over SSM 공개키 인증·host key 검사, HCP 공개 TLS ping·IMDS 차단은 PASS입니다. 최초 SSH 실패의 공개 authorized_keys 권한을 Root 0600→0644로 수정하고 재검증했습니다. 최소 조회 Token은 주입하지 않았으며 실제 Private Registry/AI Client 시연은 남았습니다.
+
+HCP 예정 Workspace GET 3개는 404이며 POST/PATCH/DELETE는 수행하지 않았습니다. 기존 HCP Local State 제안 대신 실제 State는 암호화·버전 관리·native lockfile을 적용한 S3에 있습니다. [실제 생성 후 재개 안내](../docs/11-aws-created.md)와 [비식별 실행 증거](aws-deployment-20260930.json)를 기준으로 이어갑니다. 이전 Cloud/CI 증거는 보존했고 설치 코드 수정의 새 credential-free CI는 게시 후 확인합니다.
+
+## 이전 준비·검증 기록
+
 최신 구현 Commit 2ddc772의 [CI Run 36693140577](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36693140577)도 전체 29개 PASS입니다. 다운로드 artifact에서 Python 24개/Mock Plan 14개/Sentinel 12개와 ZIP 재검사를 대조해 operator-ci-evidence-20260930에 별도로 보존했습니다. 최종 후속 Commit은 보고서와 문서 EOF 정리만 포함하며 실행 코드 변경은 없습니다.
 
 
@@ -236,3 +244,28 @@ HCP는 사용자 Token 파일을 메모리에서만 파싱하여 GET /organizati
 ### 운영 준비 main 게시·전체 CI·증거 다운로드
 
 일반 Git push가 PASS로 구현 Commit 2ddc772f034a2a8335aaeaae0fa9885ad010a7b7을 main에 직접 게시했습니다. 자동 Run이 없어 검증 전용 workflow_dispatch를 실행했습니다. Run 36693140577의 completed/success, 정확한 head SHA와 모든 Job/Step 성공을 API와 gh run watch --exit-status로 확인했습니다. Artifact ID 11086677615/22,566 bytes/expired=false를 조회하고 다운로드 종료 코드 0입니다. 전체 29개 PASS, Python 24개, Terraform Mock Plan 14개, Sentinel Mock 12개와 MCP Mock 조회를 대조했으며 다운로드 ZIP 재검사도 PASS입니다. 새 CI 증거는 operator-ci-evidence-20260930에 기존 증거와 별도로 보존합니다. 최종 변경은 보고서와 문서 EOF 정리뿐입니다. 정적 JSON/Secret 검사와 git diff --check 후 게시하며 AWS/HCP 실제 변경은 없습니다.
+
+## AWS 생성 승인 후 실제 배포·검증 — 2026-09-30 KST
+
+사용자 “AWS는 비용 신경쓰지말고 생성해도 돼”를 AWS 기반 인프라 생성 승인으로 적용했습니다. 앞선 네트워크/State/이름 선택 위임을 유지했습니다. HCP 생성 질문은 생성 승인으로 해석하지 않았으며 HCP에는 GET만 수행했습니다.
+
+| 명령·검사 | 결과 | 실제 범위 |
+|---|---|---|
+| AWS STS 및 예정 HCP Workspace GET 재조회 | PASS | 계정 일치, Workspace 3개 404, HCP 쓰기 없음 |
+| S3 backend bootstrap/API 재조회 | PASS | BucketOwnerEnforced, SSE-S3, Versioning, Public Block, non-TLS Deny |
+| 배포 사본 terraform init/validate/새 plan | PASS × 2 | backend 연결 후 create-only Host 6/Identity 5; 검토용 이전 Plan 미사용 |
+| terraform apply approved.tfplan | PASS × 2 | Terraform 11개 생성; 기존 공유 자원 수정·삭제 없음 |
+| EC2/SSM/EBS/SG/IAM 조회와 SSM 호스트 명령 | PASS | running/상태 ok/Online, 실제 AL2023/Docker/Agent, 암호화 EBS·Ingress 0·exact 정책 |
+| State head/list versions/잠금·백업 | PASS | 암호화와 Version ID, active lock 없음, 로컬 백업 |
+| 실제 호스트 MCP 설치·network=none Mock probe | PASS | 고정 Image initialize/조회 도구 6개/Mock Module tools/call/쓰기 도구 거부 |
+| 첫 SSH 공개키 연결 | FAIL → 수정 후 PASS | sshd 사용자에게 Root 0600 파일 읽기 불가; Root 0644로 수정, 파일·디렉터리 사용자 쓰기 없음 |
+| SSH over SSM와 Token 부재 런처 | PASS | 인증된 SSM에서 얻은 host key 엄격 확인; 인증 후 Token 부재 거부, stdout 없음 |
+| 격리 컨테이너의 실제 TLS/IMDS | PASS | HCP 공개 ping 204, IMDS는 transport에서 차단 |
+| post-apply terraform plan -detailed-exitcode | PASS × 2 | S3 State와 실제 계정 대조, exit 0/no changes |
+| prepare-demo/verify-prepared-demo | PASS | 파일 준비 6개, ZIP 3개 검사; SSM IAM은 파일 준비만, 정책 연결 없음 |
+| Python unittest, bash -n, git diff --check | PASS | 단위 테스트 24개; 공개키 수정의 의미 있는 검증은 실제 SSH 재연결 |
+| 실제 HCP Registry/Run/Token/AI Client | 미수행 | 최소 Token/게시·HCP 변경 승인 범위 필요 |
+
+실제 비민감 값·SSM 명령 응답·Plan/Apply/State는 Git 제외 .artifacts/aws-deployment-20260930에 있습니다. Root user_data/State/Git에 AWS/HCP Token이나 Private Key를 넣지 않았습니다. 로컬 전용 Private Key는 외부 호스트에 업로드하지 않았습니다. HCP Workspace 설정 제안에는 실제 Plan/Apply Role output을 채웠으나 적용하지 않았습니다.
+
+변경 파일: 설치 스크립트 공개 authorized_keys 읽기 권한, docs/11-aws-created.md, 최신 안내/입력·승인 상태/비식별 배포 보고서입니다. 기존 Terraform/Module/Policy/CI 및 Cloud 검증 증거는 보존했습니다. 후속 CI 결과는 별도 배포 CI 증거로 기록합니다.

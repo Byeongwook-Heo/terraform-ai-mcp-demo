@@ -31,4 +31,4 @@ python3 scripts/verify-prepared-demo.py --prepared .artifacts/prepared
 
 ## 위임된 운영 기본값과 실제 계정 검토
 
-네트워크·State·Owner/Bucket 선택은 완료했으며 같은 값을 다시 요청하지 않습니다. 비민감 입력은 Git 제외 configs/demo-inputs.local.json에 있습니다. Host/Identity 실제 읽기 전용 Plan과 [HCP Local State 준비](docs/10-operator-state-and-review.md)를 완료했습니다. 실제 변경 승인은 별도로 확인하며 검토 Plan은 Apply하지 않습니다.
+AWS 생성 승인 후 Host/Identity와 별도 S3 State Bucket을 생성·검증했습니다. 현재 운영 기준은 [AWS 생성 후 재개](docs/11-aws-created.md)이며 이전 HCP Local State 제안은 [검토 이력](docs/10-operator-state-and-review.md)에 보존합니다. 실제 Plan은 기존 S3 State를 연결한 배포 사본에서 이어갑니다. HCP Workspace 생성과 실제 Registry/Token 시연은 남았습니다. 네트워크·State·Owner/Bucket 선택을 다시 요청하지 않습니다. 비민감 입력은 Git 제외 configs/demo-inputs.local.json에 있습니다.

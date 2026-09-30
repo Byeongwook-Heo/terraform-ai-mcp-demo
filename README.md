@@ -2,7 +2,7 @@
 
 AWS AI + Terraform MCP + HCP Private Registry 데모의 코드·검증·운영 준비 저장소입니다. **후속 작업과 결과물은 [이 저장소의 main](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/tree/main)에 둡니다.** Phase 1은 [PR #1](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/pull/1)로 병합됐습니다.
 
-휴대폰에서 시작하려면 [START_HERE.md](START_HERE.md), [현재 완료 상태](reports/cloud-completion.md), [남은 실제 입력](reports/required-inputs.md)을 확인하세요. Cloud에서 가능한 준비는 Phase 2 이후의 게시·연결·시연까지 이어서 작성합니다. **실제 AWS/HCP 리소스 생성과 실제 Private Registry 조회는 아직 수행하지 않았습니다.**
+휴대폰에서 시작하려면 [START_HERE.md](START_HERE.md), [현재 완료 상태](reports/cloud-completion.md), [남은 실제 입력](reports/required-inputs.md)을 확인하세요. Cloud에서 가능한 준비는 Phase 2 이후의 게시·연결·시연까지 이어서 작성합니다. **AWS 기반 인프라는 실제 생성·검증했습니다. HCP Workspace 생성과 실제 Private Registry 조회는 아직 수행하지 않았습니다.** [현재 운영 상태](docs/11-aws-created.md)를 확인하세요.
 
 | 경로 | 역할 |
 |---|---|
@@ -34,4 +34,4 @@ python3 scripts/verify-prepared-demo.py --prepared .artifacts/prepared
 
 CI는 자격증명 없는 검증만 실행합니다. 자동 Apply/Destroy, AWS/HCP 관리자 자격증명, 자동 Module Tag 게시는 포함하지 않습니다. 실제 환경의 대상·권한·State·비용과 시연 Client는 별도로 확인해야 합니다.
 
-네트워크·State·이름 선택은 사용자 위임에 따라 실제 조회한 값으로 준비했습니다. [운영 State와 실제 Plan](docs/10-operator-state-and-review.md)에 Host 6개/Identity 5개 신규 Plan, 공식 비용 근거와 첫 생성 범위를 기록했습니다. 실제 생성/Apply·MCP 실연결은 미수행입니다.
+사용자 AWS 생성 승인으로 Host 6개/Identity 5개와 별도 S3 State Bucket 1개를 만들었습니다. EC2 running/SSM Online, 설치한 고정 MCP Image의 Mock 프로토콜, SSH over SSM, metadata 차단과 두 실제 post-apply Plan의 변경 없음을 확인했습니다. [AWS 생성 후 재개](docs/11-aws-created.md)를 기준으로 HCP Remote Workspace/Registry/최소 Token 작업을 이어갑니다. [이전 운영 검토](docs/10-operator-state-and-review.md)와 Cloud 결과는 이력으로 보존합니다.

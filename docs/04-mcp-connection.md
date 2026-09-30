@@ -6,7 +6,7 @@
 
 관리 담당자가 SSM Shell에서 `ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub`를 확인하고 신뢰할 수 있는 경로로 Client 담당자에게 전달합니다. Host key를 실제 Instance ID alias로 known_hosts에 등록합니다. `StrictHostKeyChecking=yes`를 유지하며 무검증 ssh-keyscan 결과만 신뢰하지 않습니다. Client는 `client-configs/ssh.config.example`의 Region/Instance ID/key 경로를 수정해 필요한 Host 블록만 병합합니다.
 
-전용 `mcp-client`는 docker 그룹에 가입하지 않으며 Root 소유 forced command가 고정 런처만 실행합니다. authorized_keys의 `restrict`는 PTY/forwarding/agent forwarding을 막습니다. Root 소유 home/키 파일을 사용하고 OS password 로그인을 비활성화해야 합니다. 해당 계정의 다른 SSH key, AuthorizedKeysCommand, 대체 인증 방식이 없는지 검토합니다. 관리자가 범용 sudo/키 쓰기 권한을 추가하면 이 경계가 무너집니다.
+전용 `mcp-client`는 docker 그룹에 가입하지 않으며 Root 소유 forced command가 고정 런처만 실행합니다. authorized_keys의 `restrict`는 PTY/forwarding/agent forwarding을 막습니다. Root 소유 home/키 파일을 사용하고 OS password 로그인을 비활성화해야 합니다. 공개 authorized_keys는 Root 0644로 두어 sshd의 사용자 권한으로 읽을 수 있게 하고 사용자 파일·디렉터리 쓰기는 금지합니다. Secret과 Private Key의 0600은 유지합니다. 실제 배포의 최초 읽기 실패와 수정 후 연결 증거는 [AWS 생성 결과](11-aws-created.md)에 있습니다. 해당 계정의 다른 SSH key, AuthorizedKeysCommand, 대체 인증 방식이 없는지 검토합니다. 관리자가 범용 sudo/키 쓰기 권한을 추가하면 이 경계가 무너집니다.
 
 SSH over SSM은 암호화된 터널 내부의 명령 내용을 Session Manager가 로깅하지 못합니다. 브라우저 관리 세션 로깅과 이 터널의 감사 범위를 구분하고 CloudTrail StartSession/TerminateSession 및 SSH 접속 이벤트를 보관합니다. MCP 내용 로그에 Token이나 조직 데이터가 들어가지 않도록 별도 검토합니다.
 
@@ -43,7 +43,7 @@ Codex CLI/IDE의 `~/.codex/config.toml`에 `client-configs/codex.config.toml.exa
 python3 tests/mcp/probe.py --offline
 ```
 
-로컬 Mock API와 MCP는 `network=none` namespace를 공유하며 loopback만 연결합니다. initialize, 정확한 6개 tools/list, allowlist 외 create_workspace 차단을 검사합니다. Mock API는 Private Registry 응답을 제공하지 않습니다. 이 검증은 실제 Token, HCP API 직접 조회, EC2/SSM, 실제 Private Module 조회의 성공 증거가 아닙니다.
+로컬 Mock API와 MCP는 `network=none` namespace를 공유하며 loopback만 연결합니다. initialize, 정확한 6개 tools/list, allowlist 외 create_workspace 차단을 검사합니다. Mock API는 Module 검색/상세 fixture를 제공합니다. 실제 Private Registry 응답이 아닙니다. 이 검증은 실제 Token, HCP API 직접 조회, EC2/SSM, 실제 Private Module 조회의 성공 증거가 아닙니다.
 
 ## 승인된 Phase 2에서만 수행할 실제 조회
 

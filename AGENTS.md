@@ -73,5 +73,14 @@
 
 - 사용자는 네트워크, State, Owner/Bucket 이름 선택을 맡겼다. 확인 가능한 기존 환경에서 선택하고 같은 선택을 다시 질문하지 않는다.
 - 실제 입력/전체 조회/Plan은 Git 제외 local 파일과 artifact에, 공개 보고서는 비식별 요약으로 둔다.
-- 신규 자원 검토 Plan은 기존 State 연결 없이 수행하고 Apply하지 않는다. 실제 배포는 HCP Local State 연결 후 다시 Plan한다.
+- 신규 자원 검토 Plan은 기존 State 연결 없이 수행하고 Apply하지 않는다. 실제 배포는 확정한 운영 backend를 연결한 별도 사본에서 다시 Plan한다. 2026-09-30 AWS 생성 승인 이후 실제 backend는 S3이며 아래 최신 기록이 이전 HCP Local State 제안보다 우선한다.
 - 실제 생성·변경·삭제는 선택 위임과 구분해 구체적인 대상·비용·State·승인 범위를 확인한다.
+
+## AWS 실제 생성 승인과 현재 배포 — 2026-09-30
+
+- 사용자는 AWS 생성·비용을 승인했다. 위임된 기존 Private Subnet/허용 AMI/이름을 사용해 Host 6개와 Identity 5개 Terraform 자원 및 별도 S3 State Bucket 1개를 생성했다. 같은 AWS 생성 승인을 다시 요청하지 않는다.
+- 실제 Host/Identity State는 S3 암호화·버전 관리·native lockfile backend다. HCP Local State Workspace 두 개는 제안만 남았으며 생성하지 않았다. 실제 운영 재개 기준은 docs/11-aws-created.md다.
+- 후속 실제 Plan은 .artifacts/aws-deployment-20260930 배포 Root의 같은 backend에서 수행한다. 빈 State 검토 Root를 Apply하거나 State 소유 OIDC를 생성됐다는 이유로 create_oidc_provider=false로 바꾸지 않는다.
+- 새 EC2의 Docker/MCP 설치와 SSH over SSM, Token 없는 거부/metadata 차단 검증을 완료했다. 공개 authorized_keys는 Root 0644이고 사용자에게 쓰기를 주지 않는다. Secret/Private Key 0600과 최소 Token 규칙을 유지한다.
+- HCP 질문은 생성 승인으로 해석하지 않았다. HCP GET만 수행했으며 Workspace/Registry/Policy/VCS, 다른 Repo/Tag, 실제 시연 S3 Run/Apply, 관리자 Token 주입은 별도 범위다. 최소 조회 Token을 발급·주입한 뒤 실제 MCP Registry 조회를 검증한다.
+- 실제 값과 State/키는 local 입력·artifact에만 보관한다. 공개 Git 보고서는 비식별 요약이며 기존 Cloud 증거를 덮어쓰지 않는다.

@@ -1,0 +1,138 @@
+{
+  "scope": "AWS-foundation-created-HCP-not-created",
+  "checked_at": "2026-09-30T09:37:48.018603+00:00",
+  "authorization": {
+    "aws_creation": "explicit-user-approval-2026-09-30",
+    "network_state_names": "delegated-by-user",
+    "main_publication": "previous-user-approval"
+  },
+  "versions": {
+    "terraform": "1.13.5",
+    "aws_provider": "6.14.1",
+    "host_os": "Amazon Linux 2023.12.20260918",
+    "docker": "25.0.16",
+    "ssm_agent": "3.3.4624.0",
+    "mcp_image": "hashicorp/terraform-mcp-server:1.3.0@sha256:423a6b8e2ee06affcf090892f40c86469caba45fd2448ffa8ca5d717a174f7d5"
+  },
+  "aws": {
+    "region": "ap-northeast-2",
+    "host_terraform_creates": 6,
+    "identity_terraform_creates": 5,
+    "backend_bucket_bootstrap_creates": 1,
+    "existing_shared_resources_modified": 0,
+    "ami_allowed_pattern": "hc-base-*",
+    "ami_architecture": "x86_64",
+    "instance_type": "t3.small",
+    "cpu_credits": "standard",
+    "public_ip": false,
+    "sg_ingress_count": 0,
+    "root_volume": {
+      "type": "gp3",
+      "gib": 20,
+      "encrypted": true
+    },
+    "imds": {
+      "http_tokens": "required",
+      "hop_limit": 1
+    },
+    "instance_state": "running",
+    "instance_status": "ok",
+    "system_status": "ok",
+    "ssm": "Online",
+    "checks": {
+      "ec2_health": "PASS",
+      "private_imdsv2_encrypted_volume": "PASS",
+      "no_ingress": "PASS",
+      "bootstrap_docker_ssm": "PASS",
+      "exact_oidc_bucket_permissions": "PASS",
+      "encrypted_versioned_state_and_released_locks": "PASS"
+    },
+    "post_apply_plan": {
+      "hcp-aws-identity": {
+        "exit_code": 0,
+        "status": "PASS"
+      },
+      "mcp-host": {
+        "exit_code": 0,
+        "status": "PASS"
+      }
+    }
+  },
+  "state": {
+    "actual_backend": "s3",
+    "hcp_local_state_used": false,
+    "bootstrap_managed_separately": true,
+    "bucket_owner_enforced": true,
+    "encryption": "AES256",
+    "versioning": "Enabled",
+    "all_public_access_blocks": true,
+    "non_tls_denied": true,
+    "native_lockfile": true,
+    "allowed_account_ids_restricted": true,
+    "state_keys": [
+      "mcp-host/terraform.tfstate",
+      "hcp-aws-identity/terraform.tfstate"
+    ],
+    "state_object_encryption_and_versions": "PASS",
+    "locks_released_after_apply": "PASS",
+    "local_state_backup": "PASS",
+    "prior_empty_state_review_plan_applied": false
+  },
+  "mcp": {
+    "installed": true,
+    "real_image_mock_registry_protocol": "PASS",
+    "tools_list_count": 6,
+    "write_tool_denied": "PASS",
+    "ssh_over_ssm_publickey_and_strict_hostkey": "PASS",
+    "publickey_initial_failure": "root-owned-0600-authorized_keys-unreadable-by-sshd-user",
+    "publickey_fix": "root-owned-0644; user-can-read-but-cannot-write-file-or-directory",
+    "token_absent_fail_closed": "PASS",
+    "actual_hcp_public_tls_ping_status": 204,
+    "isolated_container_imds_transport_blocked": "PASS",
+    "runtime_token_injected": false,
+    "admin_token_injected": false,
+    "real_private_registry_tools_call": false,
+    "ai_client_configured": false,
+    "minimal_ssm_iam_policy_attached": false
+  },
+  "hcp": {
+    "methods_used": [
+      "GET"
+    ],
+    "write_requests": 0,
+    "workspace_get_status": {
+      "mcp-host-state": 404,
+      "hcp-aws-identity-state": 404,
+      "aws-ai-demo": 404
+    },
+    "workspaces_created": 0,
+    "project_created": false,
+    "registry_published": false,
+    "policy_set_created": false,
+    "workspace_settings_with_role_outputs": "prepared-local-file-only"
+  },
+  "preparation": {
+    "checks_pass": 6,
+    "publication_zip_verification": "PASS",
+    "python_unit_tests_pass": 24,
+    "code_change": "installer-public-authorized_keys-readability-fix",
+    "implementation_ci": "pending"
+  },
+  "remaining_scopes": [
+    "HCP project/Remote demo Workspace",
+    "approved Module/Root/Policy repositories and version Tag",
+    "Registry/VCS/Sentinel setup",
+    "minimum-read-only Token injection and live MCP private Module query",
+    "demo Standard Run and separately approved S3 Apply"
+  ],
+  "demo_bucket_created": false,
+  "private_evidence": ".artifacts/aws-deployment-20260930/",
+  "privacy": "Actual account/organization/resource IDs/ARNs/bucket names/session prefix omitted from public evidence; credentials/State/private keys remain outside Git.",
+  "privacy_audit": {
+    "public_tracked_files_and_new_reports": "PASS",
+    "credential_values_absent_from_private_text_evidence": "PASS",
+    "private_text_evidence_files_checked": 39,
+    "state_keys_credentials_local_inputs_git_ignored": "PASS",
+    "ssh_private_key_mode": "0600"
+  }
+}

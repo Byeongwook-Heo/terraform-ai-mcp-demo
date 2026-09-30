@@ -4,25 +4,25 @@ Cloud 준비에는 실제 자격증명이 필요하지 않습니다. 준비 코�
 
 | 구분 | 필요한 비민감 입력/확인 | 상태 |
 |---|---|---|
-| AWS | Account ID, 승인 Region, 기존 VPC/Subnet, 허용 이름 패턴의 x86_64 AMI ID/Name/Owner 및 OS·SSM 호환성 | PARTIAL: 계정/서울/AMI/VPC/Subnet 선택·실제 Plan PASS; 생성/부팅/SSM 미실행 |
-| 네트워크 | Route/DNS/NACL, SSM endpoint, Docker/HCP egress, proxy 여부 | PARTIAL: Route/DNS/NACL 조회 PASS; 실제 egress/SSM 미실행 |
-| EC2 | t3.small 적합성, 20 GiB EBS/KMS 기준, 비용, 데모 tags | READY: t3.small Standard/암호화 gp3 20 GiB, 공식 기본 비용 확인; 생성 대기 |
-| 관리 | 사람 SSO/MFA Role, browser SSM 문서 ARN, session prefix, 접속 감사 | BLOCKED: 미확인 |
-| MCP Client | 별도 Client 종류/버전, AWS CLI/plugin, Instance ID, 공개 ed25519 key 및 검증한 host key | BLOCKED: 미제공 |
-| SSH | SSM SSH-only IAM Role, sshd 설정, 기본 Inbound 없는 경로 | BLOCKED: 실연결 전 |
-| Docker | 172.30.240.0/24 충돌 여부, iptables backend, AL2023 실제 package 버전 | BLOCKED: 실환경 전 |
-| HCP | Organization, 정확한 Project/Workspace, Remote run/VCS 연결, Team 접근 | PARTIAL: 조직·entitlement 조회 PASS; Project/Workspace 생성 대기 |
+| AWS | Account ID, 승인 Region, 기존 VPC/Subnet, 허용 이름 패턴의 x86_64 AMI ID/Name/Owner 및 OS·SSM 호환성 | PASS: 승인된 서울 계정에서 허용 AMI로 실제 생성·부팅, EC2/SSM 조회 재확인 |
+| 네트워크 | Route/DNS/NACL, SSM endpoint, Docker/HCP egress, proxy 여부 | PASS: 기존 Private Subnet/NAT 사용, 실제 SSM·Docker pull·HCP TLS 확인 |
+| EC2 | t3.small 적합성, 20 GiB EBS/KMS 기준, 비용, 데모 tags | PASS: t3.small Standard/암호화 gp3 20 GiB, running/상태 ok; 생성 승인 적용 |
+| 관리 | 사람 SSO/MFA Role, browser SSM 문서 ARN, session prefix, 접속 감사 | PARTIAL: 제공 자격증명으로 관리·SSM 검증; 사람 SSO/MFA Role/감사 정책 연결은 별도 |
+| MCP Client | 별도 Client 종류/버전, AWS CLI/plugin, Instance ID, 공개 ed25519 key 및 검증한 host key | PARTIAL: AWS CLI/plugin/실제 ID/전용 키/검증 host key/SSH 설정 준비; AI Client 설정 미수행 |
+| SSH | SSM SSH-only IAM Role, sshd 설정, 기본 Inbound 없는 경로 | PASS: SSH over SSM 공개키·엄격한 host key 확인; 최소 Client IAM은 템플릿만 준비 |
+| Docker | 172.30.240.0/24 충돌 여부, iptables backend, AL2023 실제 package 버전 | PASS: 실제 Docker 25.0.16/격리 subnet/metadata 차단·고정 MCP Mock 프로토콜 |
+| HCP | Organization, 정확한 Project/Workspace, Remote run/VCS 연결, Team 접근 | PARTIAL: 조직 조회 PASS; 예정 Workspace GET 3개 404, HCP 변경 0회; 생성 범위 승인 대기 |
 | Registry | 실제 namespace/source/version, Module 게시 권한/승인 | BLOCKED: 미게시 |
 | Policy | Sentinel entitlement, Policy Set scope, hard-mandatory, Override/Policy 변경 권한 | PARTIAL: Sentinel entitlement/Policy Set 여유 조회 PASS; 실정책 미실행 |
-| S3 | 전역 고유 Bucket 이름, 기존 자원/State 존재 여부 | READY: 이름 위임으로 선택; 생성 직전 충돌 확인 |
-| OIDC | 기존 Provider ARN/소유자, audience(client ID), TLS 신뢰, exact subject | READY: 기존 대상 GET NoSuchEntity, exact subject 신규 Plan PASS; 생성 대기 |
-| 배포 | Plan/Apply Role ARN, SCP/Permission Boundary, 실제 IAM API 허용 여부 | BLOCKED: 실환경 전 |
+| S3 | 전역 고유 Bucket 이름, 기존 자원/State 존재 여부 | READY: 데모 이름 선택, 데모 Bucket 미생성; State Bucket은 별도 생성 완료 |
+| OIDC | 기존 Provider ARN/소유자, audience(client ID), TLS 신뢰, exact subject | PASS: 신규 Provider 생성, exact audience/subject 대조; State의 create_oidc_provider=true 유지 |
+| 배포 | Plan/Apply Role ARN, SCP/Permission Boundary, 실제 IAM API 허용 여부 | PARTIAL: Plan/Apply Role 생성·exact IAM PASS; 실제 HCP OIDC Run/AssumeRole은 미검증 |
 | Git 준비 저장소 | `Byeongwook-Heo/terraform-ai-mcp-demo`, `main` | PASS: Public, Phase 1 PR #1 병합. 사용자 요청으로 main에서 후속 작업 |
 | Git 후속 게시 | Module/Root/Policy 게시 저장소, HCP VCS 권한, branch protection/reviewer | BLOCKED: 준비 저장소 게시와 별개로 확정·승인 필요 |
-| State | 호스트/Identity Root의 암호화 저장·잠금·백업, 소유권/정리 절차 | READY: HCP Local State 2개 계획 완료; 실제 생성 승인 대기 |
-| Secret 절차 | 짧은 조회 Token 발급자·Team 권한·런타임 주입·회수, Client Private Key 보관 | BLOCKED: 절차 확정 필요 |
+| State | 호스트/Identity Root의 암호화 저장·잠금·백업, 소유권/정리 절차 | PASS: 실제 S3 SSE-S3/Versioning/native lockfile/계정 제한/백업; HCP Local State 미사용 |
+| Secret 절차 | 짧은 조회 Token 발급자·Team 권한·런타임 주입·회수, Client Private Key 보관 | PARTIAL: 전용 Private Key 로컬 0600, Token 없는 거부 PASS; 최소 조회 Token 발급·주입·회수 필요 |
 
-승인은 별도로 다음 범위를 명시해야 합니다.
+AWS 생성 승인은 적용했고 실제 State/설치·연결 결과는 [AWS 생성 후 재개](../docs/11-aws-created.md)에 있습니다. 아래는 전체 승인 경계이며 1번 기반 인프라 생성은 완료했습니다. 후속 HCP/게시/Token/데모 Apply/정리 범위는 별도로 확인합니다.
 
 1. 실제 계정/Region/VPC/Subnet에서 EC2/EBS/SG/SSM Profile/필요 IAM/OIDC 생성·변경, 예상 비용과 대상 State.
 2. 승인된 기존 Git 게시 저장소 또는 새 게시 저장소 생성, Module Version Tag 게시, HCP Registry/Workspace/Policy Set 등록·설정.
@@ -47,3 +47,7 @@ NAT/ALB/VPC endpoint 등 추가 비용 구성, 직접 SSH Inbound /32, 인증된
 ## 위임된 선택 완료 — 2026-09-30
 
 VPC/Subnet/AMI, Owner/Bucket 이름, State는 위임받아 선택·검토했습니다. 같은 값을 재요청하지 않습니다. 남은 것은 구체적인 실제 생성 범위 승인, 실부팅/SSM/MCP 검증, 후속 Registry/Policy/VCS 범위, 최소 조회 Token입니다. 첫 변경 대상·비용·State·정리안은 docs/10-operator-state-and-review.md 및 Git 제외 생성 계획에 있습니다. 이전 미정 기록은 당시의 이력입니다.
+
+## AWS 생성 승인 적용 — 2026-09-30
+
+기존 기본값 위임과 명시적 AWS 생성 승인으로 Host/Identity/S3 State Bucket 생성·검증을 완료했습니다. HCP Workspace는 생성하지 않았고 예정 이름 3개 GET은 404입니다. 실제 State는 S3이므로 HCP Local State Workspace 2개 생성은 필요하지 않습니다. 다음 HCP 대상은 mcp-demo Project/aws-ai-demo Remote Workspace(auto_apply=false)이며 실제 Role ARN을 채운 설정 제안은 로컬 artifact에 있습니다. 앞선 AWS 생성/State/네트워크/이름 승인을 다시 요청하지 않습니다.

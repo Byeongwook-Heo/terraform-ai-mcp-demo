@@ -5,7 +5,7 @@
 세미나 주제는 “딸깍의 진화: AI로 딸깍, 검증은 Terraform으로”이다.
 AI가 실제 Private Registry Module을 조회해 변경안을 작성하고, 실제 AWS 변경은 Terraform의 Plan·Policy·담당자 승인 후 수행하는 데모를 만든다.
 
-이 파일은 구현 기준이다. 실행 코드와 격리 검증은 main에 있으며, 최신 완료 상태는 `reports/progress.md`와 `reports/cloud-completion.md`를 확인한다. 실제 AWS/HCP 배포 결과는 아직 없다.
+이 파일은 구현 기준이다. 실행 코드와 격리 검증은 main에 있으며, 최신 완료 상태는 `reports/progress.md`와 `reports/cloud-completion.md`를 확인한다. AWS 기반 인프라의 실제 생성·검증 결과는 `docs/11-aws-created.md`에 있다. HCP 설정·Private Registry 시연은 아직 수행하지 않았다. 아래 Phase별 범위는 초기 구현 기준이며 최신 승인/상태는 `AGENTS.md`와 보고서를 우선한다.
 고객의 Azure 환경을 재현하는 작업이 아니다. 테스트 대상은 AWS이며 고객 환경은 변경하지 않는다.
 기존 TFE VM은 초기 구성에서 사용하지 않는다. HCP Terraform을 기준으로 작성하되, 실제 사용 가능 Organization과 Sentinel entitlement는 운영자가 확인한다.
 HCP Terraform에서 검증한 화면을 TFE 화면 또는 TFE 전체 호환성 검증이라고 소개하지 않는다.

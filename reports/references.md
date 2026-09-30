@@ -97,3 +97,15 @@ MCP Git tag commit: `943a44eb28dc58432b34efdf08f7fc846adc446d`. AWS Provider tag
 - https://releases.hashicorp.com/terraform/1.13.5/ — darwin_arm64 ZIP/SHA256SUMS 대조 PASS, 1.13.5/AWS 6.14.1 실제 init/validate/조회 Plan.
 - https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/ap-northeast-2/index.json — 서울 카탈로그 스트리밍 GET에서 t3.small Linux Shared와 gp3 두 SKU/term을 직접 추출. version/publicationDate/단가를 seoul-host-price-20260930.json에 보존.
 - https://aws.amazon.com/ec2/pricing/on-demand/ 및 https://aws.amazon.com/ebs/pricing/ — 비용 요소 확인. awsstatic meteredUnitMaps 추정 URL은 HTTP 오류로 실패해 근거로 사용하지 않음.
+
+## AWS 생성 후 운영 근거 — 2026-09-30
+
+실제 인증 조회·AWS 배포 결과는 aws-deployment-20260930.json에 별도로 기록했습니다. 앞선 계정 조회 미수행/EC2 버전 미확인 문장은 초기 검증 이력입니다. 실제 Host에서 AL2023 2023.12.20260918/Docker 25.0.16/SSM Agent 3.3.4624.0을 확인했습니다. 고정 Terraform 1.13.5/AWS Provider 6.14.1을 유지했습니다.
+
+| 공식 URL | 확인 범위 |
+|---|---|
+| https://developer.hashicorp.com/terraform/language/backend/s3 | S3 State, use_lockfile, Versioning 권고, allowed_account_ids와 자격증명 환경 전달 |
+| https://man.openbsd.org/sshd#AUTHORIZED_KEYS_FILE_FORMAT | 공개 authorized_keys, 소유권/쓰기 제한, restrict/forced command; 실제 sshd 로그·사용자 읽기 검사·재연결로 설치 수정 대조 |
+| https://developer.hashicorp.com/terraform/cloud-docs/workspaces/settings | Local/Remote 실행 차이; 실제 운영 State는 S3이며 HCP State Workspace 미생성 |
+
+문서 기능 설명은 실제 계정 권한 성공을 보장하지 않습니다. OIDC 생성과 exact IAM 조회는 PASS이나 실제 HCP Run의 AssumeRole/Policy/Apply는 미수행입니다.

@@ -1,5 +1,13 @@
 # Cloud 준비 완료 범위
 
+2026-09-30 KST 최신 상태: **AWS 기반 인프라 생성·검증 PASS, HCP Workspace 미생성**입니다. 사용자 AWS 생성 승인 후 Host 6개/Identity 5개를 새 S3 backend Plan으로 Apply했고, 전용 State Bucket 1개는 별도 bootstrap으로 생성했습니다. 배포 후 두 실제 Plan은 변경 없음(exit 0), EC2 running/상태 검사 ok/SSM Online을 재확인했습니다.
+
+실제 EC2의 MCP 고정 Image·Mock 프로토콜, SSH over SSM 공개키 인증·host key 검사, HCP 공개 TLS ping·IMDS 차단은 PASS입니다. 최초 SSH 실패의 공개 authorized_keys 권한을 Root 0600→0644로 수정하고 재검증했습니다. 최소 조회 Token은 주입하지 않았으며 실제 Private Registry/AI Client 시연은 남았습니다.
+
+HCP 예정 Workspace GET 3개는 404이며 POST/PATCH/DELETE는 수행하지 않았습니다. 기존 HCP Local State 제안 대신 실제 State는 암호화·버전 관리·native lockfile을 적용한 S3에 있습니다. [실제 생성 후 재개 안내](../docs/11-aws-created.md)와 [비식별 실행 증거](aws-deployment-20260930.json)를 기준으로 이어갑니다. 이전 Cloud/CI 증거는 보존했고 설치 코드 수정의 새 credential-free CI는 게시 후 확인합니다.
+
+## 이전 준비·검증 기록
+
 최신 구현 Commit 2ddc772의 [CI Run 36693140577](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36693140577)도 전체 29개 PASS입니다. 다운로드 artifact에서 Python 24개/Mock Plan 14개/Sentinel 12개와 ZIP 재검사를 대조해 operator-ci-evidence-20260930에 별도로 보존했습니다. 최종 후속 Commit은 보고서와 문서 EOF 정리만 포함하며 실행 코드 변경은 없습니다.
 
 

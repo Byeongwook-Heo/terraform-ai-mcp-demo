@@ -26,7 +26,8 @@ chmod 0755 /home/mcp-client
 install -d -o root -g root -m 0755 /home/mcp-client/.ssh
 { printf '%s' 'restrict,command="sudo -n /opt/terraform-mcp/launch.sh" '; cat "$public_key_file"; printf '\n'; } > /home/mcp-client/.ssh/authorized_keys
 chown root:root /home/mcp-client/.ssh/authorized_keys
-chmod 0600 /home/mcp-client/.ssh/authorized_keys
+# sshd는 사용자 권한으로 공개키를 읽습니다. Root 소유와 쓰기 제한은 유지합니다.
+chmod 0644 /home/mcp-client/.ssh/authorized_keys
 printf '%s\n' 'mcp-client ALL=(root) NOPASSWD: /opt/terraform-mcp/launch.sh ""' > /etc/sudoers.d/terraform-mcp
 chmod 0440 /etc/sudoers.d/terraform-mcp
 visudo -cf /etc/sudoers.d/terraform-mcp

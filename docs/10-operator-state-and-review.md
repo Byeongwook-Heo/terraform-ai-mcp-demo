@@ -1,5 +1,9 @@
 # 운영 State와 실제 계정 Plan 검토
 
+이 문서는 AWS 생성 승인 **전** 검토 이력입니다. 승인 후 실제 Host/Identity는 HCP Workspace를 만들지 않고 별도 S3 backend에 배포했습니다. 현재 상태와 운영 재개는 [11-aws-created.md](11-aws-created.md)를 우선합니다. 아래 HCP Local State와 첫 HCP 생성 범위는 적용되지 않은 초기 제안입니다.
+
+## 이전 준비·검증 기록
+
 사용자는 2026-09-30 네트워크, State, Owner/Bucket 이름의 선택을 위임했습니다. 조회한 기존 환경에서 선택한 값은 Git 제외 configs/demo-inputs.local.json에 보관합니다. 같은 선택을 다시 요청하지 않습니다.
 
 | 범위 | 선택 |
