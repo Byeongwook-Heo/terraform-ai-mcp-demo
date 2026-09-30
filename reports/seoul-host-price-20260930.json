@@ -1,0 +1,115 @@
+{
+  "source": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/ap-northeast-2/index.json",
+  "region": "ap-northeast-2",
+  "checked_at": "2026-09-30",
+  "products": {
+    "MTK7D9SGKGYR3JD6": {
+      "sku": "MTK7D9SGKGYR3JD6",
+      "productFamily": "Storage",
+      "attributes": {
+        "servicecode": "AmazonEC2",
+        "location": "Asia Pacific (Seoul)",
+        "locationType": "AWS Region",
+        "storageMedia": "SSD-backed",
+        "volumeType": "General Purpose",
+        "maxVolumeSize": "64 TiB",
+        "maxIopsvolume": "80000",
+        "maxThroughputvolume": "2000 MiB/s",
+        "usagetype": "APN2-EBS:VolumeUsage.gp3",
+        "operation": "",
+        "regionCode": "ap-northeast-2",
+        "servicename": "Amazon Elastic Compute Cloud",
+        "volumeApiName": "gp3"
+      }
+    },
+    "PZHVQ3KFPA3RHA5V": {
+      "sku": "PZHVQ3KFPA3RHA5V",
+      "productFamily": "Compute Instance",
+      "attributes": {
+        "servicecode": "AmazonEC2",
+        "location": "Asia Pacific (Seoul)",
+        "locationType": "AWS Region",
+        "instanceType": "t3.small",
+        "currentGeneration": "Yes",
+        "instanceFamily": "General purpose",
+        "vcpu": "2",
+        "physicalProcessor": "Intel Skylake E5 2686 v5",
+        "clockSpeed": "3.1 GHz",
+        "memory": "2 GiB",
+        "storage": "EBS only",
+        "networkPerformance": "Up to 5 Gigabit",
+        "processorArchitecture": "64-bit",
+        "tenancy": "Shared",
+        "operatingSystem": "Linux",
+        "licenseModel": "No License required",
+        "usagetype": "APN2-BoxUsage:t3.small",
+        "operation": "RunInstances",
+        "availabilityzone": "NA",
+        "capacitystatus": "Used",
+        "classicnetworkingsupport": "false",
+        "dedicatedEbsThroughput": "Up to 2085 Mbps",
+        "dedicatedEbsThroughputDescription": "174 Mbps",
+        "ecu": "NA",
+        "enhancedNetworkingSupported": "No",
+        "gpuMemory": "NA",
+        "instanceFamilyCategory": "General Purpose",
+        "intelAvxAvailable": "Yes",
+        "intelAvx2Available": "Yes",
+        "intelTurboAvailable": "Yes",
+        "marketoption": "OnDemand",
+        "normalizationSizeFactor": "1",
+        "preInstalledSw": "NA",
+        "processorFeatures": "AVX; AVX2; Intel AVX; Intel AVX2; Intel AVX512; Intel Turbo",
+        "regionCode": "ap-northeast-2",
+        "servicename": "Amazon Elastic Compute Cloud",
+        "vpcnetworkingsupport": "true"
+      }
+    }
+  },
+  "on_demand_terms": {
+    "MTK7D9SGKGYR3JD6": {
+      "MTK7D9SGKGYR3JD6.JRTCKXETXF": {
+        "offerTermCode": "JRTCKXETXF",
+        "sku": "MTK7D9SGKGYR3JD6",
+        "effectiveDate": "2026-09-01T00:00:00Z",
+        "priceDimensions": {
+          "MTK7D9SGKGYR3JD6.JRTCKXETXF.6YS6EN2CT7": {
+            "rateCode": "MTK7D9SGKGYR3JD6.JRTCKXETXF.6YS6EN2CT7",
+            "description": "$0.0912 per GB-month of General Purpose (gp3) provisioned storage - Asia Pacific (Seoul)",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "GB-Mo",
+            "pricePerUnit": {
+              "USD": "0.0912000000"
+            },
+            "appliesTo": []
+          }
+        },
+        "termAttributes": {}
+      }
+    },
+    "PZHVQ3KFPA3RHA5V": {
+      "PZHVQ3KFPA3RHA5V.JRTCKXETXF": {
+        "offerTermCode": "JRTCKXETXF",
+        "sku": "PZHVQ3KFPA3RHA5V",
+        "effectiveDate": "2026-09-01T00:00:00Z",
+        "priceDimensions": {
+          "PZHVQ3KFPA3RHA5V.JRTCKXETXF.6YS6EN2CT7": {
+            "rateCode": "PZHVQ3KFPA3RHA5V.JRTCKXETXF.6YS6EN2CT7",
+            "description": "$0.026 per On Demand Linux t3.small Instance Hour",
+            "beginRange": "0",
+            "endRange": "Inf",
+            "unit": "Hrs",
+            "pricePerUnit": {
+              "USD": "0.0260000000"
+            },
+            "appliesTo": []
+          }
+        },
+        "termAttributes": {}
+      }
+    }
+  },
+  "version": "20260925174521",
+  "publicationDate": "2026-09-25T17:45:21Z"
+}

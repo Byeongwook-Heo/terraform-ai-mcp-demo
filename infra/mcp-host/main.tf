@@ -76,6 +76,13 @@ resource "aws_instance" "mcp" {
   iam_instance_profile        = aws_iam_instance_profile.ssm.name
   user_data                   = file("${path.module}/bootstrap.sh")
   user_data_replace_on_change = true
+  dynamic "credit_specification" {
+    # 짧은 데모의 기본 비용을 예측할 수 있도록 T3 surplus credit 과금을 방지합니다.
+    for_each = startswith(var.instance_type, "t3.") || startswith(var.instance_type, "t3a.") || startswith(var.instance_type, "t2.") ? [1] : []
+    content {
+      cpu_credits = "standard"
+    }
+  }
   lifecycle {
     precondition {
       condition = (

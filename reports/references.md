@@ -89,3 +89,11 @@ MCP Git tag commit: `943a44eb28dc58432b34efdf08f7fc846adc446d`. AWS Provider tag
 - https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-images.html — Name/Architecture/State/Root device/Virtualization 필터, 같은 필터의 여러 값은 OR, 서로 다른 필터는 AND, executable-users self의 공유 AMI 조회 범위를 확인했습니다. Allowed AMIs와 이름 필터는 다른 개념입니다.
 - https://developer.hashicorp.com/terraform/language/tests/mocking — mock_provider와 override_data의 computed metadata 대체 및 Provider 미호출을 확인했습니다. 선택 버전 Terraform 1.13.5 + AWS Provider 6.14.1에서 실제 Mock Plan을 CI로 확인합니다.
 - Provider 6.14.1의 Registry 및 GitHub 문서 retrieval은 실패했습니다. 지원 여부는 고정 버전의 init/validate/Mock Plan으로 별도 검증하며 retrieval 실패를 문서 확인 성공으로 기록하지 않습니다.
+
+## 운영 기본값·State·실제 Plan — 2026-09-30
+
+- https://developer.hashicorp.com/terraform/cloud-docs/workspaces/settings — Local 실행은 CLI에서 실행하고 HCP State를 사용하며 Workspace 변수/Variable Set을 평가하지 않음; Remote 실행의 Sentinel 지원 확인.
+- https://developer.hashicorp.com/terraform/cloud-docs/api-docs/organizations — 실제 entitlement-set GET과 조직 GET을 구분. Plan identifier만으로 기능을 판정하지 않음.
+- https://releases.hashicorp.com/terraform/1.13.5/ — darwin_arm64 ZIP/SHA256SUMS 대조 PASS, 1.13.5/AWS 6.14.1 실제 init/validate/조회 Plan.
+- https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/ap-northeast-2/index.json — 서울 카탈로그 스트리밍 GET에서 t3.small Linux Shared와 gp3 두 SKU/term을 직접 추출. version/publicationDate/단가를 seoul-host-price-20260930.json에 보존.
+- https://aws.amazon.com/ec2/pricing/on-demand/ 및 https://aws.amazon.com/ebs/pricing/ — 비용 요소 확인. awsstatic meteredUnitMaps 추정 URL은 HTTP 오류로 실패해 근거로 사용하지 않음.

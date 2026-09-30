@@ -1,0 +1,190 @@
+{
+  "scope": "delegated-defaults-and-read-only-plan",
+  "checked_at": "2026-09-30T08:56:00.636658+00:00",
+  "aws_hcp_changes": false,
+  "private_identifiers_in_git": false,
+  "delegated_choices": [
+    "existing-private-subnet",
+    "HCP-local-State",
+    "single-allowed-AL2023-AMI",
+    "Owner/Bucket-name"
+  ],
+  "aws_network": {
+    "route": "active-existing-same-AZ-NAT",
+    "vpc_dns_support": true,
+    "vpc_dns_hostnames": true,
+    "nacl_metadata": "PASS",
+    "public_ip": false,
+    "new_vpc_or_nat": false,
+    "live_connectivity": "NOT_TESTED"
+  },
+  "hcp_entitlements": {
+    "sentinel": true,
+    "policy_enforcement": true,
+    "private_module_registry": true,
+    "state_storage": true,
+    "existing_policy_sets": 0,
+    "real_policy_run": "NOT_TESTED"
+  },
+  "identity_discovery": {
+    "oidc_provider_get": "NoSuchEntity",
+    "three_planned_role_gets": "NoSuchEntity",
+    "oidc_create_plan": true
+  },
+  "state": {
+    "choice": "HCP Terraform local execution",
+    "workspaces": [
+      "mcp-host-state",
+      "hcp-aws-identity-state"
+    ],
+    "workspace_get_responses": [
+      404,
+      404
+    ],
+    "global_remote_state": false,
+    "workspace_creation": "PENDING_SCOPED_APPROVAL",
+    "backup": "HCP State version history; retain after resource cleanup"
+  },
+  "terraform_review": {
+    "scope": "read-only-new-resource-review",
+    "external_changes": false,
+    "existing_state_read": false,
+    "review_plan_apply_allowed": false,
+    "terraform": "1.13.5",
+    "provider": "hashicorp/aws 6.14.1",
+    "roots": {
+      "mcp-host": {
+        "init": {
+          "status": "PASS",
+          "exit_code": 0
+        },
+        "validate": {
+          "status": "PASS",
+          "exit_code": 0
+        },
+        "plan": {
+          "status": "PASS",
+          "exit_code": 2
+        },
+        "changes": [
+          {
+            "address": "aws_iam_instance_profile.ssm",
+            "actions": [
+              "create"
+            ]
+          },
+          {
+            "address": "aws_iam_role.ssm",
+            "actions": [
+              "create"
+            ]
+          },
+          {
+            "address": "aws_iam_role_policy_attachment.ssm",
+            "actions": [
+              "create"
+            ]
+          },
+          {
+            "address": "aws_instance.mcp",
+            "actions": [
+              "create"
+            ]
+          },
+          {
+            "address": "aws_security_group.mcp",
+            "actions": [
+              "create"
+            ]
+          },
+          {
+            "address": "aws_vpc_security_group_egress_rule.https[\"0.0.0.0/0\"]",
+            "actions": [
+              "create"
+            ]
+          }
+        ],
+        "create_count": 6
+      },
+      "hcp-aws-identity": {
+        "init": {
+          "status": "PASS",
+          "exit_code": 0
+        },
+        "validate": {
+          "status": "PASS",
+          "exit_code": 0
+        },
+        "plan": {
+          "status": "PASS",
+          "exit_code": 2
+        },
+        "changes": [
+          {
+            "address": "aws_iam_openid_connect_provider.hcp[0]",
+            "actions": [
+              "create"
+            ]
+          },
+          {
+            "address": "aws_iam_role.run[\"apply\"]",
+            "actions": [
+              "create"
+            ]
+          },
+          {
+            "address": "aws_iam_role.run[\"plan\"]",
+            "actions": [
+              "create"
+            ]
+          },
+          {
+            "address": "aws_iam_role_policy.s3[\"apply\"]",
+            "actions": [
+              "create"
+            ]
+          },
+          {
+            "address": "aws_iam_role_policy.s3[\"plan\"]",
+            "actions": [
+              "create"
+            ]
+          }
+        ],
+        "create_count": 5
+      }
+    }
+  },
+  "local_tests": {
+    "python_unit": {
+      "status": "PASS",
+      "count": 24
+    },
+    "publication_zip": "PASS",
+    "static_preflight": "PASS",
+    "mock_plan_runs_reviewed": 14
+  },
+  "pricing": {
+    "source": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/ap-northeast-2/index.json",
+    "catalog_version": "20260925174521",
+    "catalog_publication_date": "2026-09-25T17:45:21Z",
+    "t3_small_usd_per_hour": 0.026,
+    "gp3_usd_per_gib_month": 0.0912,
+    "gp3_gib": 20,
+    "base_730_hours_usd": 20.804,
+    "base_day_730_hour_proration_usd": 0.6839671232876712,
+    "additional_usage": [
+      "existing NAT processing",
+      "data transfer",
+      "HCP contract/usage"
+    ],
+    "cpu_credits": "standard"
+  },
+  "next_scope": {
+    "aws_new_managed_resources": 11,
+    "hcp_new_project": 1,
+    "hcp_local_state_workspaces": 2,
+    "approval": "PENDING",
+    "real_ec2_boot_ssm_mcp": "NOT_TESTED"
+  }
+}

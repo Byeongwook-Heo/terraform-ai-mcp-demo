@@ -1,5 +1,8 @@
 # 작업 진행·검증 기록
 
+최신 상태: 2026-09-30 운영 기본값 선택을 위임받아 기존 Private Subnet/허용 AL2023 AMI/HCP Local State/Owner·Bucket 이름을 준비했습니다. 실제 계정의 Host 6개/Identity 5개 신규 Plan(init/validate 포함) PASS, 수정·삭제 0개. Python 24개/ZIP/정적 검사 PASS. AWS/HCP 생성·Apply·MCP 실연결은 미수행이며 구체적인 첫 생성 범위만 승인 대기입니다. operator-preparation-20260930.json과 docs/10-operator-state-and-review.md를 확인합니다. 아래 기록은 해당 시점의 이력입니다.
+
+
 ## 현재 작업 기준 — 최신 main
 
 최신 상태: 2026-09-30 17:20 KST 사용자 승인 후 AWS STS·EC2 AMI와 HCP 조직 GET 실제 조회/재대조 PASS. 재첨부 ZIP의 3개 지침을 읽었으며 ZIP에 없는 2개 보고서는 main에서 읽었습니다. 실제 변경은 미수행입니다. 상세는 마지막 읽기 전용 조회 기록과 read-only-discovery-20260930.json을 확인합니다. 아래 이전 BLOCKED는 각 작업 당시 기록입니다.
@@ -216,3 +219,13 @@ HCP는 사용자 Token 파일을 메모리에서만 파싱하여 GET /organizati
 `configs/demo-inputs.local.json`에 검증한 Account/Organization만 기록했습니다. 후보 AMI는 승인된 배포 ID로 자동 지정하지 않았으며 ami_id는 null입니다. VPC/Subnet/Owner/Bucket/OIDC/State 등도 미정으로 유지했습니다. `python scripts/prepare-demo.py --config configs/demo-inputs.local.json --output .artifacts/discovered-preparation-20260930`으로 조직별 Root 파일과 게시 ZIP 3개 생성 PASS; `verify-prepared-demo.py` SHA256/내용 검사 PASS. mcp-host/Identity/Workspace/Client 입력은 계속 BLOCKED입니다. 이 결과는 파일 준비이며 Registry 게시·연결 성공이 아닙니다.
 
 이번 변경은 보고서 상태 갱신뿐입니다. JSON/Secret 정적 검사, git diff --check와 로컬 입력/artifact git-ignore 확인을 수행합니다. 실행 코드를 바꾸지 않아 CI Run 36688256340의 29개 PASS/20개 unit/14개 Mock Plan 결과를 유지합니다. 실제 AWS/HCP 변경, Secret 등록, MCP 실조회, Module Tag 게시, Apply/Destroy는 수행하지 않았습니다.
+
+## 운영 기본값 위임·State 준비·실제 읽기 전용 Plan — 2026-09-30
+
+사용자는 네트워크, State, Owner/Bucket 이름을 맡겼습니다. 이 선택을 다시 요청하지 않고 승인된 자격증명으로 기존 EC2 네트워크/DNS/NACL/AMI를 조회했습니다. 같은 AZ active NAT를 가진 Private App Subnet을 선택했고 기존 네트워크/TFE를 수정하지 않았습니다. HCP entitlement GET에서 Sentinel/Private Registry/State 저장이 활성, Policy Set 0개로 확인됐습니다. 조직 plan identifier만 보고 기능을 판정하지 않았습니다. 대상 OIDC/Role GET은 NoSuchEntity, 새 State Workspace 이름 GET은 404로 기록했습니다. 생성 직전 충돌을 다시 확인해야 합니다.
+
+변경: scripts/operator_preparation.py, prepare-operator-workspaces.py, tests/unit/test_operator_preparation.py, docs/10-operator-state-and-review.md. Host credit_specification은 T2/T3/T3a에 Standard를 설정하여 surplus credit 과금을 방지하고 다른 클래스에는 해당 설정을 전달하지 않습니다. 기존 Cloud 보고서/lockfile/조회 응답은 보존합니다. 새 생성기는 실제 API/Terraform을 호출하지 않고 검토 Root, 비활성 HCP cloud overlay, Local State 설정 2개, SHA256과 기존 게시물만 생성합니다. Secret/State/임의 파일/symlink/활성 backend를 차단하고 기존 출력은 거부합니다.
+
+검증: Python 24개 PASS, static_checks/preflight(14개 Mock run) PASS, pinned Terraform fmt PASS, 게시 ZIP 3개 검사 PASS. 공식 Terraform 1.13.5 darwin_arm64 SHA256 대조 후 실제 Provider 6.14.1 init/validate/조회 Plan을 격리 Root에서 수행했습니다. 최초 readonly lockfile 시도는 macOS hash 부족으로 validate FAIL; 사본 lockfile만 플랫폼 hash를 추가한 재시도와 Standard 모드 반영 최종 Plan은 PASS입니다. Host 6개/Identity 5개 신규, 수정/삭제 없음. STS 계정 일치 확인 후 Plan했고 HCP State/Token을 Plan에 주입하지 않았습니다. 전체 로그/Plan/실제 ID는 Git 제외 artifact에 둡니다. 검토 Plan은 Apply용이 아닙니다.
+
+비용: AWS 공식 서울 공개 카탈로그를 스트리밍 조회해 t3.small Linux Shared $0.026/h, gp3 $0.0912/GiB-month를 추출했습니다. 선택 SKU/term과 버전을 별도 seoul-host-price-20260930.json으로 보존합니다. 추정 awsstatic feed URL들은 HTTP 오류로 실패해 근거로 쓰지 않았습니다. 첫 생성 범위는 HCP Project 1개/Local State Workspace 2개와 AWS 11개입니다. 실제 생성·배포·Registry 게시·Policy Run·S3 Apply·Token 등록은 전혀 수행하지 않았습니다. 새 실행 코드의 전체 Linux CI는 main 게시 후 확인합니다.

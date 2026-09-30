@@ -68,3 +68,10 @@
 - EC2에 사용할 AMI 이름은 `hc-base-*` 또는 `hc-security-base-*` 두 패턴만 허용한다. 다른 Amazon 기본 AMI로 대체하지 않는다.
 - 명시적인 AMI ID와 실제 Name/Architecture/Owner를 조회로 확인한다. 이름만으로 AL2023/SSM 호환성이나 계정 정책 허용을 확정하지 않는다.
 - 다운로드 폴더에 사용자가 지정한 AWS credentials/HCP token 파일이 존재한다. 파일 내용·값을 보고서/Git에 남기지 않는다. 존재 확인은 API 인증 또는 배포 승인과 다르다.
+
+## 운영 기본값 위임 — 2026-09-30
+
+- 사용자는 네트워크, State, Owner/Bucket 이름 선택을 맡겼다. 확인 가능한 기존 환경에서 선택하고 같은 선택을 다시 질문하지 않는다.
+- 실제 입력/전체 조회/Plan은 Git 제외 local 파일과 artifact에, 공개 보고서는 비식별 요약으로 둔다.
+- 신규 자원 검토 Plan은 기존 State 연결 없이 수행하고 Apply하지 않는다. 실제 배포는 HCP Local State 연결 후 다시 Plan한다.
+- 실제 생성·변경·삭제는 선택 위임과 구분해 구체적인 대상·비용·State·승인 범위를 확인한다.

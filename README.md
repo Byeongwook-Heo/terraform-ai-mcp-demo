@@ -15,6 +15,7 @@ AWS AI + Terraform MCP + HCP Private Registry 데모의 코드·검증·운영 �
 | `configs/demo-inputs.example.json` | 계정별 비민감 입력; 미정값은 null |
 | `scripts/prepare-demo.py` | 게시용 ZIP 3개, SHA256, 확인된 입력 파일 생성 |
 | `scripts/verify-prepared-demo.py` | 생성·다운로드한 ZIP의 SHA256, 필수 파일, 경로·형식·Secret 패턴 검사 |
+| `scripts/prepare-operator-workspaces.py` | 실제 Plan 검토 사본과 별도 HCP Local State 설정 생성; 외부 변경 없음 |
 | `scripts/rehearse-demo.py` | Root만 수정하는 정상/누락/수정 정책 리허설 |
 | `scripts/validate-phase1.sh` | 자격증명 없는 전체 검증과 Mock MCP 조회 |
 | `docs/`, `reports/` | 한국어 운영 절차, 검증 증거와 실제 연결 제한 |
@@ -32,3 +33,5 @@ python3 scripts/verify-prepared-demo.py --prepared .artifacts/prepared
 문서 순서: [사전 준비](docs/00-prerequisites.md) → [코드 검증](docs/01-code-validation.md) → [AWS 준비](docs/02-mobile-aws-setup.md) → [Registry/Workspace](docs/03-registry-and-workspace.md) → [MCP 연결](docs/04-mcp-connection.md) → [시연](docs/05-demo-and-recording.md) → [정리](docs/06-cleanup.md). [Cloud에서 가능한 준비](docs/09-cloud-preparation.md)와 [휴대폰 재개](docs/08-without-pc.md)도 확인하세요.
 
 CI는 자격증명 없는 검증만 실행합니다. 자동 Apply/Destroy, AWS/HCP 관리자 자격증명, 자동 Module Tag 게시는 포함하지 않습니다. 실제 환경의 대상·권한·State·비용과 시연 Client는 별도로 확인해야 합니다.
+
+네트워크·State·이름 선택은 사용자 위임에 따라 실제 조회한 값으로 준비했습니다. [운영 State와 실제 Plan](docs/10-operator-state-and-review.md)에 Host 6개/Identity 5개 신규 Plan, 공식 비용 근거와 첫 생성 범위를 기록했습니다. 실제 생성/Apply·MCP 실연결은 미수행입니다.

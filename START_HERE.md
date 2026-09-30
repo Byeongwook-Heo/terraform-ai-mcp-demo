@@ -28,3 +28,7 @@ python3 scripts/verify-prepared-demo.py --prepared .artifacts/prepared
 `validate-phase1.sh`의 파일명은 기존 문서와 호환되게 유지합니다. 현재는 Terraform/Sentinel/MCP 격리 검증, 시연 리허설과 게시 패키지 생성·검증을 함께 수행합니다. ZIP과 SHA256은 `.artifacts/prepared/`, 파일 준비 상태는 `readiness.json`에 있습니다. 다운로드한 ZIP을 검사할 때는 ZIP 3개, `checksums.json`, `readiness.json`을 같은 디렉터리에 모아 검증기에 지정합니다. 입력 미정에 따른 BLOCKED와 ZIP 검사 PASS는 서로 다른 결과이며 실제 배포를 의미하지 않습니다.
 
 전체 검증에는 Linux x86_64, Python 3.11 이상, ShellCheck와 Docker daemon이 필요합니다. 도구 또는 네트워크가 없으면 PASS로 처리하지 않습니다. 더 자세한 실행 순서는 [Cloud 준비 안내](docs/09-cloud-preparation.md)에 있습니다.
+
+## 위임된 운영 기본값과 실제 계정 검토
+
+네트워크·State·Owner/Bucket 선택은 완료했으며 같은 값을 다시 요청하지 않습니다. 비민감 입력은 Git 제외 configs/demo-inputs.local.json에 있습니다. Host/Identity 실제 읽기 전용 Plan과 [HCP Local State 준비](docs/10-operator-state-and-review.md)를 완료했습니다. 실제 변경 승인은 별도로 확인하며 검토 Plan은 Apply하지 않습니다.

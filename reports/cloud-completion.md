@@ -1,5 +1,8 @@
 # Cloud 준비 완료 범위
 
+최신 상태: 2026-09-30 운영 기본값 선택을 위임받아 기존 Private Subnet/허용 AL2023 AMI/HCP Local State/Owner·Bucket 이름을 준비했습니다. 실제 계정의 Host 6개/Identity 5개 신규 Plan(init/validate 포함) PASS, 수정·삭제 0개. Python 24개/ZIP/정적 검사 PASS. AWS/HCP 생성·Apply·MCP 실연결은 미수행이며 구체적인 첫 생성 범위만 승인 대기입니다. operator-preparation-20260930.json과 docs/10-operator-state-and-review.md를 확인합니다. 아래 기록은 해당 시점의 이력입니다.
+
+
 최신 상태: 2026-09-30 사용자가 명시적으로 승인한 AWS STS/EC2 AMI와 HCP 조직 읽기 전용 조회 및 재대조 PASS. ZIP의 지침 3개를 읽었고 ZIP에 없는 보고서 2개는 main에서 확인했습니다. 실제 리소스/설정 변경은 없으며 필요한 배포 입력은 여전히 미정입니다. 새 비식별 증거는 read-only-discovery-20260930.json 및 progress.md 마지막 기록을 확인합니다. 이전 BLOCKED는 과거 상태입니다.
 
 최신 추가 검증: AMI 보완 Commit `c404c34`의 [Run 36688256340](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36688256340)은 29개 검사 PASS입니다. Python 20개/Mock Plan 14개를 다운로드 artifact로 대조했고 ZIP 재검사도 PASS입니다. 기존 Cloud 보고서와 별도로 ami-ci-evidence-20260930에 보존했습니다. 실제 AWS/HCP 조회·변경과 추가 handoff ZIP 읽기는 BLOCKED입니다. 아래 이전 보고서는 해당 작업 당시의 이력입니다.
