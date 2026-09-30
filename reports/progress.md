@@ -124,3 +124,15 @@ GitHub user/installations 조회에서 `chatgpt-codex-connector`의 contents/wor
 ## GitHub 연결 복구와 main 게시 재개 — 2026-09-30T15:32:47+09:00
 
 GitHub 인증 계정 Byeongwook-Heo, 설치 110044473의 suspended_at=null과 contents/workflows/actions write를 확인했습니다. 원격 main은 기존 Phase 1 Commit 그대로였습니다. 일반 Git Push는 HTTP 401 전송 오류로 실패했고, API/ls-remote로 원격이 변경되지 않았음을 확인했습니다. 실제 준비 파일의 create_blob은 PASS입니다. 이전 403 차단은 해제됐으며 검증한 코드의 Git Data API 게시를 재개합니다. 코드 변경 없이 기존 전체 28개 PASS 결과를 유지합니다.
+
+### main 게시 성공 — 2026-09-30T15:39:04+09:00
+
+create_tree → create_commit → update_ref(force=false)가 모두 PASS입니다. GitHub tree `2d3fcf29c65579024aedc6cc68ec1c3de7160719`가 검토한 로컬 main tree와 일치했고 원격 main은 구현 Commit `faf4b2ce11222d3546306be1dabfdbf09a9b20e3`로 갱신됐습니다. fetch 후 git diff --exit-code HEAD origin/main이 PASS입니다. 같은 파일 tree임을 확인한 뒤 git reset --soft origin/main으로 작업 main도 원격에 맞췄습니다. 새로운 작업 Branch를 만들지 않았습니다.
+
+main 게시 직후 자동 Run이 없어 active workflow를 workflow_dispatch로 실행했습니다. 검증 Run은 36679127805이며 실제 conclusion을 확인한 뒤 최종 상태를 기록합니다. 원격 CI와 이전 로컬 검증을 구분합니다. AWS/HCP 실환경 자격증명이나 계정값은 여전히 제공되지 않아 실제 리소스 변경은 수행하지 않습니다.
+
+### GitHub Actions 검증 성공
+
+[Run 36679127805](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805)의 status=completed, conclusion=success와 head_sha=`faf4b2ce11222d3546306be1dabfdbf09a9b20e3`를 API 및 gh run watch --exit-status(종료 코드 0)로 확인했습니다. validate Job과 도구 설치/전체 검증/게시 패키지 생성/증거 업로드 Step이 모두 success입니다. artifact `cloud-preparation-faf4b2ce11222d3546306be1dabfdbf09a9b20e3`(ID 11080114938, 21465 bytes, expired=false)를 확인했습니다.
+
+게시·완료·저장소·진행 보고서 4개만 최종 상태로 갱신했습니다. 실행 코드 변경이 없으므로 통과한 전체 검증을 유지하고 JSON 파싱/정적 검사/git diff --check를 수행합니다. GitHub main 게시를 보고서까지 마무리하며 실제 AWS/HCP 변경은 수행하지 않습니다.

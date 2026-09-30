@@ -9,7 +9,9 @@
 | 기본·후속 작업 Branch | main |
 | Phase 1 PR | [PR #1](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/pull/1), 병합 완료 |
 | Phase 1 병합 Commit | f7299c10fa1b9376988644d85983d6e24f5add70 |
-| 후속 원격 반영 | 연동 설치 active, Git Data API 쓰기 PASS; 게시 확인은 cloud-publication.json |
+| 후속 원격 반영 | PASS: Git Data API로 main 게시, 원격 tree/파일 일치 확인 |
+| 구현 게시 Commit | faf4b2ce11222d3546306be1dabfdbf09a9b20e3 |
+| 원격 CI | [Run 36679127805 PASS](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805); 구현 게시 Commit 검증 |
 | 후속 게시 방식 | 사용자가 main 직접 반영을 명시적으로 요청; 새 작업 Branch 없이 main 갱신 |
 | 작업 경로 | `/workspace/terraform-ai-mcp-demo` |
 
@@ -19,4 +21,4 @@
 
 main 게시 범위는 이 준비 저장소입니다. Module/Root/Policy의 다른 저장소, Registry version/Tag, HCP Workspace/Policy 또는 AWS 리소스 변경은 별도의 실제 대상과 입력·접근 조건을 확인해야 합니다. 자동 Apply/Destroy를 포함하지 않습니다.
 
-연동 설치의 중지는 해제됐습니다. 일반 Git 전송은 401로 실패하여 연결된 GitHub 앱의 Git Data API로 게시합니다. 최신 원격 main을 확인하고 force 없이 갱신하며, 최종 상태는 `cloud-publication.json`을 확인합니다.
+연동 설치의 중지는 해제됐습니다. 일반 Git 전송은 401로 실패했지만 연결된 GitHub 앱의 Git Data API로 main 게시를 완료했습니다. force=false로 기존 이력을 보존하고 원격 파일 일치를 확인했습니다. 구현 게시 후 상태 보고서만 갱신하는 Commit이 이어질 수 있으며 최신 main의 게시·CI 상태는 `cloud-publication.json`을 확인합니다.

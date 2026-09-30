@@ -1,5 +1,5 @@
 {
-  "status": "IN_PROGRESS",
+  "status": "PASS",
   "repository": "Byeongwook-Heo/terraform-ai-mcp-demo",
   "target_branch": "main",
   "checked_at": "2026-09-30T15:32:47+09:00",
@@ -56,5 +56,37 @@
       }
     ],
     "resume": "Confirm installation is active, recheck remote main, then fast-forward publish validated files without force."
+  },
+  "published_at": "2026-09-30T15:39:04+09:00",
+  "implementation_commit": "faf4b2ce11222d3546306be1dabfdbf09a9b20e3",
+  "published_tree": "2d3fcf29c65579024aedc6cc68ec1c3de7160719",
+  "remote_matches_reviewed_files": true,
+  "changed_files": 40,
+  "verification": [
+    "main ref read",
+    "git fetch origin main",
+    "git diff --exit-code HEAD origin/main"
+  ],
+  "remote_ci": {
+    "run_id": 36679127805,
+    "head_sha": "faf4b2ce11222d3546306be1dabfdbf09a9b20e3",
+    "status": "PASS",
+    "event": "workflow_dispatch",
+    "url": "https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805",
+    "workflow_status": "completed",
+    "conclusion": "success",
+    "completed_at": "2026-09-30T06:37:46Z",
+    "checked_at": "2026-09-30T15:44:11+09:00",
+    "validation_job": "success",
+    "validation_step": "success",
+    "package_preparation_step": "success",
+    "artifact_upload_step": "success",
+    "artifact": {
+      "id": 11080114938,
+      "name": "cloud-preparation-faf4b2ce11222d3546306be1dabfdbf09a9b20e3",
+      "size_in_bytes": 21465,
+      "expired": false,
+      "url": "https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805/artifacts/11080114938"
+    }
   }
 }

@@ -2,7 +2,7 @@
 
 2026-09-30 UTC. 기준은 공개 저장소 `Byeongwook-Heo/terraform-ai-mcp-demo`의 main입니다. 사용자는 main 직접 반영과 Phase 2 이후까지 가능한 Cloud 작업을 요청했습니다. Phase 1 PR #1은 이미 병합된 상태에서 이어서 작업했습니다.
 
-연동 앱의 일시 중지가 해제됐고 실제 파일 게시 API 쓰기 확인이 PASS입니다. 검증한 준비물의 main 게시를 재개합니다. 최신 게시 상태와 Commit은 `cloud-publication.json`을 확인합니다.
+**main 게시 PASS.** 연동 앱의 일시 중지가 해제됐고 Git Data API로 구현 Commit `faf4b2ce11222d3546306be1dabfdbf09a9b20e3`를 main에 반영했습니다. 원격 tree와 검토본이 일치하고 fetch 후 파일 diff=0을 확인했습니다. 최신 게시·CI 상태는 `cloud-publication.json`을 확인합니다.
 
 ## 구현한 준비물
 
@@ -21,6 +21,8 @@
 최종 전체 검증 종료 코드 **0**, 검사 **28개 모두 PASS**입니다. Python 단위 테스트 **12개**, Terraform network=none Mock Plan **10개**, Sentinel Mock **12개**, 정상/누락/수정 리허설 **3개**가 통과했습니다. MCP의 허용 도구 6개 및 Mock Module 검색/상세 조회도 통과했습니다.
 
 최신 실행 상태는 `validation-results.json`, 세부 로그는 `validation-logs/`, 시연 정책 결과는 `rehearsal.json`을 기준으로 판단합니다. `cloud-preparation-readiness.json`은 현재 입력으로 생성 가능한 파일과 미정값을 기록합니다. PASS는 각 검사의 범위에 한정됩니다.
+
+GitHub main의 구현 Commit에서도 **[GitHub Actions Run 36679127805](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805) PASS**를 확인했습니다. 도구 설치, 자격증명 없는 전체 검증, 게시 패키지 생성, 증거 artifact 업로드가 모두 성공했습니다. 검증 대상은 구현 Commit `faf4b2ce11222d3546306be1dabfdbf09a9b20e3`이며 후속 상태 보고서 Commit과 구분합니다. [검증 증거·게시 패키지 artifact](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805/artifacts/11080114938)는 CI 보존 기간 14일 동안 제공됩니다.
 
 전체 검증의 정상 종료 코드 0은 모든 검사 PASS입니다. BLOCKED/SKIPPED가 있으면 2, FAIL이 있으면 1입니다. 실제 Private Registry Root는 init하지 않으며 AWS/HCP credentials, 사용자 Terraform 설정을 격리합니다.
 
