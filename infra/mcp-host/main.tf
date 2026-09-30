@@ -1,6 +1,33 @@
 provider "aws" {
   region = var.aws_region
 }
+data "aws_ami" "approved" {
+  # 운영자가 승인한 단일 ID를 조회합니다. latest 자동 선택은 하지 않습니다.
+  filter {
+    name   = "image-id"
+    values = [var.ami_id]
+  }
+  filter {
+    name   = "name"
+    values = ["hc-base-*", "hc-security-base-*"]
+  }
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+  filter {
+    name   = "state"
+    values = ["available"]
+  }
+}
 resource "aws_security_group" "mcp" {
   name_prefix = "${var.name}-"
   description = "SSM management; no ingress by default"
@@ -40,7 +67,7 @@ resource "aws_iam_instance_profile" "ssm" {
   role = aws_iam_role.ssm.name
 }
 resource "aws_instance" "mcp" {
-  ami                         = var.ami_id
+  ami                         = data.aws_ami.approved.id
   instance_type               = var.instance_type
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [aws_security_group.mcp.id]
@@ -49,6 +76,16 @@ resource "aws_instance" "mcp" {
   iam_instance_profile        = aws_iam_instance_profile.ssm.name
   user_data                   = file("${path.module}/bootstrap.sh")
   user_data_replace_on_change = true
+  lifecycle {
+    precondition {
+      condition = (
+        data.aws_ami.approved.id == var.ami_id &&
+        data.aws_ami.approved.architecture == "x86_64" &&
+        (startswith(data.aws_ami.approved.name, "hc-base-") || startswith(data.aws_ami.approved.name, "hc-security-base-"))
+      )
+      error_message = "선택한 ID의 x86_64 AMI는 hc-base-* 또는 hc-security-base-* 이름이어야 합니다."
+    }
+  }
   metadata_options {
     http_endpoint               = "enabled"
     http_tokens                 = "required"

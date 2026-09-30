@@ -4,7 +4,7 @@ Cloud 준비에는 실제 자격증명이 필요하지 않습니다. 준비 코�
 
 | 구분 | 필요한 비민감 입력/확인 | 상태 |
 |---|---|---|
-| AWS | Account ID, 승인 Region, 기존 VPC/Subnet, AL2023 x86_64 AMI ID | BLOCKED: 미제공 |
+| AWS | Account ID, 승인 Region, 기존 VPC/Subnet, 허용 이름 패턴의 x86_64 AMI ID/Name/Owner 및 OS·SSM 호환성 | BLOCKED: 미제공 |
 | 네트워크 | Route/DNS/NACL, SSM endpoint, Docker/HCP egress, proxy 여부 | BLOCKED: 미확인 |
 | EC2 | t3.small 적합성, 20 GiB EBS/KMS 기준, 비용, 데모 tags | BLOCKED: 미확인 |
 | 관리 | 사람 SSO/MFA Role, browser SSM 문서 ARN, session prefix, 접속 감사 | BLOCKED: 미확인 |
@@ -31,3 +31,9 @@ Cloud 준비에는 실제 자격증명이 필요하지 않습니다. 준비 코�
 5. 비용 종료/리소스 정리, 데이터·State·감사 자료 보존 범위. 기존 OIDC Provider/고객 자원은 정리 대상이 아닙니다.
 
 NAT/ALB/VPC endpoint 등 추가 비용 구성, 직접 SSH Inbound /32, 인증된 HTTP MCP는 필요해지면 대상과 영향·정리 계획을 따로 검토합니다. 현재 코드의 기본값에 추가하지 않았습니다.
+
+## 로컬 자격증명 파일 확인 — 2026-09-30
+
+사용자가 지정한 다운로드 폴더의 AWS credentials RTF와 HCP Terraform token TXT의 존재·형식을 확인했습니다. AWS access key/session token의 값이나 HCP token은 출력·저장하지 않았습니다. AWS/HCP 읽기 전용 외부 인증 조회는 자동 승인 검토에서 자격증명 전송 승인이 불명확하다는 이유로 차단됐으므로 계정/Organization/API 권한 확인은 여전히 BLOCKED입니다. 실제 변경 승인은 아직 없습니다.
+
+추가 첨부 `terraform-mcp-codex-handoff.zip`은 다운로드 도구가 파일 ID를 확인하지 못해 내부 문서 대조가 BLOCKED입니다. 이 파일 내용을 기존 저장소 지침으로 간주하거나 추측해 반영하지 않았습니다.

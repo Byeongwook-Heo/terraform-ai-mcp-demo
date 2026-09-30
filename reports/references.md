@@ -83,3 +83,9 @@ MCP Git tag commit: `943a44eb28dc58432b34efdf08f7fc846adc446d`. AWS Provider tag
 ## 게시 ZIP 검증기 확인 — 2026-09-30 KST
 
 - https://docs.python.org/3.12/library/zipfile.html — HTTP 200, ZipFile/ZipInfo/infolist/read 및 ZIP metadata 문서 확인. 새 검증기는 기존 Python 3.12.14 실행 환경의 표준 라이브러리를 사용하며 추가 의존성·제품 버전을 도입하지 않았습니다. 압축 해제와 외부 API 호출 없이 같은 byte의 SHA256·내용을 검사했습니다.
+
+## AMI 이름 제한 보완 — 2026-09-30 KST
+
+- https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-images.html — Name/Architecture/State/Root device/Virtualization 필터, 같은 필터의 여러 값은 OR, 서로 다른 필터는 AND, executable-users self의 공유 AMI 조회 범위를 확인했습니다. Allowed AMIs와 이름 필터는 다른 개념입니다.
+- https://developer.hashicorp.com/terraform/language/tests/mocking — mock_provider와 override_data의 computed metadata 대체 및 Provider 미호출을 확인했습니다. 선택 버전 Terraform 1.13.5 + AWS Provider 6.14.1에서 실제 Mock Plan을 CI로 확인합니다.
+- Provider 6.14.1의 Registry 및 GitHub 문서 retrieval은 실패했습니다. 지원 여부는 고정 버전의 init/validate/Mock Plan으로 별도 검증하며 retrieval 실패를 문서 확인 성공으로 기록하지 않습니다.

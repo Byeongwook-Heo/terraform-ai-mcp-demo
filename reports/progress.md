@@ -2,6 +2,8 @@
 
 ## 현재 작업 기준 — 최신 main
 
+2026-09-30 로컬 후속 작업: AMI 두 이름 패턴 검증과 OS 확인을 추가했습니다. 20개 단위 테스트/사전 검사/게시 ZIP 검사/형식 검사 PASS. AWS/HCP 외부 인증 조회와 첨부 ZIP 읽기는 BLOCKED이며 상세는 마지막 AMI 보완 기록을 확인합니다. 직전 Commit 425d527의 Linux CI는 Run 36686103804 completed/success입니다.
+
 사용자의 최신 지시는 **이 준비 저장소의 main에서 직접 작업하고 Phase 번호와 관계없이 가능한 Cloud 구현·검증을 이어가는 것**입니다. 새 채팅의 변경을 원격 main에서 확인했으며 Phase 1 PR #1은 이미 병합됐습니다. 앞선 Branch/Draft PR 안내는 과거 상태입니다. 실제 AWS/HCP 입력과 접근 환경이 필요한 항목은 `required-inputs.md`에서 관리합니다.
 
 새 채팅에서 게시 패키지·입력 생성기, Mock MCP 검색/상세, 정상/실패/복구 정책 리허설을 추가했고 전체 검사 28개 및 [원격 CI Run 36679127805](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36679127805)가 PASS입니다. 이번 후속 보완에서는 ZIP 다운로드 후 무결성·내용 검증기를 추가했고 최신 로컬 검사 29개와 단위 테스트 17개가 PASS입니다. 최신 결과와 완료 범위는 `cloud-completion.md`, `cloud-validation-summary.json`, `validation-results.json`을 확인하세요.
@@ -178,3 +180,15 @@ Git Data API로 create_tree → create_commit → update_ref(main, force=false)�
 검증: Python 3.14 임시 venv에 requirements-validation.txt 고정 의존성을 설치했습니다. `python -m unittest discover -s tests/unit -v` PASS 19개. 제한 PATH(venv:/usr/bin:/bin)에서 `bash scripts/validate-phase1.sh --reports-dir reports/local-validation-20260930-final` 실행: 사전 검사/10개 Mock plan 선언 확인, Shell 문법 6개, Python 19개, 게시 ZIP 생성/검사 PASS. 전체 종료 코드 2는 선택한 offline subset PATH에서 Terraform/Sentinel/ShellCheck/Docker를 제외했기 때문입니다. 설치된 Terraform 1.14.3 darwin_arm64의 `terraform fmt -check -recursive .`는 별도 PASS입니다. 고정 1.13.5 Linux Docker Mock Plan, Sentinel, MCP 프로토콜 및 init/validate는 이번 로컬 작업에서 SKIPPED이며 기존 Cloud PASS를 재실행 결과로 주장하지 않습니다.
 
 실제 AWS/HCP 변경 및 API 연결은 미수행(BLOCKED: 대상/입력/승인 미확인). 다음 단계는 Linux CI 전체 검증과 required-inputs.md의 비민감 환경값 확인입니다. Secret 값을 채팅이나 Git에 기록하지 않습니다.
+
+## 사용자 AWS AMI 제약 반영 및 첨부 인수인계 확인 — 2026-09-30 KST
+
+사용자가 다운로드 폴더의 AWS credentials/HCP token 파일과 허용 AMI 이름 패턴 `hc-base-*`, `hc-security-base-*`를 지정했습니다. 파일 존재 및 필요한 field 형식만 확인했고 비밀값은 출력·보고서·Git에 넣지 않았습니다. STS 계정, EC2 AMI와 HCP Organization 읽기 전용 조회를 계획했으나 자동 승인 검토가 외부 인증 전송 승인 미확인으로 실행 전에 거부했습니다. 실제 AWS/HCP 조회/변경은 수행하지 않았습니다.
+
+추가 첨부 `terraform-mcp-codex-handoff.zip`의 다운로드는 도구가 file ID를 authorized/resolved 할 수 없다는 오류로 BLOCKED였습니다. 로컬 Downloads와 프로젝트 sources에도 파일이 없어 내부의 지정 문서 5개는 읽지 못했습니다. 파일 내용을 추측하지 않았고, 기존 main의 지정 문서와 직접 전달된 AMI 제약만 사용했습니다. 첨부 ZIP의 지침 비교는 파일 접근 복구 뒤 진행합니다.
+
+변경 파일: `infra/mcp-host/main.tf`의 단일 ID metadata 조회와 이름/architecture/EBS/HVM/available 필터, EC2 lifecycle precondition; `variables.tf`, `terraform.tfvars.example`; `bootstrap.sh`의 AL2023 선확인; `tests/security.tftest.hcl`의 허용 security-base/미허용 이름/arm64/다른 ID Mock 검사 4개. `scripts/safety_checks.py`는 이 AMI datasource와 literal mock override만 허용하며 다른 datasource/alias/실 Provider/묵시적 Apply는 계속 차단합니다. `tests/unit/test_safety.py`에 AMI 필터 완화와 미승인 datasource/override 거부를 추가했습니다. AGENTS/DEMO_SPEC에 사용자 환경 조건을 추가하고 AWS 준비/필요 입력/근거 문서를 갱신했습니다.
+
+실행 결과: Python 3.14 격리 venv에서 단위 테스트 20개 PASS; Terraform 1.14.3 darwin_arm64 fmt-check와 git diff --check PASS. 제한 PATH에서 `bash scripts/validate-phase1.sh --reports-dir reports/ami-validation-20260930` 실행: 14개 run 사전 검사, Shell 문법 6개, 단위 테스트 20개와 ZIP 생성/검사 PASS. 이 로컬 subset 종료 코드 2는 PATH에서 전체 검증 도구를 제외한 SKIPPED이며 FAIL은 없습니다. 기존 reports/validation-results.json 및 Cloud 증거는 덮어쓰지 않았습니다. 새 Terraform 1.13.5/AWS 6.14.1 Docker Mock Plan과 Sentinel/MCP 검사는 게시 후 Linux CI에서 확인합니다.
+
+미검증: 실제 AMI 후보의 ID/Owner/OS/SSM 및 네트워크, 계정의 실제 SCP/Allowed AMIs 정책, HCP 접근 권한. 이름 필터와 Mock PASS는 실제 정책·AMI 부팅 성공이 아닙니다. Apply/Destroy/계정 설정 변경은 전혀 수행하지 않았습니다.

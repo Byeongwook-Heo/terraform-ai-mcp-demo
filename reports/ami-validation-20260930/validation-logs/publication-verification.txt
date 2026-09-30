@@ -1,0 +1,27 @@
+{
+  "scope": "offline-publication-verification",
+  "checks": [
+    {
+      "package": "terraform-aws-s3-standard.zip",
+      "status": "PASS",
+      "files": 8,
+      "sha256": "772ea1eaefd99868dbf190ec31e79a4090a3ff2ffede109f8852c6770d2a428c"
+    },
+    {
+      "package": "terraform-demo-policies.zip",
+      "status": "PASS",
+      "files": 28,
+      "sha256": "7eef06aee8ceabab473dc2536386b2d51a3233b468f274c7591f6e5759110cff"
+    },
+    {
+      "package": "aws-ai-demo.zip",
+      "status": "PASS",
+      "files": 7,
+      "sha256": "08ccdab5db27854c761312e6080b6a224c66b4206f22f6a5ca4d17f677bc3b68"
+    }
+  ],
+  "actual_registry_verified": false,
+  "aws_hcp_deployed": false,
+  "pending_input_checks": 5
+}
+PASS: ZIP 검사 완료. 실제 Registry 게시·AWS/HCP 배포 검증과는 별개입니다.

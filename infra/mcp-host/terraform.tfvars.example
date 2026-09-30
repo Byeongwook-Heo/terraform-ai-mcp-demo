@@ -1,6 +1,7 @@
 aws_region = "ap-northeast-2"
 vpc_id     = "vpc-REPLACE"
 subnet_id  = "subnet-REPLACE"
+# 이름 hc-base-* / hc-security-base-* 및 AL2023 x86_64 호환성을 확인한 단일 ID
 ami_id     = "ami-REPLACE"
 # 기존 NAT/프록시 또는 승인된 Public Subnet+IGW 경로를 먼저 확인합니다.
 associate_public_ip_address = false

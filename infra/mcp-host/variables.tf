@@ -17,7 +17,7 @@ variable "subnet_id" {
   type = string
 }
 variable "ami_id" {
-  description = "승인된 Region의 Amazon Linux 2023 x86_64 AMI ID"
+  description = "승인된 Region의 hc-base-* 또는 hc-security-base-* x86_64 AMI ID. AL2023/SSM 호환성은 별도 확인."
   type        = string
 }
 variable "instance_type" {

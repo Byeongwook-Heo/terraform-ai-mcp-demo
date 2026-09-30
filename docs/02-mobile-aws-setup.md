@@ -3,7 +3,7 @@
 이 문서의 외부 변경은 아직 실행하지 않았습니다. 휴대폰 Console에서는 코드와 보고서를 검토하고 Region, VPC/Subnet, AMI, egress, 비용과 State 방식을 먼저 확정합니다. 브라우저 호환성은 실제 기기에서 확인해야 합니다.
 
 1. AWS Console에 SSO/MFA로 로그인해 account ID와 `ap-northeast-2` 사용 승인을 확인합니다.
-2. 기존 VPC/Subnet의 Route Table, DNS, NACL, 가용 IP와 AL2023 x86_64 AMI를 확인합니다. Private Subnet이면 기존 NAT/승인 proxy가 있어야 합니다. SSM용 endpoint만으로 Docker Hub와 HCP 인터넷 접근이 해결되지는 않습니다.
+2. 기존 VPC/Subnet의 Route Table, DNS, NACL, 가용 IP와 승인 AMI를 확인합니다. AMI 이름은 `hc-base-*` 또는 `hc-security-base-*`만 허용합니다. 단일 ID, 소유 계정, x86_64/EBS/HVM/available 상태와 AL2023/SSM 호환성을 별도로 확인합니다. Private Subnet이면 기존 NAT/승인 proxy가 있어야 합니다. SSM용 endpoint만으로 Docker Hub와 HCP 인터넷 접근이 해결되지는 않습니다.
 3. `infra/mcp-host/terraform.tfvars.example`의 비민감 값을 준비합니다. 기본 Public IP와 Inbound는 없습니다. Public Subnet+IGW 사용은 별도 비용/접근 검토 후 `associate_public_ip_address=true`로 명시합니다.
 4. 검토한 코드를 CloudShell 등 승인된 CLI에서 가져옵니다. CloudShell은 임시 관리 CLI입니다. MCP 상시 서버나 유일한 State 저장소로 사용하지 않습니다. 중요한 State는 승인된 암호화·잠금·백업 저장소로 관리합니다. 이 저장소에는 Backend 생성 코드나 자동 배포 명령이 없습니다.
 5. Phase 2 승인을 받은 담당자가 별도로 검토한 인프라 변경을 수행합니다. EC2를 SSM Managed node에서 찾고 Console의 **Connect → Session Manager**를 엽니다. 접속 실패 시 Agent/Profile/egress/endpoint부터 확인하며 SSH를 전체 인터넷에 열지 않습니다.
@@ -31,3 +31,21 @@ sudo journalctl -u mcp-network-guard -n 30 --no-pager
 기본 SG egress는 IPv4 TCP 443입니다. SSM `ssm`, `ssmmessages`, 해당 Region/Agent에서 필요한 `ec2messages` endpoint와 AL2023 package, Docker registry/CDN, `app.terraform.io`에 연결되어야 합니다. VPC DNS/Resolver와 시간 동기화, HTTPS 인증서도 확인합니다. 일반 DNS 서버나 별도 proxy port를 쓰면 검토한 egress를 추가해야 하며 기본 코드가 임의로 개방하지 않습니다. IPv6 또는 인터넷 전체 SSH Inbound는 추가하지 않습니다.
 
 `client-configs/iam-ssm-operator.json.example`와 `iam-ssm-client.json.example`은 사람 관리와 시연 SSH 터널 권한 예시입니다. 각각 실제 Region/account/instance/document/session prefix로 교체하고 별도 IAM Role에 검토해 연결합니다. 브라우저 SSM Role은 호스트 관리 권한이며 AI Client에 제공하지 않습니다. Instance Profile의 SSM 권한은 접속 사용자의 IAM 권한을 대신하지 않습니다.
+
+## 사용자 AWS 환경의 AMI 제한 — 2026-09-30
+
+`infra/mcp-host`는 운영자가 지정한 단일 `ami_id`를 `aws_ami.approved`로 조회하고 이름 두 패턴과 x86_64/EBS/HVM/available 필터를 적용합니다. 다른 이름 또는 조회 결과가 없는 ID는 진행하지 않습니다. 임의의 Amazon 제공 AL2023 AMI나 latest AMI를 자동 선택하지 않습니다. Plan을 수행하는 Role에 `ec2:DescribeImages` 조회 권한이 필요합니다. 이 이름 검사는 계정의 SCP/Allowed AMIs 정책 검증 결과가 아닙니다.
+
+AMI 이름만으로 OS/패키지/SSM Agent 또는 신뢰할 수 있는 소유자가 확인되지는 않습니다. 현 bootstrap은 AL2023 전용이며 다른 OS이면 패키지·서비스 변경 전에 실패합니다. 실제 AMI가 Ubuntu/RHEL 등이라면 별도 bootstrap 구현·검증 후 배포를 승인합니다. 계정에서 접근 가능한 후보와 소유자를 확인한 후 명시적인 ID를 선택합니다.
+
+승인된 조회 전용 자격증명으로 후보를 조회하는 예시(리소스 변경 없음):
+
+```bash
+aws ec2 describe-images --region ap-northeast-2 --executable-users self \
+  --filters 'Name=name,Values=hc-base-*,hc-security-base-*' \
+  'Name=architecture,Values=x86_64' 'Name=root-device-type,Values=ebs' \
+  'Name=virtualization-type,Values=hvm' 'Name=state,Values=available' \
+  --query 'Images[].{ID:ImageId,Name:Name,Owner:OwnerId,Created:CreationDate}'
+```
+
+자격증명 존재와 API 인증 성공은 서로 다릅니다. 로컬의 지정된 파일은 확인했으나 외부 인증 조회는 자동 승인 검토가 차단하여 수행하지 않았습니다. Token은 파일 내용이나 명령 인수·보고서·Git에 넣지 않습니다. AWS/HCP 변경 승인과 읽기 전용 인증 사용 승인은 별도로 확인합니다.

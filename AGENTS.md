@@ -62,3 +62,9 @@
 - 위 main 게시 승인은 이 준비 저장소에 적용한다. 실제 계정·대상·비용·State가 미정인 AWS/HCP 변경, 다른 게시 저장소 생성과 Module Version Tag 게시는 수행 완료로 간주하지 않는다.
 - 코드 작성용 Codex Cloud에서 다음 작업을 시작할 때 이 저장소와 main을 선택한다. 저장소 선택만으로 AWS/MCP 시연 Client 연결이 생기지 않는다.
 - 상태와 재개 방법은 `reports/repository.md`, 휴대폰 작업은 `docs/08-without-pc.md`를 갱신한다.
+
+## 사용자 환경의 AMI 제약 — 2026-09-30
+
+- EC2에 사용할 AMI 이름은 `hc-base-*` 또는 `hc-security-base-*` 두 패턴만 허용한다. 다른 Amazon 기본 AMI로 대체하지 않는다.
+- 명시적인 AMI ID와 실제 Name/Architecture/Owner를 조회로 확인한다. 이름만으로 AL2023/SSM 호환성이나 계정 정책 허용을 확정하지 않는다.
+- 다운로드 폴더에 사용자가 지정한 AWS credentials/HCP token 파일이 존재한다. 파일 내용·값을 보고서/Git에 남기지 않는다. 존재 확인은 API 인증 또는 배포 승인과 다르다.

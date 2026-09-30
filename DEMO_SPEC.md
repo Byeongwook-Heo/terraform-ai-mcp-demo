@@ -279,3 +279,7 @@ State 원문, Token, SSH Key, 고객 식별자는 보고서에 넣지 않는다.
 - SSM instance permissions: https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started-instance-profile.html
 - AWS CloudShell: https://docs.aws.amazon.com/cloudshell/latest/userguide/welcome.html
 - CloudShell restrictions: https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html
+
+## 10. 사용자 환경 보완 — 2026-09-30
+
+EC2 AMI 이름은 `hc-base-*`와 `hc-security-base-*`만 허용한다. 선택 ID의 실제 metadata로 확인하고 임의 latest 또는 Amazon 기본 AMI로 대체하지 않는다. 현재 bootstrap은 AL2023 x86_64를 전제로 하므로 실제 허용 AMI의 OS·SSM 호환성은 미확인이다. OS가 다르면 먼저 구현·검증을 변경하며 이름만 보고 배포하지 않는다.

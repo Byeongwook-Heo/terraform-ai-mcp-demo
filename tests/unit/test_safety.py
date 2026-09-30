@@ -1,6 +1,7 @@
 import importlib.util
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -9,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
-from safety_checks import preflight_test, preflight, static_checks
+from safety_checks import ROOTS, preflight_test, preflight, static_checks
 
 def load(name, path):
     spec = importlib.util.spec_from_file_location(name, path)
@@ -22,7 +23,7 @@ renderer = load("renderer", ROOT / "scripts/render-registry-root.py")
 
 class SafetyTests(unittest.TestCase):
     def test_preflight_accepts_only_reviewed_mock_plans(self):
-        self.assertEqual(preflight(ROOT), 10)
+        self.assertEqual(preflight(ROOT), 14)
         static_checks(ROOT)
     def test_preflight_rejects_implicit_apply_and_real_override(self):
         bad = [
@@ -37,6 +38,28 @@ class SafetyTests(unittest.TestCase):
                 path.write_text(text)
                 with self.assertRaises(ValueError):
                     preflight_test(path)
+    def test_preflight_rejects_unreviewed_data_and_ami_override(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for directory in ROOTS:
+                shutil.copytree(ROOT / directory, root / directory)
+            main = root / "infra/mcp-host/main.tf"
+            original = main.read_text()
+            for change in [
+                original + '\ndata "aws_caller_identity" "unexpected" {}\n',
+                original.replace('"hc-security-base-*"', '"*"'),
+                original.replace('"x86_64"', '"arm64"'),
+            ]:
+                main.write_text(change)
+                with self.assertRaises(ValueError):
+                    preflight(root)
+            test = root / "bad.tftest.hcl"
+            test.write_text('mock_provider "aws" {}\n'
+                            'override_data { target = data.aws_caller_identity.unexpected values = { id = "fixture" } }\n'
+                            'run "bad" { command = plan }\n')
+            with self.assertRaises(ValueError):
+                preflight_test(test)
+
     def test_launcher_has_no_token_value_or_docker_socket_or_http(self):
         config = json.loads((ROOT / "services/terraform-mcp/config.json").read_text())
         command = launcher.build_command(config)

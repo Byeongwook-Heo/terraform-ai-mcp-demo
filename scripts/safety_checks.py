@@ -8,27 +8,53 @@ from secret_patterns import possible_secret
 ROOTS = ["infra/mcp-host", "infra/hcp-aws-identity", "packages/terraform-aws-s3-standard", "tests/local-module"]
 TOOLS = {"search_private_modules", "get_private_module_details", "list_workspaces", "list_runs", "get_run_details", "get_token_permissions"}
 
+AMI_FILTERS = [
+    {"name": "image-id", "values": ["${var.ami_id}"]},
+    {"name": "name", "values": ["hc-base-*", "hc-security-base-*"]},
+    {"name": "architecture", "values": ["x86_64"]},
+    {"name": "root-device-type", "values": ["ebs"]},
+    {"name": "virtualization-type", "values": ["hvm"]},
+    {"name": "state", "values": ["available"]},
+]
+
+
+def preflight_ami_overrides(overrides):
+    if len(overrides) > 1:
+        raise ValueError("only one reviewed AMI mock override is permitted")
+    for override in overrides:
+        values = override.get("values", {})
+        if (set(override) != {"target", "values"}
+                or override["target"] != "${data.aws_ami.approved}"
+                or set(values) != {"id", "name", "architecture"}
+                or any(not isinstance(v, str) or "${" in v for v in values.values())):
+            raise ValueError("only literal metadata overrides for the approved AMI are permitted")
+
+
 def preflight_test(path):
     body = hcl2.loads(path.read_text())
-    if set(body) - {"mock_provider", "variables", "run"}:
+    if set(body) - {"mock_provider", "variables", "run", "override_data"}:
         raise ValueError("unsupported test blocks")
     mocks = body.get("mock_provider", [])
     if mocks != [{"aws": {}}] or not body.get("run"):
         raise ValueError("only the default mocked aws provider is permitted")
+    preflight_ami_overrides(body.get("override_data", []))
     for item in body["run"]:
         for run in item.values():
-            if run.get("command") != "${plan}" or set(run) - {"command", "variables", "assert", "expect_failures"}:
+            if run.get("command") != "${plan}" or set(run) - {"command", "variables", "assert", "expect_failures", "override_data"}:
                 raise ValueError("every run must explicitly use command=plan and the default mock provider")
+            preflight_ami_overrides(run.get("override_data", []))
 
 def preflight(root):
     count = 0
     for directory in ROOTS:
         for path in (root / directory).glob("*.tf"):
             body = hcl2.loads(path.read_text())
-            if set(body) - {"terraform", "provider", "variable", "resource", "module", "output", "locals"}:
+            if set(body) - {"terraform", "provider", "variable", "resource", "module", "output", "locals", "data"}:
                 raise ValueError("unsupported root blocks")
             if "data" in body:
-                raise ValueError("data sources are not allowed in Phase 1 test roots")
+                expected = [{"aws_ami": {"approved": {"filter": AMI_FILTERS}}}]
+                if directory != "infra/mcp-host" or body["data"] != expected:
+                    raise ValueError("only the exact reviewed AMI data lookup is permitted; tests use mock aws")
             for terraform in body.get("terraform", []):
                 if "backend" in terraform or "cloud" in terraform:
                     raise ValueError("external state connections are not allowed")

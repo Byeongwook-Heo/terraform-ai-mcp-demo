@@ -1,0 +1,72 @@
+[
+  {
+    "check": "safety-preflight",
+    "status": "PASS",
+    "detail": "총 14개 run이 mock_provider aws + command=plan입니다."
+  },
+  {
+    "check": "bash-bootstrap",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "bash-install-mcp-host",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "bash-install-validation-tools",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "bash-validate-phase1",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "bash-launch",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "bash-network-guard",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "terraform-availability",
+    "status": "SKIPPED",
+    "detail": "도구를 찾을 수 없습니다."
+  },
+  {
+    "check": "sentinel-availability",
+    "status": "SKIPPED",
+    "detail": "도구를 찾을 수 없습니다."
+  },
+  {
+    "check": "shellcheck-availability",
+    "status": "SKIPPED",
+    "detail": "도구를 찾을 수 없습니다."
+  },
+  {
+    "check": "docker-availability",
+    "status": "SKIPPED",
+    "detail": "도구를 찾을 수 없습니다."
+  },
+  {
+    "check": "python-unit",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "publication-preparation",
+    "status": "PASS",
+    "detail": "exit=0"
+  },
+  {
+    "check": "publication-verification",
+    "status": "PASS",
+    "detail": "exit=0"
+  }
+]

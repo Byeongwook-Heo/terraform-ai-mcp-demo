@@ -47,3 +47,7 @@ GitHub main의 구현 Commit에서도 **[GitHub Actions Run 36679127805](https:/
 ## 로컬 후속 검증
 
 2026-09-30 로컬 PC에서 기존 증거를 보존하는 `--reports-dir` 옵션을 추가했습니다. 단위 테스트 19개와 offline subset/ZIP 검사, 별도 Terraform fmt는 PASS입니다. Linux 전체 검증은 재실행하지 않았습니다. 상세는 progress.md의 로컬 재개 기록과 local-validation-20260930-final/validation-results.json을 확인합니다.
+
+## AMI 환경 조건 후속 보완
+
+2026-09-30 허용 이름 패턴 두 개와 명시적 ID/Architecture 확인을 추가했습니다. 로컬 unit 20개/사전 검사/ZIP/fmt PASS. 실제 AMI/계정/HCP 조회 및 배포는 미수행이며 외부 인증 사용이 자동 승인 검토에서 차단됐습니다. 첨부 handoff ZIP은 다운로드 도구의 접근 실패로 내부 문서를 읽지 못했습니다. 기존 Cloud 전체 결과와 새 로컬 부분 결과는 progress.md에서 구분합니다.
