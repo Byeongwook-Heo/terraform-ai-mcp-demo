@@ -1,0 +1,72 @@
+{
+  "scope": "authorized-read-only-discovery",
+  "external_changes": false,
+  "checked_at": "2026-09-30T08:24:23.226948+00:00",
+  "region": "ap-northeast-2",
+  "handoff_zip": {
+    "status": "PASS",
+    "sha256": "d5012752e85c31e8f02a6424fcecbae9239551617b1f3aaa9341182906d98c17",
+    "members": {
+      "AGENTS.md": {
+        "size_bytes": 4034,
+        "sha256": "7474345364482ab140b204938f914fb231441d313bf07c6fd3366d827e7e57b9"
+      },
+      "DEMO_SPEC.md": {
+        "size_bytes": 16310,
+        "sha256": "d7b735a00aa315961b770212f2f336b81f9b5fcc83e5e6ab0505b14c039d85ca"
+      },
+      "START_HERE.md": {
+        "size_bytes": 3318,
+        "sha256": "9d295bc08cd7bd647ab7b917b6de799f26702d64b59317bf19389533e025f67f"
+      }
+    },
+    "missing_requested_files": [
+      "reports/cloud-completion.md",
+      "reports/progress.md"
+    ],
+    "report_fallback": "existing main reports read; ZIP never overwrote current files"
+  },
+  "aws_sts": {
+    "status": "PASS",
+    "identity_recheck": "PASS",
+    "account_id_recorded_in_git": false
+  },
+  "aws_ec2_ami": {
+    "status": "PASS",
+    "name_patterns": [
+      "hc-base-*",
+      "hc-security-base-*"
+    ],
+    "query_scope": "x86_64/available/ebs/hvm/executable-users=self",
+    "matching_candidates": 867,
+    "al2023_named_candidates": 37,
+    "single_candidate_recheck": "PASS",
+    "candidate_only": true,
+    "boot_ssm_test": "BLOCKED",
+    "policy_and_ami_launch_approval": "PENDING"
+  },
+  "hcp_org": {
+    "status": "PASS",
+    "distinct_organizations": 1,
+    "organization_detail_recheck": "PASS",
+    "organization_name_recorded_in_git": false,
+    "entitlement_query": "NOT_PERFORMED",
+    "mcp_least_privilege_token": "PENDING"
+  },
+  "local_preparation": {
+    "registry_root_file": "PASS",
+    "zip_verification": "PASS",
+    "actual_registry_verified": false,
+    "aws_hcp_deployed": false
+  },
+  "deployment_inputs_pending": [
+    "vpc_id",
+    "subnet_id",
+    "ami_id target approval",
+    "owner",
+    "bucket_name",
+    "state storage/locking/backup",
+    "HCP project/workspace/registry/policy scope",
+    "OIDC provider and least privilege role approval"
+  ]
+}

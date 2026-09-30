@@ -1,5 +1,7 @@
 # Cloud 준비 완료 범위
 
+최신 상태: 2026-09-30 사용자가 명시적으로 승인한 AWS STS/EC2 AMI와 HCP 조직 읽기 전용 조회 및 재대조 PASS. ZIP의 지침 3개를 읽었고 ZIP에 없는 보고서 2개는 main에서 확인했습니다. 실제 리소스/설정 변경은 없으며 필요한 배포 입력은 여전히 미정입니다. 새 비식별 증거는 read-only-discovery-20260930.json 및 progress.md 마지막 기록을 확인합니다. 이전 BLOCKED는 과거 상태입니다.
+
 최신 추가 검증: AMI 보완 Commit `c404c34`의 [Run 36688256340](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36688256340)은 29개 검사 PASS입니다. Python 20개/Mock Plan 14개를 다운로드 artifact로 대조했고 ZIP 재검사도 PASS입니다. 기존 Cloud 보고서와 별도로 ami-ci-evidence-20260930에 보존했습니다. 실제 AWS/HCP 조회·변경과 추가 handoff ZIP 읽기는 BLOCKED입니다. 아래 이전 보고서는 해당 작업 당시의 이력입니다.
 
 2026-09-30 KST(Asia/Seoul). 기준은 공개 저장소 `Byeongwook-Heo/terraform-ai-mcp-demo`의 main입니다. 사용자는 main 직접 반영과 Phase 번호와 관계없이 가능한 Cloud 작업을 이어가도록 요청했습니다. Phase 1 PR #1은 이미 병합된 상태에서 이어서 작업했습니다.

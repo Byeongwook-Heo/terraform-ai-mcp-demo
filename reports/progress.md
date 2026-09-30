@@ -2,6 +2,8 @@
 
 ## 현재 작업 기준 — 최신 main
 
+최신 상태: 2026-09-30 17:20 KST 사용자 승인 후 AWS STS·EC2 AMI와 HCP 조직 GET 실제 조회/재대조 PASS. 재첨부 ZIP의 3개 지침을 읽었으며 ZIP에 없는 2개 보고서는 main에서 읽었습니다. 실제 변경은 미수행입니다. 상세는 마지막 읽기 전용 조회 기록과 read-only-discovery-20260930.json을 확인합니다. 아래 이전 BLOCKED는 각 작업 당시 기록입니다.
+
 2026-09-30 로컬 후속 작업: AMI 두 이름 패턴 검증과 OS 확인을 추가했습니다. 20개 단위 테스트/사전 검사/게시 ZIP 검사/형식 검사 PASS. 새 Linux CI Run 36688256340은 29개 검사 PASS이며 다운로드 artifact도 대조했습니다. AWS/HCP 외부 인증 조회와 첨부 ZIP 읽기는 BLOCKED이며 상세는 마지막 AMI 보완 기록을 확인합니다. 직전 Commit 425d527의 Linux CI는 Run 36686103804 completed/success입니다.
 
 사용자의 최신 지시는 **이 준비 저장소의 main에서 직접 작업하고 Phase 번호와 관계없이 가능한 Cloud 구현·검증을 이어가는 것**입니다. 새 채팅의 변경을 원격 main에서 확인했으며 Phase 1 PR #1은 이미 병합됐습니다. 앞선 Branch/Draft PR 안내는 과거 상태입니다. 실제 AWS/HCP 입력과 접근 환경이 필요한 항목은 `required-inputs.md`에서 관리합니다.
@@ -200,3 +202,17 @@ Git Data API로 create_tree → create_commit → update_ref(main, force=false)�
 이번 로컬에서는 gh run download가 종료 코드 0으로 artifact를 받았습니다. `validation-results.json` 29개 전부 PASS, Python 20개, Host Mock Plan 6개/Identity 2개/Module 3개/local harness 3개로 총 14개가 통과했습니다. Sentinel Mock 12개와 MCP Mock 조회도 전체 PASS에 포함됩니다. 다운로드한 ZIP 3개는 verify-prepared-demo.py로 다시 검사하여 PASS입니다. `ami-ci-20260930.json`과 `ami-ci-evidence-20260930/`에 원격 결과를 별도로 보존합니다. 이전 Cloud의 다른 Run 다운로드 403 기록을 삭제하거나 그 결과로 재해석하지 않습니다.
 
 최종 후속 변경은 README의 현재 Mock 수와 상태·증거 보고서뿐입니다. 실행 코드를 추가로 바꾸지 않아 통과한 CI를 유지하고 JSON/Secret 정적 검사와 git diff --check를 수행합니다. 실제 AWS/HCP 조회·변경과 첨부 ZIP 문서 대조는 계속 BLOCKED입니다.
+
+## ZIP 인수인계 확인·승인된 실제 읽기 전용 조회 — 2026-09-30 KST
+
+사용자가 ZIP을 재첨부하고 다운로드 폴더 자격증명을 서울 리전 STS/EC2 계정·AMI 조회 및 app.terraform.io 조직 GET에 사용하는 것을 명시적으로 승인했습니다. 이전 외부 인증 전송 차단과 별개인 새 승인으로 조회를 진행했습니다. 쓰기/배포 승인은 포함되지 않습니다.
+
+재첨부 ZIP의 일반 download_file은 다시 resolve/authorization 오류를 반환했습니다. 파일 도구의 사용자 제공 file ID에 대한 materialize 전송이 성공하여 그 정확한 첨부를 읽었습니다. ZIP SHA256은 read-only-discovery-20260930.json에 있습니다. ZIP에는 AGENTS.md(4,034 bytes), DEMO_SPEC.md(16,310 bytes), START_HERE.md(3,318 bytes)만 있습니다. reports/cloud-completion.md와 reports/progress.md는 ZIP에 없으며 현재 main의 해당 보고서를 읽었습니다. 초기 Phase 1 지침으로 대조했고, 이후 사용자 main 작업·실조회 승인과 기존 구현/증거를 되돌리거나 덮어쓰지 않았습니다.
+
+실제 조회: `aws sts get-caller-identity --region ap-northeast-2` PASS; `aws ec2 describe-images --executable-users self` + 허용 Name/Architecture/State/EBS/HVM 필터 PASS. 일치하는 AMI 867개 중 AL2023 이름 후보 37개가 있습니다. 현재 bootstrap과 호환 가능한 단일 AL2023 x86_64 후보를 제안하고 `describe-images --image-ids`로 ID/Name/Owner/Architecture/State를 재대조해 PASS입니다. 계정도 두 번째 STS 호출로 대조했습니다. 실제 AMI 부팅/SSM/패키지/조직 이미지 정책 적합성은 아직 검증하지 않았습니다.
+
+HCP는 사용자 Token 파일을 메모리에서만 파싱하여 GET /organizations 및 GET /organizations/{확인된 조직}로 접근과 단일 조직의 일치를 확인했습니다(PASS). 파일 내 두 Token의 조직 권한 응답은 서로 다릅니다. Token을 MCP에 주입하거나 최소권한으로 간주하지 않았습니다. plan identifier와 can-update-sentinel 응답만으로 Sentinel entitlement/강제정책 사용 가능성을 판정하지 않았으며 별도 entitlement 조회는 수행하지 않았습니다. 실제 account/AMI Owner/organization 식별자와 전체 조회 응답은 Git에서 제외된 로컬 입력·artifact에만 보존하고 공개 보고서는 비식별 요약만 포함합니다.
+
+`configs/demo-inputs.local.json`에 검증한 Account/Organization만 기록했습니다. 후보 AMI는 승인된 배포 ID로 자동 지정하지 않았으며 ami_id는 null입니다. VPC/Subnet/Owner/Bucket/OIDC/State 등도 미정으로 유지했습니다. `python scripts/prepare-demo.py --config configs/demo-inputs.local.json --output .artifacts/discovered-preparation-20260930`으로 조직별 Root 파일과 게시 ZIP 3개 생성 PASS; `verify-prepared-demo.py` SHA256/내용 검사 PASS. mcp-host/Identity/Workspace/Client 입력은 계속 BLOCKED입니다. 이 결과는 파일 준비이며 Registry 게시·연결 성공이 아닙니다.
+
+이번 변경은 보고서 상태 갱신뿐입니다. JSON/Secret 정적 검사, git diff --check와 로컬 입력/artifact git-ignore 확인을 수행합니다. 실행 코드를 바꾸지 않아 CI Run 36688256340의 29개 PASS/20개 unit/14개 Mock Plan 결과를 유지합니다. 실제 AWS/HCP 변경, Secret 등록, MCP 실조회, Module Tag 게시, Apply/Destroy는 수행하지 않았습니다.
