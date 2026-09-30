@@ -26,3 +26,7 @@ main 게시 범위는 이 준비 저장소입니다. Module/Root/Policy의 다�
 연동 설치의 중지는 해제됐습니다. 일반 Git 전송은 401로 실패했지만 연결된 GitHub 앱의 Git Data API로 main 게시를 완료했습니다. force=false로 기존 이력을 보존하고 원격 파일 일치를 확인했습니다. 구현 게시 후 상태 보고서만 갱신하는 Commit이 이어질 수 있으며 최신 main의 게시·CI 상태는 `cloud-publication.json`을 확인합니다.
 
 후속 ZIP 검증기와 직접 main 게시도 같은 Git Data API 경로로 성공했습니다. 최신 보완과 artifact 다운로드 BLOCKED의 구분은 `main-continuation.json`을 확인하세요. 이 준비 저장소 작업은 main에서 이어가며 Phase 번호로 종료 범위를 제한하지 않습니다.
+
+## 운영 기본값 위임 후 main 반영 — 2026-09-30
+
+구현 2ddc772f034a2a8335aaeaae0fa9885ad010a7b7을 일반 Git push로 main에 직접 게시했습니다. CI Run 36693140577은 정확한 SHA에서 success이며 artifact 다운로드/전체 결과/ZIP 재검사 PASS입니다. 후속은 결과 보고서와 문서 EOF 정리만 게시합니다. AWS/HCP 변경·다른 Repo/Tag 게시는 수행하지 않았습니다. 실제 생성 검토안은 로컬 Git 제외 artifact와 docs/10-operator-state-and-review.md에 있습니다.

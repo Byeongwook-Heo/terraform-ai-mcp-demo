@@ -1,0 +1,11 @@
+tests/security.tftest.hcl... in progress
+  run "management_isolated"... pass
+  run "reject_world_ssh"... pass
+  run "security_base_is_allowed"... pass
+  run "reject_unapproved_ami_name"... pass
+  run "reject_arm_ami"... pass
+  run "reject_different_ami_id"... pass
+tests/security.tftest.hcl... tearing down
+tests/security.tftest.hcl... pass
+
+Success! 6 passed, 0 failed.

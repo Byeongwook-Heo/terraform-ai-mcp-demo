@@ -68,4 +68,3 @@ Registry/Policy/Remote Workspace 설정, 다른 Git Repo/Tag, 데모 S3 Apply, M
 할인/세금/Free Tier를 적용하지 않은 기본 환산이며 실제 EBS 청구 기간/사용량에 따라 달라집니다. EC2를 Stop해도 EBS 비용은 남습니다. 새 VPC/NAT/ALB/Public IPv4는 계획에 포함되지 않습니다.
 
 공식 근거: [HCP 실행 모드](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/settings), [AWS 서울 가격 카탈로그](https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/ap-northeast-2/index.json), [EC2 요금](https://aws.amazon.com/ec2/pricing/on-demand/), [EBS 요금](https://aws.amazon.com/ebs/pricing/).
-

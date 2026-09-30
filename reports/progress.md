@@ -1,5 +1,8 @@
 # 작업 진행·검증 기록
 
+최신 구현 Commit 2ddc772의 [CI Run 36693140577](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36693140577)도 전체 29개 PASS입니다. 다운로드 artifact에서 Python 24개/Mock Plan 14개/Sentinel 12개와 ZIP 재검사를 대조해 operator-ci-evidence-20260930에 별도로 보존했습니다. 최종 후속 Commit은 보고서와 문서 EOF 정리만 포함하며 실행 코드 변경은 없습니다.
+
+
 최신 상태: 2026-09-30 운영 기본값 선택을 위임받아 기존 Private Subnet/허용 AL2023 AMI/HCP Local State/Owner·Bucket 이름을 준비했습니다. 실제 계정의 Host 6개/Identity 5개 신규 Plan(init/validate 포함) PASS, 수정·삭제 0개. Python 24개/ZIP/정적 검사 PASS. AWS/HCP 생성·Apply·MCP 실연결은 미수행이며 구체적인 첫 생성 범위만 승인 대기입니다. operator-preparation-20260930.json과 docs/10-operator-state-and-review.md를 확인합니다. 아래 기록은 해당 시점의 이력입니다.
 
 
@@ -229,3 +232,7 @@ HCP는 사용자 Token 파일을 메모리에서만 파싱하여 GET /organizati
 검증: Python 24개 PASS, static_checks/preflight(14개 Mock run) PASS, pinned Terraform fmt PASS, 게시 ZIP 3개 검사 PASS. 공식 Terraform 1.13.5 darwin_arm64 SHA256 대조 후 실제 Provider 6.14.1 init/validate/조회 Plan을 격리 Root에서 수행했습니다. 최초 readonly lockfile 시도는 macOS hash 부족으로 validate FAIL; 사본 lockfile만 플랫폼 hash를 추가한 재시도와 Standard 모드 반영 최종 Plan은 PASS입니다. Host 6개/Identity 5개 신규, 수정/삭제 없음. STS 계정 일치 확인 후 Plan했고 HCP State/Token을 Plan에 주입하지 않았습니다. 전체 로그/Plan/실제 ID는 Git 제외 artifact에 둡니다. 검토 Plan은 Apply용이 아닙니다.
 
 비용: AWS 공식 서울 공개 카탈로그를 스트리밍 조회해 t3.small Linux Shared $0.026/h, gp3 $0.0912/GiB-month를 추출했습니다. 선택 SKU/term과 버전을 별도 seoul-host-price-20260930.json으로 보존합니다. 추정 awsstatic feed URL들은 HTTP 오류로 실패해 근거로 쓰지 않았습니다. 첫 생성 범위는 HCP Project 1개/Local State Workspace 2개와 AWS 11개입니다. 실제 생성·배포·Registry 게시·Policy Run·S3 Apply·Token 등록은 전혀 수행하지 않았습니다. 새 실행 코드의 전체 Linux CI는 main 게시 후 확인합니다.
+
+### 운영 준비 main 게시·전체 CI·증거 다운로드
+
+일반 Git push가 PASS로 구현 Commit 2ddc772f034a2a8335aaeaae0fa9885ad010a7b7을 main에 직접 게시했습니다. 자동 Run이 없어 검증 전용 workflow_dispatch를 실행했습니다. Run 36693140577의 completed/success, 정확한 head SHA와 모든 Job/Step 성공을 API와 gh run watch --exit-status로 확인했습니다. Artifact ID 11086677615/22,566 bytes/expired=false를 조회하고 다운로드 종료 코드 0입니다. 전체 29개 PASS, Python 24개, Terraform Mock Plan 14개, Sentinel Mock 12개와 MCP Mock 조회를 대조했으며 다운로드 ZIP 재검사도 PASS입니다. 새 CI 증거는 operator-ci-evidence-20260930에 기존 증거와 별도로 보존합니다. 최종 변경은 보고서와 문서 EOF 정리뿐입니다. 정적 JSON/Secret 검사와 git diff --check 후 게시하며 AWS/HCP 실제 변경은 없습니다.

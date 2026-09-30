@@ -1,0 +1,21 @@
+docker.io/hashicorp/terraform@sha256:6bbb82d575aa7bd4f0a2c6e3a0838ab9590426c08a71d7a2783643f01004d356: Pulling from hashicorp/terraform
+63d36825ec9a: Pulling fs layer
+718dcdd1dcf9: Pulling fs layer
+22b245f317d8: Pulling fs layer
+fab2d15afeeb: Pulling fs layer
+fab2d15afeeb: Waiting
+22b245f317d8: Verifying Checksum
+22b245f317d8: Download complete
+63d36825ec9a: Verifying Checksum
+63d36825ec9a: Download complete
+718dcdd1dcf9: Verifying Checksum
+718dcdd1dcf9: Download complete
+63d36825ec9a: Pull complete
+fab2d15afeeb: Verifying Checksum
+fab2d15afeeb: Download complete
+718dcdd1dcf9: Pull complete
+22b245f317d8: Pull complete
+fab2d15afeeb: Pull complete
+Digest: sha256:6bbb82d575aa7bd4f0a2c6e3a0838ab9590426c08a71d7a2783643f01004d356
+Status: Downloaded newer image for hashicorp/terraform@sha256:6bbb82d575aa7bd4f0a2c6e3a0838ab9590426c08a71d7a2783643f01004d356
+docker.io/hashicorp/terraform:1.13.5@sha256:6bbb82d575aa7bd4f0a2c6e3a0838ab9590426c08a71d7a2783643f01004d356
