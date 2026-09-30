@@ -1,0 +1,13 @@
+# AWS CLI, Session Manager plugin, SSH key 및 검증한 host key가 필요합니다.
+Host terraform-mcp-ssm
+  HostName i-REPLACE_INSTANCE_ID
+  User mcp-client
+  IdentityFile ~/.ssh/REPLACE_DEMO_ED25519
+  IdentitiesOnly yes
+  RequestTTY no
+  StrictHostKeyChecking yes
+  UserKnownHostsFile ~/.ssh/known_hosts
+  ProxyCommand sh -c "aws ssm start-session --region ap-northeast-2 --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
+
+# 직접 SSH 승인이 있는 경우에만 HostName을 실제 주소로 교체하고
+# ProxyCommand를 제거합니다. SG는 승인된 원본 /32만 허용합니다.

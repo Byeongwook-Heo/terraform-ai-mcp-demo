@@ -1,0 +1,28 @@
+import "tfplan/v2" as tfplan
+import "strings"
+import "types"
+
+buckets = filter tfplan.resource_changes as _, rc {
+	rc.mode is "managed" and rc.type is "aws_s3_bucket" and
+		rc.change.actions is not ["delete"]
+}
+
+valid_owner = func(rc) {
+	tags = rc.change.after.tags_all else (rc.change.after.tags else {})
+	owner = tags.Owner else ""
+	unknown = rc.change.after_unknown.tags_all else false
+	if unknown is true {
+		return false
+	}
+	if (rc.change.after_unknown.tags_all.Owner else false) is true {
+		return false
+	}
+	if (rc.change.after_unknown.tags.Owner else false) is true {
+		return false
+	}
+	return types.type_of(owner) is "string" and length(strings.trim_space(owner)) > 0
+}
+
+main = rule {
+	all buckets as _, rc { valid_owner(rc) }
+}

@@ -1,0 +1,1 @@
+resource_changes = {"module.s3_standard.aws_s3_bucket.this": {"type": "aws_instance", "mode": "managed", "change": {"actions": ["create"], "after": {"tags": {}}, "after_unknown": {}}}}

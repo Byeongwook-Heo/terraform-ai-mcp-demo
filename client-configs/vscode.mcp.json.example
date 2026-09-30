@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "terraform-private": {
+      "type": "stdio",
+      "command": "ssh",
+      "args": [
+        "-T",
+        "-o",
+        "BatchMode=yes",
+        "terraform-mcp-ssm"
+      ]
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-09-30T04:13:05.526748+00:00",
+  "repository": "Byeongwook-Heo/terraform-ai-mcp-demo",
+  "branch": "codex/phase1-terraform-mcp",
+  "initial_main_sha": "53b0f820bbfb99fd447a827f652b29db27d19361",
+  "implementation_commit": "5f3ecfcea93bf369fa08437038add7be253bbb0a",
+  "implementation_tree": "87d53359283d72094f007084ccde5a3df7b5657c",
+  "checks": [
+    {
+      "check": "git-https-push",
+      "status": "FAIL",
+      "detail": "HTTP 401; no branch content published through this path; corrected via GitHub app Git Data API"
+    },
+    {
+      "check": "github-app-branch-publication",
+      "status": "PASS",
+      "detail": "create_branch/create_tree/create_commit/update_ref force=false; local/remote tree identical"
+    },
+    {
+      "check": "github-app-create-pr",
+      "status": "FAIL",
+      "detail": "MCP Internal error; checked open PR list before fallback; no duplicate PR"
+    },
+    {
+      "check": "gh-draft-pr",
+      "status": "PASS",
+      "detail": "PR #1 open/draft, base main, head codex/phase1-terraform-mcp, merged=false",
+      "url": "https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/pull/1"
+    },
+    {
+      "check": "main-unchanged",
+      "status": "PASS",
+      "detail": "main still at initial SHA"
+    },
+    {
+      "check": "github-actions-settings-read",
+      "status": "BLOCKED",
+      "detail": "HTTP 403 integration lacks access"
+    },
+    {
+      "check": "remote-validation-ci",
+      "status": "SKIPPED",
+      "detail": "Run list returned total_count=0; no workflow dispatch or deployment performed"
+    }
+  ]
+}

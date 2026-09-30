@@ -1,0 +1,9 @@
+module "s3_standard" {
+  source      = "app.terraform.io/__HCP_ORGANIZATION__/s3-standard/aws"
+  version     = "1.0.0"
+  bucket_name = var.bucket_name
+  tags = {
+    Environment = "demo"
+    Owner       = "demo-team"
+  }
+}

@@ -1,0 +1,16 @@
+variable "bucket_name" {
+  type = string
+}
+variable "aws_region" {
+  type    = string
+  default = "ap-northeast-2"
+}
+provider "aws" {
+  region = var.aws_region
+}
+output "bucket_id" {
+  value = module.s3_standard.bucket_id
+}
+output "bucket_arn" {
+  value = module.s3_standard.bucket_arn
+}

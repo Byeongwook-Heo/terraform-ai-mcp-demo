@@ -1,0 +1,7 @@
+aws_account_id             = "000000000000" # 실제 계정으로 교체
+hcp_organization           = "REPLACE_ORGANIZATION"
+hcp_project                = "mcp-demo"
+hcp_workspace              = "aws-ai-demo"
+bucket_name                = "replace-globally-unique-demo-bucket"
+create_oidc_provider       = false
+existing_oidc_provider_arn = "arn:aws:iam::000000000000:oidc-provider/app.terraform.io"

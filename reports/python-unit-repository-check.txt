@@ -1,0 +1,12 @@
+test_launcher_argument_error_does_not_pollute_stdout (test_safety.SafetyTests.test_launcher_argument_error_does_not_pollute_stdout) ... ok
+test_launcher_fails_closed_on_unapproved_config (test_safety.SafetyTests.test_launcher_fails_closed_on_unapproved_config) ... ok
+test_launcher_has_no_token_value_or_docker_socket_or_http (test_safety.SafetyTests.test_launcher_has_no_token_value_or_docker_socket_or_http) ... ok
+test_preflight_accepts_only_reviewed_mock_plans (test_safety.SafetyTests.test_preflight_accepts_only_reviewed_mock_plans) ... ok
+test_preflight_rejects_implicit_apply_and_real_override (test_safety.SafetyTests.test_preflight_rejects_implicit_apply_and_real_override) ... ok
+test_registry_patches_change_only_root (test_safety.SafetyTests.test_registry_patches_change_only_root) ... ok
+test_token_permissions_and_symlink (test_safety.SafetyTests.test_token_permissions_and_symlink) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.110s
+
+OK

@@ -1,0 +1,32 @@
+[
+  {
+    "check": "handoff-preserved",
+    "status": "PASS",
+    "detail": "초기 검증 시 첨부 원문 3개 byte 일치. 저장소 지정 후 AGENTS 기존 내용 뒤에 기준 저장소 지침 추가; 나머지 원문 유지"
+  },
+  {
+    "check": "python-ast",
+    "status": "PASS",
+    "detail": "8개 파일 문법"
+  },
+  {
+    "check": "final-static-preflight",
+    "status": "PASS",
+    "detail": "최종 문서·설정 포함 Secret 패턴/JSON/TOML/HCL 검사"
+  },
+  {
+    "check": "git-diff-check",
+    "status": "PASS",
+    "detail": "staged diff 공백 오류 없음"
+  },
+  {
+    "check": "review-pr",
+    "status": "PASS",
+    "detail": "후속 요청으로 기존 terraform-ai-mcp-demo에 Branch 게시 및 Draft PR #1 생성. main 미변경, 미Merge"
+  },
+  {
+    "check": "mobile-checklist-docs",
+    "status": "PASS",
+    "detail": "휴대폰 후속 문서 로컬 링크 및 git diff --check. 실행 코드 변경 없음; 기존 테스트 유지"
+  }
+]
