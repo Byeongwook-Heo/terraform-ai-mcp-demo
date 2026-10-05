@@ -1,5 +1,25 @@
 # 작업 진행·검증 기록
 
+## 현재 TFE PR 정책 검증 — 2026-10-06 KST
+
+현재 대상은 기존 [Byeongwook-Heo/terraform-ai-mcp-demo](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo)와 TFE `hashicorp_lab/aws-ai-demo`입니다. TFE 환경 구축·승인 S3 모듈 `1.0.0`·세 hard-mandatory 정책·최소 조회 MCP 연결은 기존 완료 환경을 재사용합니다. 아래 초기 HCP 미구축·Token 미주입 기록은 당시의 이력이며 현재 환경 상태를 뜻하지 않습니다.
+
+최초 검증 commit은 [`20a97373a9f7bd52ca888eba40ab227c6ff4f6fa`](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/commit/20a97373a9f7bd52ca888eba40ab227c6ff4f6fa)입니다. 그 commit의 Root를 운영자가 API로 upload해 발행한 실제 [TFE Run `run-bfdVHSg93DeU8U7Z`](https://ip-10-40-10-211.ap-northeast-2.compute.internal/app/hashicorp_lab/workspaces/aws-ai-demo/runs/run-bfdVHSg93DeU8U7Z)는 speculative/plan-only입니다. 완료 Plan은 create/update/delete **0/1/0**이며 `Environment=production`에 대해 `require-demo-environment`가 실패했습니다. `require-owner`와 `require-approved-s3-module`은 통과했고 정책 평가 오류는 **0개**입니다. 정책 차단 재현 검증은 **PASS**, 해당 commit의 정책 판정은 **BLOCKED**, GitHub commit status는 **failure**입니다.
+
+최초 Run 후 checkpoint에서 기존 State의 내용·lineage·serial·version과 기존 Run 12개의 보존을 확인했습니다. 임시 AWS credential 변수는 정리 후 **0개**입니다. 기존 Workspace·Registry·정책·조회 권한을 유지했으며 이번 Apply·새 AWS 자원 생성·State 쓰기는 없습니다.
+
+**복구 commit과 복구 Run은 아직 PENDING입니다.** 초기 차단 Run을 복구 성공으로 기록하지 않습니다. 이후 변경된 PR head의 판정은 그 정확한 commit의 실제 GitHub status와 PR 설명에 기록된 실제 Run을 기준으로 확인합니다. PR Review/Merge 이후의 Standard Run과 수동 Apply 승인은 이번 Plan-only 검증과 별도입니다.
+
+검증 명령과 범위는 다음과 같습니다.
+
+- `terraform fmt -check demos/vcs/aws-ai-demo`: 로컬 Terraform **1.14.3**의 형식 검사 범위입니다. 이 검사를 TFE 실행 버전 **1.13.5**의 init·validate·Plan 결과로 취급하지 않습니다.
+- Git 제외 비공개 operator의 `run.py baseline`으로 기존 환경과 전체 Run 목록을 기록했습니다. `start 03-wrong-environment` → `poll 03-wrong-environment` → `artifacts 03-wrong-environment`로 정확한 PR commit의 실제 Plan·정책 결과를 수집했습니다.
+- 비공개 operator의 `cleanup 03-wrong-environment`와 `checkpoint 03-wrong-environment` 범위에서 임시 credential 제거 및 State·기존 Run 보존을 대조했습니다. 상세 입력·원문 로그·State는 비공개 artifact에만 보존하고 공개 보고서에는 비민감 결과와 Run 링크만 남깁니다.
+
+## 이전 진행 기록 — 당시 상태 보존
+
+아래 내용은 각 작업 당시의 검증·미완료 상태를 그대로 보존한 이력입니다. 현재 작업 범위와 완료 여부는 위 2026-10-06 기록 및 실제 commit status/PR 설명을 우선합니다.
+
 구현 Commit `c0e52b1`의 [CI Run 36697925860](https://github.com/Byeongwook-Heo/terraform-ai-mcp-demo/actions/runs/36697925860) PASS입니다. 다운로드 artifact에서 검사 29개/Python 24개/Mock Plan 14개/Sentinel 12개와 ZIP 재검사를 대조해 `aws-deployment-ci-evidence-20260930/`에 보존했습니다. 원격 SHA와 CI SHA를 대조했습니다. 후속 Commit은 결과 보고서·운영 안내만 포함하며 실행 코드 변경은 없습니다.
 
 2026-09-30 KST 최신 상태: **AWS 기반 인프라 생성·검증 PASS, HCP Workspace 미생성**입니다. 사용자 AWS 생성 승인 후 Host 6개/Identity 5개를 새 S3 backend Plan으로 Apply했고, 전용 State Bucket 1개는 별도 bootstrap으로 생성했습니다. 배포 후 두 실제 Plan은 변경 없음(exit 0), EC2 running/상태 검사 ok/SSM Online을 재확인했습니다.
