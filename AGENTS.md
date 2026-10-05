@@ -1,5 +1,15 @@
 # AGENTS.md — AWS Terraform MCP 데모 작업 규칙
 
+## 최신 사용자 지시와 TFE PR 범위 — 2026-10-06 KST
+
+사용자는 HCP 대신 TFE 사용, 남은 실제 데모 전체 진행, 본인의 기존 GitHub 저장소를 통한 PR 데모를 승인했습니다. 이 지시가 아래 초기 HCP 선택 및 기존 TFE 변경 금지 조항보다 우선합니다. 초기 조항과 과거 미완료 기록은 당시의 이력입니다. 기존 TFE 구축·Registry 게시·정책·최소 조회 MCP 연결은 완료된 환경을 재사용하며, 이번 PR은 그 환경에서 코드 변경안을 검증하는 작업입니다.
+
+- 대상은 기존 `Byeongwook-Heo/terraform-ai-mcp-demo`와 TFE `hashicorp_lab/aws-ai-demo` 하나입니다. 승인 모듈은 `hashicorp_lab/s3-standard/aws` `1.0.0`이며, 기존 `require-owner`, `require-approved-s3-module`, `require-demo-environment` 세 hard-mandatory 정책과 override=false를 유지합니다.
+- PR의 정확한 commit SHA에서 Root를 추출해 운영자가 TFE API로 upload하고 speculative/plan-only Run을 발행합니다. 실제 Plan·정책 결과를 같은 GitHub commit의 status와 PR 설명에 기록합니다. 이 경로는 native VCS webhook 자동화가 아닙니다.
+- 이번 범위에는 Apply·Destroy·신규 AWS 자원·State 쓰기·Registry/정책/권한 변경이 없습니다. PR Review/Merge와 이후 별도 Standard Run·담당자의 수동 Apply 승인은 각각 별도 단계입니다. 기존 조회 전용 MCP Team·Token·도구 권한을 보존합니다.
+- Secret·Token·자격증명·실제 Bucket/Owner 값·State·원문 로그를 공개 코드나 문서에 넣지 않습니다. `bucket_name`과 `owner`는 필수 변수로 두고 기존 Workspace Terraform 변수를 사용합니다. 운영 입력을 공개 default로 복사하지 않습니다.
+- 실제 승인 Registry source `ip-10-40-10-211.ap-northeast-2.compute.internal/hashicorp_lab/s3-standard/aws`는 정적 모듈 주소이며 자격증명이 아닙니다. 사용자 승인 대상의 모듈 주소와 비민감 실제 검증 Run 링크를 PR에 필요한 연결 정보로 사용합니다. 현재 판정은 정확한 commit의 실제 GitHub status와 PR 설명에서 확인하며, 과거 Run의 결과를 새 commit에 적용하지 않습니다.
+
 ## 먼저 읽을 문서
 
 작업 시작 시 이 파일과 같은 디렉터리의 `DEMO_SPEC.md`를 읽는다.
