@@ -9,7 +9,7 @@ module "s3_standard" {
   bucket_name = var.bucket_name
   tags = {
     Owner       = var.owner
-    Environment = "demo"
+    Environment = "production"
   }
 }
 
